@@ -8,13 +8,13 @@
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{margin:0;background:#0B2A5B;color:#fff;padding:14px;padding-bottom:40px}
 header{text-align:center;margin-bottom:14px}
-header h1{font-size:26px;margin:0}
-header p{opacity:.8;font-size:13px;margin:6px 0 0}
-.card{background:#fff;color:#111;border-radius:16px;padding:14px;margin-bottom:12px}
+header h1{font-size:26px;margin:0;color:#fff}
+header p{opacity:.9;font-size:13px;margin:6px 0 0;color:#fff}
+.card{background:#fff;color:#000;border-radius:16px;padding:14px;margin-bottom:12px}
 .topo-dia{display:flex;gap:8px;text-align:center}
-.topo-dia div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px}
-.topo-dia b{font-size:22px;display:block}
-.topo-dia span{font-size:11px;opacity:.7}
+.topo-dia div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px;color:#000}
+.topo-dia b{font-size:22px;display:block;color:#000}
+.topo-dia span{font-size:11px;opacity:.7;color:#000}
 .bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}
 .bar i{display:block;height:100%;background:#22C55E;width:0%;transition:.3s}
 .etapa{display:flex;gap:10px;background:#F8FAFC;border-radius:14px;padding:12px;margin-bottom:10px;border-left:6px solid #0B2A5B;align-items:flex-start}
@@ -25,20 +25,20 @@ header p{opacity:.8;font-size:13px;margin:6px 0 0}
 .etapa.ativa{outline:3px solid #FFC700;background:#fff}
 .etapa.feita{opacity:.5}
 .etapa.feita .titulo{text-decoration:line-through}
-.check{width:28px;height:28px;min-width:28px;border-radius:50%;border:2px solid #CBD5E1;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#111}
+.check{width:28px;height:28px;min-width:28px;border-radius:50%;border:2px solid #CBD5E1;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000}
 .check.on{background:#22C55E;border-color:#22C55E;color:#fff}
 .info{flex:1;min-width:0}
-.titulo{font-weight:800;font-size:16px;color:#111;line-height:1.3}
-.sub{font-size:12px;color:#666}
-.timer{font-size:26px;font-weight:900;text-align:center;margin:6px 0 2px;color:#111}
+.titulo{font-weight:800;font-size:16px;color:#000 !important;line-height:1.3}
+.sub{font-size:12px;color:#444 !important}
+.timer{font-size:26px;font-weight:900;text-align:center;margin:6px 0 2px;color:#000 !important}
 .botoes{display:flex;gap:6px;margin-top:6px}
 .botoes button{flex:1;border:0;border-radius:10px;padding:9px;font-weight:700;cursor:pointer;font-size:13px}
 .btn-start{background:#22C55E;color:#fff}
-.btn-pause{background:#FEF3C7}
-.btn-reset{background:#E5E7EB}
+.btn-pause{background:#FEF3C7;color:#000}
+.btn-reset{background:#E5E7EB;color:#000}
 .btn-next{background:#0B2A5B;color:#fff;width:100%;padding:12px;border:0;border-radius:12px;font-weight:800;font-size:15px;margin-top:4px}
-/* AQUI ESTÁ A CORREÇÃO */
-.hora-atual{font-size:13px;font-weight:800;color:#111;background:#FFC700;padding:6px 10px;border-radius:20px;display:inline-block;line-height:1.3}
+/* NOME DA TAREFA PRETO - CORRIGIDO */
+.hora-atual{font-size:13px;font-weight:800;color:#000 !important;background:#FFC700 !important;padding:6px 10px;border-radius:20px;display:inline-block;line-height:1.3}
 </style>
 </head>
 <body>
@@ -54,18 +54,18 @@ header p{opacity:.8;font-size:13px;margin:6px 0 0}
     <div><b>5h55</b><span>Tempo total</span></div>
     <div><b id="tempoFocado">0 min</b><span>Focado hoje</span></div>
   </div>
-  <div style="text-align:center;font-size:13px;font-weight:700;margin-top:10px" id="textoProgresso">0 de 9 concluídas</div>
+  <div style="text-align:center;font-size:13px;font-weight:700;margin-top:10px;color:#000" id="textoProgresso">0 de 9 concluídas</div>
   <div class="bar"><i id="barraDia"></i></div>
   <div style="display:flex;gap:8px;margin-top:12px">
-    <button onclick="resetarDia()" style="flex:1;background:#E5E7EB;border:0;border-radius:10px;padding:10px;font-weight:700">🔄 Zerar dia</button>
-    <button onclick="ativarSom()" style="flex:1;background:#FEF3C7;border:0;border-radius:10px;padding:10px;font-weight:700">🔔 Ativar som</button>
+    <button onclick="resetarDia()" style="flex:1;background:#E5E7EB;border:0;border-radius:10px;padding:10px;font-weight:700;color:#000">🔄 Zerar dia</button>
+    <button onclick="ativarSom()" style="flex:1;background:#FEF3C7;border:0;border-radius:10px;padding:10px;font-weight:700;color:#000">🔔 Ativar som</button>
   </div>
 </div>
 
 <div id="listaEtapas"></div>
 
 <div class="card" style="text-align:center">
-  <h3 style="margin:0">🎉 Fim do dia</h3>
+  <h3 style="margin:0;color:#000">🎉 Fim do dia</h3>
   <button class="btn-next" onclick="finalizarDia()">✅ Finalizar meu dia</button>
 </div>
 
@@ -81,17 +81,12 @@ var etapas = [
   {nome:'Fazer uma lista', tempo:60, tipo:'admin', emoji:'📝', label:'1 hora'},
   {nome:'café', tempo:10, tipo:'cafe', emoji:'☕', label:'10 minutos'},
 ];
-
-var estado = JSON.parse(localStorage.getItem('dia_lucas_v4')||'null') || etapas.map(e=>({feito:false, restante:e.tempo*60}));
-var indiceAtivo = -1;
-var timer = null;
-var rodando = false;
-var minutosFocados = parseInt(localStorage.getItem('min_foco_dia_v4')||'0');
-
-function salvar(){ localStorage.setItem('dia_lucas_v4', JSON.stringify(estado)); localStorage.setItem('min_foco_dia_v4', minutosFocados); }
+var estado = JSON.parse(localStorage.getItem('dia_lucas_v5')||'null') || etapas.map(e=>({feito:false, restante:e.tempo*60}));
+var indiceAtivo = -1; var timer = null; var rodando = false;
+var minutosFocados = parseInt(localStorage.getItem('min_foco_dia_v5')||'0');
+function salvar(){ localStorage.setItem('dia_lucas_v5', JSON.stringify(estado)); localStorage.setItem('min_foco_dia_v5', minutosFocados); }
 function formatar(s){ var m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
 function tocar(){ try{ for(let i=0;i<3;i++){ setTimeout(()=>{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }, i*800); } }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500]); }
-
 function render(){
   document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long'});
   var html = '';
