@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organização do meu dia - Lucas Fortes</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<style>
+*{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
+body{margin:0;background:#0B2A5B;color:#fff;padding:14px;padding-bottom:40px}
+header{text-align:center;margin-bottom:14px}
+header h1{font-size:26px;margin:0;line-height:1.1}
+header p{opacity:.8;font-size:13px;margin:6px 0 0}
+.card{background:#fff;color:#111;border-radius:16px;padding:14px;margin-bottom:12px}
+.topo-dia{display:flex;gap:8px;text-align:center}
+.topo-dia div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px}
+.topo-dia b{font-size:22px;display:block}
+.topo-dia span{font-size:11px;opacity:.7}
+.bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:#22C55E;width:0%;transition:.3s}
+.etapa{display:flex;gap:10px;background:#F8FAFC;border-radius:14px;padding:12px;margin-bottom:10px;border-left:6px solid #0B2A5B;align-items:flex-start}
+.etapa.venda{border-left-color:#22C55E}
+.etapa.cafe{border-left-color:#F59E0B;background:#FFFBEB}
+.etapa.admin{border-left-color:#0B2A5B}
+.etapa.almoco{border-left-color:#EF4444;background:#FEF2F2}
+.etapa.ativa{outline:3px solid #FFC700;background:#fff}
+.etapa.feita{opacity:.5}
+.etapa.feita .titulo{text-decoration:line-through}
+.check{width:28px;height:28px;min-width:28px;border-radius:50%;border:2px solid #CBD5E1;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.check.on{background:#22C55E;border-color:#22C55E;color:#fff}
+.info{flex:1}
+.titulo{font-weight:800;font-size:15px}
+.sub{font-size:12px;color:#666}
+.timer{font-size:26px;font-weight:900;text-align:center;margin:6px 0 2px}
+.botoes{display:flex;gap:6px;margin-top:6px}
+.botoes button{flex:1;border:0;border-radius:10px;padding:9px;font-weight:700;cursor:pointer;font-size:13px}
+.btn-start{background:#22C55E;color:#fff}
+.btn-pause{background:#FEF3C7}
+.btn-reset{background:#E5E7EB}
+.btn-next{background:#0B2A5B;color:#fff;width:100%;padding:12px;border:0;border-radius:12px;font-weight:800;font-size:15px;margin-top:4px}
+.hora-atual{font-size:12px;font-weight:700;color:#0B2A5B;background:#FFC700;padding:3px 8px;border-radius:20px;display:inline-block}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🚀 Organização do meu dia</h1>
+  <p>Lucas Fortes • Consórcio Porto Seguro • <span id="dataHoje"></span></p>
+</header>
+
+<div class="card">
+  <div class="topo-dia">
+    <div><b id="qtdFeitas">0/9</b><span>Etapas feitas</span></div>
+    <div><b id="tempoTotal">5h55</b><span>Tempo total do dia</span></div>
+    <div><b id="tempoFocado">0 min</b><span>Focado hoje</span></div>
+  </div>
+  <div style="text-align:center;font-size:13px;font-weight:700;margin-top:10px" id="textoProgresso">0 de 9 concluídas</div>
+  <div class="bar"><i id="barraDia"></i></div>
+  <div style="display:flex;gap:8px;margin-top:12px">
+    <button onclick="resetarDia()" style="flex:1;background:#E5E7EB;border:0;border-radius:10px;padding:10px;font-weight:700">🔄 Zerar dia</button>
+    <button onclick="ativarSom()" style="flex:1;background:#FEF3C7;border:0;border-radius:10px;padding:10px;font-weight:700">🔔 Ativar som</button>
+  </div>
+</div>
+
+<div id="listaEtapas"></div>
+
+<div class="card" style="text-align:center">
+  <h3 style="margin:0">🎉 Fim do dia</h3>
+  <p style="font-size:13px;color:#666">Quando terminar tudo, você zerou o dia.</p>
+  <button class="btn-next" onclick="finalizarDia()">✅ Finalizar meu dia</button>
+</div>
+
+<script>
+var etapas = [
+  {nome:'Atender leads do dia (Não interagidos)', tempo:30, tipo:'venda', emoji:'📩'},
+  {nome:'Café', tempo:5, tipo:'cafe', emoji:'☕'},
+  {nome:'Fazer o filtro dos 3 últimos dias', tempo:60, tipo:'admin', emoji:'📋'},
+  {nome:'Café', tempo:10, tipo:'cafe', emoji:'☕'},
+  {nome:'Voltas nas negociações do dia anterior / etiquetas', tempo:30, tipo:'venda', emoji:'🔁'},
+  {nome:'Zerar o c2s', tempo:90, tipo:'venda', emoji:'🎯'},
+  {nome:'Almoço', tempo:60, tipo:'almoco', emoji:'🍽️'},
+  {nome:'Fazer uma lista', tempo:60, tipo:'admin', emoji:'📝'},
+  {nome:'Café', tempo:10, tipo:'cafe', emoji:'☕'},
+];
+
+var estado = JSON.parse(localStorage.getItem('dia_lucas_v2')||'null') || etapas.map(e=>({feito:false, restante:e.tempo*60}));
+var indiceAtivo = -1;
+var timer = null;
+var rodando = false;
+var minutosFocados = parseInt(localStorage.getItem('min_foco_dia')||'0');
+
+function salvar(){ localStorage.setItem('dia_lucas_v2', JSON.stringify(estado)); localStorage.setItem('min_foco_dia', minutosFocados); }
+function formatar(s){ var m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
+function tocar(){ try{ for(let i=0;i<3;i++){ setTimeout(()=>{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }, i*800); } }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500]); }
+
+function render(){
+  document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long'});
+  var html = '';
+  estado.forEach((e,i)=>{
+    var cfg = etapas[i];
+    var pct = Math.round((cfg.tempo*60 - e.restante)/(cfg.tempo*60)*100);
+    html += `<div class="etapa ${cfg.tipo} ${indiceAtivo===i?'ativa':''} ${e.feito?'feita':''}">
+      <button class="check ${e.feito?'on':''}" onclick="toggleCheck(${i})">${e.feito?'✓':(i+1)}</button>
+      <div class="info">
+        <div><span class="hora-atual">${cfg.emoji} ETAPA ${i+1} • ${cfg.tempo} min</span></div>
+        <div class="titulo" style="margin-top:6px">${cfg.nome}</div>
+        <div class="sub">${e.feito ? '✅ Concluída!' : indiceAtivo===i ? (rodando ? '🔥 Focando agora...' : '⏸️ Pausado') : 'Toque em Começar para iniciar o timer'}</div>
+        <div class="timer">${formatar(e.restante)}</div>
+        <div class="bar"><i style="width:${pct}%;background:${cfg.tipo==='cafe'?'#F59E0B':cfg.tipo==='almoco'?'#EF4444':'#22C55E'}"></i></div>
+        <div class="botoes">
+          <button class="btn-start" onclick="comecar(${i})">${indiceAtivo===i && rodando ? '⏸️ Pausar' : '▶️ Começar'}</button>
+          <button class="btn-reset" onclick="resetarEtapa(${i})">🔄 Resetar</button>
+          <button class="btn-pause" onclick="pular(${i})">⏭️ Pular</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('listaEtapas').innerHTML = html;
+  var feitas = estado.filter(e=>e.feito).length;
+  document.getElementById('qtdFeitas').textContent = feitas + '/9';
+  document.getElementById('textoProgresso').textContent = feitas + ' de 9 concluídas' + (feitas===9?' 🎉 Dia zerado!':'');
+  document.getElementById('barraDia').style.width = (feitas/9*100)+'%';
+  document.getElementById('tempoFocado').textContent = minutosFocados + ' min';
+}
+
+function toggleCheck(i){
+  pararTimer();
+  estado[i].feito = !estado[i].feito;
+  if(estado[i].feito){ estado[i].restante = 0; tocar(); }
+  else { estado[i].restante = etapas[i].tempo*60; }
+  salvar(); render();
+}
+function comecar(i){
+  if(indiceAtivo===i && rodando){ pararTimer(); render(); return; }
+  pararTimer();
+  indiceAtivo = i;
+  if(estado[i].feito){ estado[i].feito=false; estado[i].restante = etapas[i].tempo*60; }
+  rodando = true;
+  timer = setInterval(()=>{
+    estado[i].restante--;
+    minutosFocados += 1/60;
+    if(estado[i].restante<=0){
+      clearInterval(timer); rodando=false;
+      estado[i].feito=true; estado[i].restante=0;
+      tocar();
+      alert('⏰ Acabou: ' + etapas[i].nome + '\nDá o check e vai pra próxima! 👊');
+      // vai auto pra próxima
+      if(i+1 < etapas.length){ setTimeout(()=>comecar(i+1), 500); }
+    }
+    salvar(); render();
+  },1000);
+  render();
+}
+function pararTimer(){ if(timer) clearInterval(timer); rodando=false; }
+function resetarEtapa(i){ pararTimer(); estado[i].feito=false; estado[i].restante=etapas[i].tempo*60; salvar(); render(); }
+function pular(i){ pararTimer(); estado[i].feito=true; estado[i].restante=0; salvar(); render(); if(i+1<etapas.length) comecar(i+1); }
+function resetarDia(){ if(!confirm('Zerar todo o dia?')) return; pararTimer(); indiceAtivo=-1; estado = etapas.map(e=>({feito:false, restante:e.tempo*60})); minutosFocados=0; salvar(); render(); }
+function ativarSom(){ try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} if('Notification' in window) Notification.requestPermission(); alert('Som ativado! Deixe a aba aberta.'); }
+function finalizarDia(){
+  var feitas = estado.filter(e=>e.feito).length;
+  alert('🎉 Dia finalizado!\n\nVocê fez '+feitas+' de 9 etapas\nTempo focado: '+Math.round(minutosFocados)+' min\n\nAmanhã tem mais! 🚀');
+}
+render();
+</script>
+</body>
+</html>
