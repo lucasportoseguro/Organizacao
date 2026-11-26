@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organização Diária - Lucas Fortes</title>
+<title>Organização Diária - Lucas Fortes - TESTE 2 MIN</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
 body{margin:0;background:#0B2A5B;color:#fff;padding:12px;padding-bottom:20px}
@@ -29,7 +29,6 @@ header p{opacity:.85;font-size:12px;margin:4px 0 12px}
 #avisoAlmoco .titulo-almoco{font-weight:900;font-size:15px;line-height:1.3;margin:0}
 #avisoAlmoco small{display:block;font-weight:600;font-size:12.5px;margin-top:4px;color:rgba(255,255,255,.75)}
 #avisoAlmoco .btn-voltar{margin-top:10px;border:0;background:#22C55E;color:#fff;padding:11px 18px;border-radius:12px;font-weight:800;cursor:pointer;font-size:13.5px;box-shadow:0 4px 14px rgba(34,197,94,.35);width:100%}
-#avisoAlmoco .btn-voltar:active{transform:scale(.98)}
 .layout{display:flex;gap:12px;align-items:flex-start}
 .col-esq{flex:1;min-width:0}
 .col-dir{flex:1;min-width:0;position:sticky;top:12px}
@@ -44,13 +43,11 @@ h2{font-size:15px;margin:0 0 4px}
 .menu-item.travado{border-color:#22C55E;background:#F0FDF4;opacity:.9;cursor:not-allowed}
 .menu-item.bloqueado{border-color:#CBD5E1;background:#F1F5F9;cursor:not-allowed;opacity:.7}
 .menu-item input[type=checkbox]{width:24px;height:24px;accent-color:#22C55E;margin-top:2px}
-.menu-item input:disabled{cursor:not-allowed}
 .emoji{font-size:28px}
 .nome{font-weight:800;font-size:15px;color:#000}
 .campo-leads{margin-top:10px;background:#FFFBEB;border:2px dashed #F59E0B;border-radius:12px;padding:10px}
 .campo-leads label{font-size:12px;font-weight:800;color:#000;display:block;margin-bottom:6px}
 .campo-leads input{width:100%;padding:12px;border:2px solid #F59E0B;border-radius:10px;font-size:20px;font-weight:800;text-align:center;color:#000;outline:none;background:#fff}
-.campo-leads input:disabled{background:#F1F5F9;color:#666}
 .btn{width:100%;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
 .btn-verde{background:#22C55E;color:#fff}
 .btn-azul{background:#0B2A5B;color:#fff}
@@ -70,7 +67,6 @@ h2{font-size:15px;margin:0 0 4px}
 .grid-ligacoes{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
 .quadrado{width:0.7cm;height:0.7cm;min-width:0.7cm;min-height:0.7cm;border:1.5px solid #111;border-radius:4px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;padding:0}
 .quadrado.preenchido{background:#000 !important;border-color:#000}
-.quadrado:active{transform:scale(.92)}
 .total-ligacoes{text-align:center;margin-top:10px;font-weight:800;font-size:14px}
 .total-ligacoes b{font-size:22px}
 .modal-fundo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:16px;z-index:99}
@@ -114,8 +110,6 @@ h2{font-size:15px;margin:0 0 4px}
 .campo-form{margin-bottom:10px}
 .campo-form label{display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:#000}
 .campo-form input, .campo-form textarea, .campo-form select{width:100%;padding:13px;border:2px solid #E5E7EB;border-radius:10px;font-size:15px;outline:none;color:#000;background:#fff}
-.campo-form input:focus, .campo-form textarea:focus, .campo-form select:focus{border-color:#0B2A5B}
-.campo-form textarea{resize:vertical;min-height:70px}
 .item-lead{background:#F0FDF4;border:2px solid #22C55E;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .item-lead.nf{background:#FFF7ED;border-color:#F59E0B}
 .item-lead.antigo{opacity:.75;border-style:dashed}
@@ -134,7 +128,6 @@ h2{font-size:15px;margin:0 0 4px}
 footer{margin-top:18px;padding:18px 12px 8px;text-align:center;border-top:1px solid rgba(255,255,255,.15)}
 footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 .btn-rodape{width:100%;max-width:420px;border:1px solid rgba(255,255,255,.25);background:#1F2937;color:#fff;border-radius:14px;padding:13px;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-.btn-rodape:active{transform:scale(.98)}
 .modal-feedback{background:#111827;color:#fff;border:3px solid #25D366}
 .modal-feedback h3{color:#fff}
 .modal-feedback p{color:#E5E7EB}
@@ -160,7 +153,7 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 </head>
 <body>
 
-<div id="miniTimer" class="escondido"><span class="ponto"></span><span id="miniTimerTexto">⏳ 45:00</span></div>
+<div id="miniTimer" class="escondido"><span class="ponto"></span><span id="miniTimerTexto">⏳ 02:00</span></div>
 
 <div id="avisoAlmoco" class="escondido">
   <span class="badge-almoco">🍽️ Em almoço • Pausado</span>
@@ -177,7 +170,7 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
   </div>
 </div>
 
-<header><h1>🚀 Organização Diária</h1><p>Lucas Fortes • Consórcio Porto Seguro</p></header>
+<header><h1>🚀 Organização Diária</h1><p>Lucas Fortes • Consórcio Porto Seguro</p><p style="background:#F59E0B;color:#000;display:inline-block;padding:4px 12px;border-radius:20px;font-weight:800;font-size:12px">🧪 TESTE - PAUSA EM 2 MIN</p></header>
 
 <div class="layout">
   <div class="col-esq">
@@ -191,7 +184,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <div class="sub" id="sub2">🔒 Conclua a 1ª Atividade para liberar.</div>
       <div id="menuTarefa2"></div><div id="msgMenu2"></div>
     </div>
-
     <div id="telaPausa" class="card-pausa escondido">
       <img src="cafe.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80'" alt="Café">
       <div class="pausa-conteudo">
@@ -215,7 +207,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
         <div id="msgPausaFim" class="escondido"><div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ Pausa do café finalizada! Bora para a 3ª! 🚀</div></div>
       </div>
     </div>
-
     <div class="card bloqueado" id="card3">
       <h2>☑️ 3ª Atividade <span id="badgeBloqueio3"><span class="badge-bloqueado">🔒 BLOQUEADA</span></span><span id="badge3" class="escondido"><span class="badge-travado">✅ CONCLUÍDA - TRAVADA</span></span></h2>
       <div class="sub" id="sub3">🔒 Conclua a 2ª Atividade + café para liberar.</div>
@@ -223,7 +214,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <div id="msgMenu3"></div>
     </div>
   </div>
-
   <div class="col-dir">
     <div class="painel-relogio">
       <div class="dia-semana" id="diaSemana">--</div>
@@ -259,17 +249,11 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
         <div class="campo-form"><label>💰 Quanto tem:</label><input type="text" id="leadQuantoTem" placeholder="Ex: R$ 50.000" inputmode="numeric" autocomplete="off" oninput="mascaraValor(this); atualizarProgressoLead()"></div>
         <div class="campo-form"><label>💰 Quanto pode:</label><input type="text" id="leadQuantoPode" placeholder="Ex: R$ 1.200 / mês" inputmode="numeric" autocomplete="off" oninput="mascaraValor(this); atualizarProgressoLead()"></div>
         <div class="campo-form"><label>🪪 CPF:</label><input type="text" id="leadCPF" placeholder="Ex: 123.456.789-00" inputmode="numeric" autocomplete="off" oninput="mascaraCPF(this); atualizarProgressoLead()"></div>
-        <div class="campo-form"><label>🧍 Decide sozinho:</label>
-          <select id="leadDecide" onchange="atualizarProgressoLead()"><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select>
-        </div>
-        <div class="campo-form"><label>🏦 Cliente Porto:</label>
-          <select id="leadClientePorto" onchange="atualizarProgressoLead()"><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select>
-        </div>
-        <div class="campo-form"><label>🏠 Aluguel:</label>
-          <select id="leadAluguel" onchange="toggleQuantoPaga(); atualizarProgressoLead()"><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select>
-        </div>
+        <div class="campo-form"><label>🧍 Decide sozinho:</label><select id="leadDecide" onchange="atualizarProgressoLead()"><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
+        <div class="campo-form"><label>🏦 Cliente Porto:</label><select id="leadClientePorto" onchange="atualizarProgressoLead()"><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
+        <div class="campo-form"><label>🏠 Aluguel:</label><select id="leadAluguel" onchange="toggleQuantoPaga(); atualizarProgressoLead()"><option value="">Selecione...</option><option value="Sim">Sim</option><option value="Não">Não</option></select></div>
         <div class="campo-form escondido" id="campoQuantoPaga"><label>🏠 Quanto paga:</label><input type="text" id="leadQuantoPaga" placeholder="Ex: R$ 1.500" inputmode="numeric" autocomplete="off" oninput="mascaraValor(this); atualizarProgressoLead()"></div>
-        <div class="campo-form"><label>📈 Investimento:</label><input type="text" id="leadInvestimento" placeholder="Ex: Imóvel, Veículo, Investimento..." autocomplete="off" oninput="atualizarProgressoLead()"></div>
+        <div class="campo-form"><label>📈 Investimento:</label><input type="text" id="leadInvestimento" placeholder="Ex: Imóvel, Veículo..." autocomplete="off" oninput="atualizarProgressoLead()"></div>
         <div style="background:#F0FDF4;border:2px solid #E5E7EB;border-radius:10px;padding:10px;margin-bottom:10px">
           <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#000"><span id="textoProgressoLead">Preenchimento: 0%</span><span id="textoTipoLead">Lead potencial</span></div>
           <div class="barra-progresso"><div id="barraProgressoLead" style="width:0%"></div></div>
@@ -280,7 +264,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       </div>
       <div id="listaLeads"></div>
     </div>
-
     <div class="painel-importante">
       <h3>⭐ Importante <span class="badge-importante" id="badgeRetornos">0 retorno(s)</span></h3>
       <p style="font-size:12px;color:#78716C;margin:6px 0 0">Retorno para cliente - você será avisado 5 min antes.</p>
@@ -304,12 +287,11 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 
 <div id="modalPergunta" class="modal-fundo escondido"><div class="modal"><div style="font-size:40px">🏆</div><h3>Você interagiu com esses leads?</h3><p id="textoModal"></p><div class="botoes-modal"><button class="btn-nao" onclick="responderInteracao(false)">❌ Não</button><button class="btn-sim" onclick="responderInteracao(true)">✅ Sim, interagi</button></div></div></div>
 <div id="modal2" class="modal-fundo escondido"><div class="modal"><div style="font-size:40px">🔍</div><h3>Faça contato com os leads</h3><p id="textoModal2"></p><div class="botoes-modal"><button class="btn-cinza" onclick="fecharModal2SemConcluir()">OK</button><button class="btn-sim" onclick="fecharModal2()">✅ Realizei contato</button></div></div></div>
-
 <div id="modalPausa45" class="modal-fundo escondido" style="z-index:200">
   <div class="modal">
     <div style="font-size:48px">☕</div>
     <h3>Está na hora de uma pausa!</h3>
-    <p>Você já está há <b>45 minutos</b> nessa opção da 3ª Atividade.<br><br>Que tal tomar um café para depois continuar?</p>
+    <p>Você já está há <b>2 minutos</b> nessa opção da 3ª Atividade.<br><br>Que tal tomar um café para depois continuar?</p>
     <p style="font-weight:800;color:#000">Deseja iniciar a pausa?</p>
     <div class="botoes-modal">
       <button class="btn-nao" onclick="responderPausa45(false)">❌ Não, continuar</button>
@@ -329,20 +311,15 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
     <div id="msgFimPausa45" class="escondido"><div class="mensagem ok">✅ Pausa finalizada! Bora continuar! 🚀</div></div>
   </div>
 </div>
-
 <div id="modalRetornoAlarme" class="modal-fundo escondido" style="z-index:400">
   <div class="modal" style="border:3px solid #F59E0B">
     <div style="font-size:48px">⏰</div>
     <h3 id="tituloAlarmeRetorno">Está próximo de retornar!</h3>
     <p id="textoAlarmeRetorno" style="font-size:15px;line-height:1.5">Faltam 5 minutos para retornar para o cliente.</p>
-    <div class="botoes-modal">
-      <button class="btn-cinza" onclick="fecharAlarmeRetorno()">Entendi</button>
-      <button class="btn-sim" onclick="ligarClienteRetorno()">📞 Ligar agora</button>
-    </div>
+    <div class="botoes-modal"><button class="btn-cinza" onclick="fecharAlarmeRetorno()">Entendi</button><button class="btn-sim" onclick="ligarClienteRetorno()">📞 Ligar agora</button></div>
     <button class="btn btn-cinza" style="margin-top:8px" onclick="adiarAlarmeRetorno()">⏰ Lembrar em 5 min</button>
   </div>
 </div>
-
 <div id="modalConcluirDia" class="modal-fundo escondido" style="z-index:300">
   <div class="modal modal-feedback">
     <div id="etapaPerguntaConcluir">
@@ -350,10 +327,7 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <h3>Concluir meu dia?</h3>
       <p id="textoConcluirDia">Deseja enviar o relatório?</p>
       <p style="font-size:12px;color:#CBD5E1">Não é obrigatório ter concluído todos os checkboxes da 3ª.</p>
-      <div class="botoes-modal">
-        <button class="btn-cinza" onclick="concluirDiaSemRelatorio()">Não, só zerar</button>
-        <button class="btn-sim" onclick="mostrarPerguntasConcluir()">✅ Sim, enviar relatório</button>
-      </div>
+      <div class="botoes-modal"><button class="btn-cinza" onclick="concluirDiaSemRelatorio()">Não, só zerar</button><button class="btn-sim" onclick="mostrarPerguntasConcluir()">✅ Sim, enviar relatório</button></div>
       <button class="btn btn-cinza" style="margin-top:10px" onclick="fecharModalConcluir()">Voltar</button>
     </div>
     <div id="etapaPerguntasConcluir" class="escondido">
@@ -361,14 +335,8 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <h3>Antes de enviar...</h3>
       <p style="font-size:13px">Responda para completar o relatório:</p>
       <div style="background:#fff;border-radius:12px;padding:14px;margin-top:12px">
-        <div class="campo-pergunta">
-          <label>1️⃣ Quantas indicações recebeu hoje?</label>
-          <input type="number" id="inputIndicacoes" inputmode="numeric" placeholder="Ex: 2" min="0" value="">
-        </div>
-        <div class="campo-pergunta" style="margin-bottom:0">
-          <label>2️⃣ Quantos leads recebeu hoje?</label>
-          <input type="number" id="inputLeadsRecebidos" inputmode="numeric" placeholder="Ex: 15" min="0" value="">
-        </div>
+        <div class="campo-pergunta"><label>1️⃣ Quantas indicações recebeu hoje?</label><input type="number" id="inputIndicacoes" inputmode="numeric" placeholder="Ex: 2" min="0" value=""></div>
+        <div class="campo-pergunta" style="margin-bottom:0"><label>2️⃣ Quantos leads recebeu hoje?</label><input type="number" id="inputLeadsRecebidos" inputmode="numeric" placeholder="Ex: 15" min="0" value=""></div>
         <p style="font-size:12px;color:#64748B;margin:10px 0 0;text-align:center">🚀 Numero de NF é automático: conta só os leads criados hoje.</p>
       </div>
       <button class="btn btn-verde" style="margin-top:12px" onclick="confirmarPerguntasConcluir()">✅ Concluir e ver relatório</button>
@@ -387,6 +355,8 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 </div>
 
 <script>
+// TESTE: TEMPO DA PAUSA = 2 MINUTOS - PARA VOLTAR PARA 45 MIN, TROQUE 2*60*1000 POR 45*60*1000 NAS 3 FUNÇÕES ABAIXO
+var TEMPO_PAUSA_MS = 2*60*1000;
 var CHAVE = 'lucasFortesDia_v3';
 var CHAVE_PERSISTENTE = 'lucasFortesPersistente_v1';
 var qtdLeads1 = 0, sel1 = false, travado1 = false;
@@ -409,12 +379,9 @@ function ehHoje(data){ return data===dataHojeISO(); }
 function formatarDataCurta(iso){ if(!iso) return ''; if(iso===dataHojeISO()) return 'Hoje'; var p=iso.split('-'); return p[2]+'/'+p[1]; }
 function estaEmQualquerPausa(){ return emPausaCafe || emPausa45; }
 function atualizarBloqueioPausa(){ if(estaEmQualquerPausa()){ document.body.classList.add('em-pausa'); } else { document.body.classList.remove('em-pausa'); } }
-// CONTAGEM SÓ DE HOJE PARA O RELATÓRIO
 function leadsHoje(){ return leadsPotenciais.filter(function(l){ return !l.dataCriacao || ehHoje(l.dataCriacao); }); }
 function contarNF(){ return leadsHoje().filter(function(l){ return l.ehNF; }).length; }
 function contarNegociacoes(){ return leadsHoje().filter(function(l){ return !l.ehNF; }).length; }
-function contarNFTotal(){ return leadsPotenciais.filter(function(l){ return l.ehNF; }).length; }
-function contarNegTotal(){ return leadsPotenciais.filter(function(l){ return !l.ehNF; }).length; }
 function salvarPersistente(){ try{ localStorage.setItem(CHAVE_PERSISTENTE, JSON.stringify({leadsPotenciais:leadsPotenciais, retornos:retornos})); }catch(e){} }
 function carregarPersistente(){ try{ var raw=localStorage.getItem(CHAVE_PERSISTENTE); if(!raw) return; var d=JSON.parse(raw); if(d.leadsPotenciais) leadsPotenciais=d.leadsPotenciais; if(d.retornos) retornos=d.retornos; }catch(e){} }
 function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, qtdWhats:qtdWhats, qtdIndicacoes:qtdIndicacoes, qtdLeadsRecebidos:qtdLeadsRecebidos, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); salvarPersistente(); }catch(e){} }
@@ -439,36 +406,31 @@ function voltarPerguntaConcluir(){ document.getElementById('etapaPerguntasConclu
 function voltarParaPerguntas(){ document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('etapaPerguntasConcluir').classList.remove('escondido'); }
 function mostrarPerguntasConcluir(){ document.getElementById('etapaPerguntaConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('etapaPerguntasConcluir').classList.remove('escondido'); document.getElementById('inputIndicacoes').value = qtdIndicacoes>0?qtdIndicacoes:''; document.getElementById('inputLeadsRecebidos').value = qtdLeadsRecebidos>0?qtdLeadsRecebidos:''; setTimeout(function(){ document.getElementById('inputIndicacoes').focus(); },100); }
 function confirmarPerguntasConcluir(){ qtdIndicacoes = parseInt(document.getElementById('inputIndicacoes').value)||0; qtdLeadsRecebidos = parseInt(document.getElementById('inputLeadsRecebidos').value)||0; salvarEstado(); document.getElementById('etapaPerguntasConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.remove('escondido'); atualizarResumo(); }
-function mostrarFeedbackConcluir(){ mostrarPerguntasConcluir(); }
-function mostrarFeedback(){ abrirConcluirDia(); }
-function enviarWhatsAppConcluir(){ var texto = gerarTextoRelatorio(); var url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); window.open(url,'_blank'); }
-function copiarRelatorioConcluir(){ var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ alert('✅ Relatório copiado!'); }); } else { alert(texto); } }
 function concluirDiaSemRelatorio(){ if(!confirm('🏁 Concluir seu dia e zerar tudo?\n\nIsso vai ZERAR o dia, mas MANTER leads, NF e retornos. Tem certeza?')) return; zerarTudo(); }
 function confirmarZerarTudo(){ if(!confirm('🏁 Concluir e zerar tudo?\n\nVocê já enviou / copiou o relatório? Isso vai ZERAR o dia, mas MANTER leads, NF e retornos.')) return; zerarTudo(); }
 function zerarTudo(){ salvarPersistente(); localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v2'); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
-function concluirDia(){ abrirConcluirDia(); }
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
 function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
-function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''); document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1){qtdLeads1=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel1 && !travado1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100); }
-function toggle1(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada até acabar.'); return; } if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); salvarEstado(); }
+function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''); document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1){qtdLeads1=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; }
+function toggle1(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); salvarEstado(); }
 function confirmarQtd1(e){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(travado1) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
 function responderInteracao(interagiu){ document.getElementById('modalPergunta').classList.add('escondido'); if(interagiu){ travado1 = true; sel1 = true; document.getElementById('msgMenu1').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads1} leads.<br>✅ Atividade 1 concluída e travada.</div>`; document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent = '✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent = '✅ Liberada! Marque quando for começar.'; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">✅ 2ª Atividade liberada!</div>`; } else { document.getElementById('msgMenu1').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads1} leads.</div>`; } renderMenu1(); renderMenu2(); renderMenu3(); salvarEstado(); }
-function renderMenu2(){ var bloqueada = !travado1; var trav = travado2 ? 'travado' : (bloqueada ? 'bloqueado' : (sel2?'selecionado':'')); document.getElementById('menuTarefa2').innerHTML = `<label class="menu-item ${trav}" onclick="if(${bloqueada}){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return false; }"><input type="checkbox" ${sel2?'checked':''} ${travado2||bloqueada?'disabled':''} onchange="toggle2(this.checked)"><span class="emoji">${bloqueada?'🔒':'🔍'}</span><span style="flex:1;min-width:0"><span class="nome">Fazer o filtro dos 3 ultimos dias</span>${bloqueada?`<div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:700">🔒 Conclua a 1ª Atividade para liberar.</div>`:''}${sel2 && !bloqueada?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label><input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 42" value="${qtdLeads2>0?qtdLeads2:''}" ${travado2?'disabled':''} oninput="if(!travado2){qtdLeads2=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado2?'disabled':''} onclick="confirmarQtd2(event)">${travado2?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel2 && !travado2 && !bloqueada && !iniciado2) setTimeout(()=>{ var el=document.getElementById('inputLeads2'); if(el) el.focus(); },100); }
+function renderMenu2(){ var bloqueada = !travado1; var trav = travado2 ? 'travado' : (bloqueada ? 'bloqueado' : (sel2?'selecionado':'')); document.getElementById('menuTarefa2').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel2?'checked':''} ${travado2||bloqueada?'disabled':''} onchange="toggle2(this.checked)"><span class="emoji">${bloqueada?'🔒':'🔍'}</span><span style="flex:1;min-width:0"><span class="nome">Fazer o filtro dos 3 ultimos dias</span>${sel2 && !bloqueada?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label><input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 42" value="${qtdLeads2>0?qtdLeads2:''}" ${travado2?'disabled':''} oninput="if(!travado2){qtdLeads2=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado2?'disabled':''} onclick="confirmarQtd2(event)">${travado2?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; }
 function toggle2(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } if(travado2) return; if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; } sel2=m; if(!m){ qtdLeads2=0; iniciado2=false; document.getElementById('msgMenu2').innerHTML=''; } renderMenu2(); salvarEstado(); }
 function confirmarQtd2(e){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(travado2) return; if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; } if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads2){ alert('Informe quantos leads você recebeu!'); return; } document.getElementById('textoModal2').innerHTML = 'Você recebeu <b>'+qtdLeads2+'</b> leads nos 3 ultimos dias.<br><br>👉 <b>Faça contato com os leads dos 3 ultimos dias.</b>'; document.getElementById('modal2').classList.remove('escondido'); }
 function fecharModal2SemConcluir(){ document.getElementById('modal2').classList.add('escondido'); }
 function fecharModal2(){ document.getElementById('modal2').classList.add('escondido'); concluirAtividade2(); }
 function concluirAtividade2(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(!travado1) return; travado2 = true; sel2 = true; iniciado2=true; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">🔍 Parabéns! Você fez contato com os ${qtdLeads2} leads.<br>✅ Atividade 2 concluída e travada.</div>`; document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent = '✅ Concluída'; renderMenu2(); renderMenu3(); mostrarPausa(); salvarEstado(); }
 function mostrarPausa(){ var el=document.getElementById('telaPausa'); el.classList.remove('escondido'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-function responderPausa(sim){ if(estaEmAlmoco()) return; cafeRespondido = true; document.getElementById('perguntaPausa').classList.add('escondido'); if(sim){ emPausaCafe = true; atualizarBloqueioPausa(); document.getElementById('areaCronometro').classList.remove('escondido'); iniciarCronometroPausa(); document.getElementById('badgeBloqueio3').classList.remove('escondido'); document.getElementById('card3').classList.add('bloqueado'); document.getElementById('sub3').textContent = '☕ Em pausa para o café - aguarde acabar.'; renderMenu3(); } else { emPausaCafe = false; atualizarBloqueioPausa(); document.getElementById('msgPausaNao').classList.remove('escondido'); liberarAtividade3(); } salvarEstado(); setTimeout(()=>{ document.getElementById('card3').scrollIntoView({behavior:'smooth', block:'start'}); }, sim ? 500 : 800); }
+function responderPausa(sim){ if(estaEmAlmoco()) return; cafeRespondido = true; document.getElementById('perguntaPausa').classList.add('escondido'); if(sim){ emPausaCafe = true; atualizarBloqueioPausa(); document.getElementById('areaCronometro').classList.remove('escondido'); iniciarCronometroPausa(); document.getElementById('badgeBloqueio3').classList.remove('escondido'); document.getElementById('card3').classList.add('bloqueado'); document.getElementById('sub3').textContent = '☕ Em pausa para o café - aguarde acabar.'; renderMenu3(); } else { emPausaCafe = false; atualizarBloqueioPausa(); document.getElementById('msgPausaNao').classList.remove('escondido'); liberarAtividade3(); } salvarEstado(); }
 function iniciarCronometroPausa(){ segundosRestantes = 600; atualizarCronometroPausa(); if(timerPausa) clearInterval(timerPausa); timerPausa = setInterval(()=>{ segundosRestantes--; atualizarCronometroPausa(); if(segundosRestantes<=0){ clearInterval(timerPausa); finalizarPausa(); } },1000); }
 function atualizarCronometroPausa(){ var m = Math.floor(segundosRestantes/60); var s = segundosRestantes%60; document.getElementById('textoCronometro').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); document.getElementById('barraPausa').style.width = (segundosRestantes/600*100)+'%'; }
 function pularPausa(){ if(timerPausa) clearInterval(timerPausa); finalizarPausa(); }
 function finalizarPausa(){ emPausaCafe = false; atualizarBloqueioPausa(); document.getElementById('areaCronometro').classList.add('escondido'); document.getElementById('msgPausaFim').classList.remove('escondido'); liberarAtividade3(); salvarEstado(); }
-function iniciarTimer45(){ inicioOpcao3 = Date.now(); pausa45MostradaPara = -1; document.getElementById('miniTimerTexto').textContent = '⏳ 45:00'; salvarEstado(); reagendarTimer45(); iniciarMiniTimer(); }
-function reagendarTimer45(){ if(timer45) clearTimeout(timer45); if(!inicioOpcao3 || opcao3Sel===-1 || estaEmQualquerPausa()) return; if(pausa45MostradaPara===opcao3Sel) return; var decorrido = Date.now() - inicioOpcao3; var restante = (45*60*1000) - decorrido; if(restante <= 0){ mostrarModalPausa45(); return; } timer45 = setTimeout(function(){ mostrarModalPausa45(); }, restante); }
+function iniciarTimer45(){ inicioOpcao3 = Date.now(); pausa45MostradaPara = -1; document.getElementById('miniTimerTexto').textContent = '⏳ 02:00'; salvarEstado(); reagendarTimer45(); iniciarMiniTimer(); }
+function reagendarTimer45(){ if(timer45) clearTimeout(timer45); if(!inicioOpcao3 || opcao3Sel===-1 || estaEmQualquerPausa()) return; if(pausa45MostradaPara===opcao3Sel) return; var decorrido = Date.now() - inicioOpcao3; var restante = TEMPO_PAUSA_MS - decorrido; if(restante <= 0){ mostrarModalPausa45(); return; } timer45 = setTimeout(function(){ mostrarModalPausa45(); }, restante); }
 function zerarTimer45(){ if(timer45) clearTimeout(timer45); if(timerMini) clearInterval(timerMini); timer45=null; timerMini=null; inicioOpcao3 = 0; pausa45MostradaPara = -1; var el=document.getElementById('miniTimer'); el.classList.add('escondido'); document.getElementById('miniTimerTexto').textContent = '⏳ 00:00'; }
-function iniciarMiniTimer(){ if(timerMini) clearInterval(timerMini); if(opcao3Sel===-1 || estaEmQualquerPausa() || !inicioOpcao3) { document.getElementById('miniTimer').classList.add('escondido'); return; } var el = document.getElementById('miniTimer'); el.classList.remove('escondido'); el.classList.remove('pausa'); function tick(){ if(opcao3Sel===-1 || estaEmQualquerPausa() || !inicioOpcao3){ clearInterval(timerMini); timerMini=null; el.classList.add('escondido'); return; } var restante = (45*60*1000) - (Date.now() - inicioOpcao3); if(restante <= 0){ clearInterval(timerMini); timerMini=null; return; } var m = Math.floor(restante/60000); var s = Math.floor((restante%60000)/1000); document.getElementById('miniTimerTexto').textContent = '⏳ ' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); } tick(); timerMini = setInterval(tick, 1000); }
+function iniciarMiniTimer(){ if(timerMini) clearInterval(timerMini); if(opcao3Sel===-1 || estaEmQualquerPausa() || !inicioOpcao3) { document.getElementById('miniTimer').classList.add('escondido'); return; } var el = document.getElementById('miniTimer'); el.classList.remove('escondido'); el.classList.remove('pausa'); function tick(){ if(opcao3Sel===-1 || estaEmQualquerPausa() || !inicioOpcao3){ clearInterval(timerMini); timerMini=null; el.classList.add('escondido'); return; } var restante = TEMPO_PAUSA_MS - (Date.now() - inicioOpcao3); if(restante <= 0){ clearInterval(timerMini); timerMini=null; return; } var m = Math.floor(restante/60000); var s = Math.floor((restante%60000)/1000); document.getElementById('miniTimerTexto').textContent = '⏳ ' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); } tick(); timerMini = setInterval(tick, 1000); }
 function mostrarModalPausa45(){ if(opcao3Sel===-1) return; if(pausa45MostradaPara===opcao3Sel) return; pausa45MostradaPara = opcao3Sel; salvarEstado(); if(timerMini) clearInterval(timerMini); timerMini=null; document.getElementById('miniTimer').classList.add('escondido'); document.getElementById('modalPausa45').classList.remove('escondido'); if(navigator.vibrate) navigator.vibrate([200,100,200]); }
 function responderPausa45(sim){ document.getElementById('modalPausa45').classList.add('escondido'); if(!sim){ emPausa45=false; atualizarBloqueioPausa(); salvarEstado(); renderMenu3(); return; } emPausa45 = true; atualizarBloqueioPausa(); salvarEstado(); document.getElementById('msgFimPausa45').classList.add('escondido'); document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); iniciarCronometroPausa45(); renderMenu3(); }
 function iniciarCronometroPausa45(){ segundosPausa45 = 600; atualizarCronometroPausa45(); if(timerPausa45) clearInterval(timerPausa45); var el=document.getElementById('miniTimer'); el.classList.remove('escondido'); el.classList.add('pausa'); timerPausa45 = setInterval(function(){ segundosPausa45--; atualizarCronometroPausa45(); var m = Math.floor(segundosPausa45/60); var s = segundosPausa45%60; document.getElementById('miniTimerTexto').textContent = '☕ ' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); if(segundosPausa45<=0){ clearInterval(timerPausa45); finalizarPausa45(); } },1000); }
@@ -479,185 +441,45 @@ function liberarAtividade3(){ if(cafeRespondido && !emPausaCafe){ document.getEl
 function renderMenu3(){
   var bloqueada = !cafeRespondido;
   if(bloqueada && !travado3){ document.getElementById('menuTarefa3').innerHTML = `<div class="mensagem aviso">🔒 Conclua a 2ª + café para liberar a 3ª.</div>`; return; }
-  if(travado3){
-    var htmlTrav = escolhas3.map(function(t){ return `<div class="opcao-pausa travado"><span>✅ ${t} - CONCLUÍDA</span></div>`; }).join('');
-    document.getElementById('menuTarefa3').innerHTML = htmlTrav;
-    return;
-  }
+  if(travado3){ var htmlTrav = escolhas3.map(function(t){ return `<div class="opcao-pausa travado"><span>✅ ${t} - CONCLUÍDA</span></div>`; }).join(''); document.getElementById('menuTarefa3').innerHTML = htmlTrav; return; }
   var textos = ['Zerar C2s!', 'Fazer uma lista', 'Discador'];
   var emPausa = estaEmQualquerPausa();
   var html = `<p style="font-weight:800;text-align:center;margin:0 0 6px">O que você vai fazer agora?</p>`;
   if(emPausaCafe){ html += `<div class="mensagem aviso" style="margin:0 0 10px">☕ Você está em pausa para o café! Não pode selecionar nada até acabar.</div>`; }
   else if(emPausa45){ html += `<div class="mensagem aviso" style="margin:0 0 10px">☕ Você está em pausa para o café! Conclua a pausa para continuar.</div>`; }
   else { html += `<p style="font-size:12px;text-align:center;color:#64748B;margin:0 0 10px">Livre escolha - faça 1 por vez. Conclua uma para escolher outra.</p>`; }
-  for(var i=0;i<3;i++){
-    var jaFeita = concluidas3[i];
-    if(jaFeita){ html += `<div class="opcao-pausa travado"><span>✅ ${i+1}º ${textos[i]} - CONCLUÍDA</span></div>`; continue; }
-    var selecionada = (opcao3Sel===i);
-    var travadaPorOutra = (opcao3Sel!==-1 && opcao3Sel!==i);
-    var bloqueadaOpt = emPausa || travadaPorOutra;
-    var classe = emPausa ? 'bloqueado' : (selecionada ? 'selecionado' : (bloqueadaOpt ? 'bloqueado' : ''));
-    var checked = selecionada && !emPausa ? 'checked' : '';
-    var disabled = bloqueadaOpt ? 'disabled' : '';
-    var icone = bloqueadaOpt ? '🔒 ' : '';
-    var sufixo = emPausa ? ' - EM PAUSA' : (travadaPorOutra ? ' - AGUARDE' : '');
-    html += `<label class="opcao-pausa ${classe}" ${bloqueadaOpt ? 'onclick="alert(\''+(emPausa?'☕ Você está em pausa! Não pode selecionar nada até acabar.':'🔒 Conclua a opção selecionada primeiro!')+'\'); return false;"' : ''}><input type="checkbox" ${checked} ${disabled} onchange="selecionarOpcao3(this,${i})"><span>${icone}${i+1}º ${textos[i]}${sufixo}</span></label>`;
-  }
+  for(var i=0;i<3;i++){ var jaFeita = concluidas3[i]; if(jaFeita){ html += `<div class="opcao-pausa travado"><span>✅ ${i+1}º ${textos[i]} - CONCLUÍDA</span></div>`; continue; } var selecionada = (opcao3Sel===i); var travadaPorOutra = (opcao3Sel!==-1 && opcao3Sel!==i); var bloqueadaOpt = emPausa || travadaPorOutra; var classe = emPausa ? 'bloqueado' : (selecionada ? 'selecionado' : (bloqueadaOpt ? 'bloqueado' : '')); var checked = selecionada && !emPausa ? 'checked' : ''; var disabled = bloqueadaOpt ? 'disabled' : ''; var icone = bloqueadaOpt ? '🔒 ' : ''; var sufixo = emPausa ? ' - EM PAUSA' : (travadaPorOutra ? ' - AGUARDE' : ''); html += `<label class="opcao-pausa ${classe}"><input type="checkbox" ${checked} ${disabled} onchange="selecionarOpcao3(this,${i})"><span>${icone}${i+1}º ${textos[i]}${sufixo}</span></label>`; }
   if(opcao3Sel===0 && !concluidas3[0] && !emPausa){ html += `<div class="campo-c2s"><label>📋 Quantas atividades tem no C2s?</label><input type="number" id="inputC2s" inputmode="numeric" placeholder="Ex: 55" value="${qtdC2s>0?qtdC2s:''}" oninput="qtdC2s=parseInt(this.value)||0; salvarEstado();"></div>`; }
   if(opcao3Sel===1 && !concluidas3[1] && !emPausa){ html += `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; }
   if(opcao3Sel===2 && !concluidas3[2] && !emPausa){ html += `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads</div>`; }
   html += `<button class="btn btn-verde" style="margin-top:6px" ${emPausa ? 'disabled' : ''} onclick="confirmarOpcao3()">✅ Confirmar escolha</button>`;
   document.getElementById('menuTarefa3').innerHTML = html;
 }
-function selecionarOpcao3(cb, idx){
-  if(estaEmAlmoco()){ cb.checked=false; return; }
-  if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode selecionar nada até acabar.'); cb.checked=false; return; }
-  if(concluidas3[idx]){ cb.checked=true; return; }
-  if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); cb.checked=false; return; }
-  if(opcao3Sel!==-1 && opcao3Sel!==idx && cb.checked){ alert('🔒 Conclua a opção selecionada primeiro!'); cb.checked=false; return; }
-  if(cb.checked){ opcao3Sel = idx; iniciarTimer45(); } else { opcao3Sel = -1; zerarTimer45(); salvarEstado(); }
-  document.getElementById('msgMenu3').innerHTML='';
-  renderMenu3(); salvarEstado();
-}
-function confirmarOpcao3(){
-  if(estaEmAlmoco()) return;
-  if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode confirmar nada até acabar.'); return; }
-  if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); return; }
-  if(opcao3Sel===-1){ alert('Marque uma opção primeiro!'); return; }
-  var textos = ['Zerar C2s!', 'Fazer uma lista', 'Discador'];
-  var idx = opcao3Sel;
-  if(idx===0 && !qtdC2s){ alert('Informe quantas atividades tem no C2s!'); return; }
-  if(idx===0){ document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">📋 Você tem <b>${qtdC2s}</b> atividades no C2s.</div>`; }
-  concluidas3[idx]=true;
-  escolhas3.push(textos[idx]);
-  document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[idx]}</b></div>`;
-  opcao3Sel = -1; qtdC2s = 0;
-  zerarTimer45();
-  salvarEstado();
-  var todas = concluidas3[0] && concluidas3[1] && concluidas3[2];
-  if(todas){
-    travado3 = true;
-    document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Todas as 3 concluídas!<br>✅ 3ª Atividade concluída!</div>`;
-    document.getElementById('badge3').classList.remove('escondido');
-    document.getElementById('card3').classList.add('travado');
-    document.getElementById('sub3').textContent = '✅ Concluída';
-    renderMenu3();
-  } else {
-    document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">👉 Agora escolha outra opção!</div>`;
-    renderMenu3();
-  }
-  salvarEstado();
-  document.getElementById('miniTimer').classList.add('escondido');
-}
-function alterarWhats(delta){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada.'); return; } if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } qtdWhats = Math.max(0, (qtdWhats||0)+delta); sincronizarWhats(); salvarEstado(); atualizarResumo(); }
-function sincronizarWhats(){ var a=document.getElementById('inputWhats'); if(a) a.value=qtdWhats; var b=document.getElementById('inputWhatsTopo'); if(b) b.value=qtdWhats; }
-function gerarTextoRelatorio(){
-  var linhas = [];
-  linhas.push('Ligações feitas: ' + ligacoes.size);
-  linhas.push('Whatsapp enviados: ' + (qtdWhats||0));
-  var negs = leadsHoje().filter(function(l){ return !l.ehNF; });
-  var nfs = leadsHoje().filter(function(l){ return l.ehNF; });
-  linhas.push('Numero de negociações: ' + negs.length);
-  negs.forEach(function(l){ linhas.push(' • ' + l.nome + ' - ' + (l.quantoQuer || l.valor || '—')); });
-  linhas.push('Numero de NF: ' + nfs.length);
-  nfs.forEach(function(l){ linhas.push(' • 🚀 ' + l.nome + ' - ' + (l.quantoQuer || l.valor || '—')); });
-  linhas.push('Leads recebidos: ' + (qtdLeadsRecebidos||0));
-  linhas.push('Indicação: ' + (qtdIndicacoes||0));
-  return linhas.join('\n');
-}
+function selecionarOpcao3(cb, idx){ if(estaEmAlmoco()){ cb.checked=false; return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); cb.checked=false; return; } if(concluidas3[idx]){ cb.checked=true; return; } if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); cb.checked=false; return; } if(opcao3Sel!==-1 && opcao3Sel!==idx && cb.checked){ alert('🔒 Conclua a opção selecionada primeiro!'); cb.checked=false; return; } if(cb.checked){ opcao3Sel = idx; iniciarTimer45(); } else { opcao3Sel = -1; zerarTimer45(); salvarEstado(); } document.getElementById('msgMenu3').innerHTML=''; renderMenu3(); salvarEstado(); }
+function confirmarOpcao3(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); return; } if(opcao3Sel===-1){ alert('Marque uma opção primeiro!'); return; } var textos = ['Zerar C2s!', 'Fazer uma lista', 'Discador']; var idx = opcao3Sel; if(idx===0 && !qtdC2s){ alert('Informe quantas atividades tem no C2s!'); return; } concluidas3[idx]=true; escolhas3.push(textos[idx]); document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[idx]}</b></div>`; opcao3Sel = -1; qtdC2s = 0; zerarTimer45(); salvarEstado(); var todas = concluidas3[0] && concluidas3[1] && concluidas3[2]; if(todas){ travado3 = true; document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Todas as 3 concluídas!</div>`; document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent = '✅ Concluída'; renderMenu3(); } else { document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">👉 Agora escolha outra opção!</div>`; renderMenu3(); } salvarEstado(); document.getElementById('miniTimer').classList.add('escondido'); }
+function alterarWhats(delta){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } qtdWhats = Math.max(0, (qtdWhats||0)+delta); sincronizarWhats(); salvarEstado(); atualizarResumo(); }
+function sincronizarWhats(){ var b=document.getElementById('inputWhatsTopo'); if(b) b.value=qtdWhats; }
+function gerarTextoRelatorio(){ var linhas = []; linhas.push('Ligações feitas: ' + ligacoes.size); linhas.push('Whatsapp enviados: ' + (qtdWhats||0)); var negs = leadsHoje().filter(function(l){ return !l.ehNF; }); var nfs = leadsHoje().filter(function(l){ return l.ehNF; }); linhas.push('Numero de negociações: ' + negs.length); negs.forEach(function(l){ linhas.push(' • ' + l.nome + ' - ' + (l.quantoQuer || l.valor || '—')); }); linhas.push('Numero de NF: ' + nfs.length); nfs.forEach(function(l){ linhas.push(' • 🚀 ' + l.nome + ' - ' + (l.quantoQuer || l.valor || '—')); }); linhas.push('Leads recebidos: ' + (qtdLeadsRecebidos||0)); linhas.push('Indicação: ' + (qtdIndicacoes||0)); return linhas.join('\n'); }
 function atualizarResumo(){ var el=document.getElementById('resumoConcluirDia'); if(el) el.textContent = gerarTextoRelatorio(); }
-function enviarWhatsApp(){ enviarWhatsAppConcluir(); }
-function copiarRelatorio(){ copiarRelatorioConcluir(); }
-function toggleAbaLead(){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada até acabar.'); return; } abaLeadAberta = !abaLeadAberta; document.getElementById('formLead').classList.toggle('escondido', !abaLeadAberta); document.getElementById('btnAbaLead').classList.toggle('aberto', abaLeadAberta); document.getElementById('setaAbaLead').textContent = abaLeadAberta ? '▲' : '▼'; if(abaLeadAberta) setTimeout(()=>{ document.getElementById('leadNome').focus(); },100); }
+function enviarWhatsAppConcluir(){ var texto = gerarTextoRelatorio(); var url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); window.open(url,'_blank'); }
+function copiarRelatorioConcluir(){ var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ alert('✅ Relatório copiado!'); }); } else { alert(texto); } }
+function toggleAbaLead(){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } abaLeadAberta = !abaLeadAberta; document.getElementById('formLead').classList.toggle('escondido', !abaLeadAberta); document.getElementById('btnAbaLead').classList.toggle('aberto', abaLeadAberta); document.getElementById('setaAbaLead').textContent = abaLeadAberta ? '▲' : '▼'; }
 function toggleQuantoPaga(){ var v = document.getElementById('leadAluguel').value; document.getElementById('campoQuantoPaga').classList.toggle('escondido', v!=='Sim'); if(v!=='Sim'){ document.getElementById('leadQuantoPaga').value=''; } }
-function mascaraCPF(el){ if(estaEmQualquerPausa()) return; var v = el.value.replace(/\D/g,'').slice(0,11); if(v.length>9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4'); else if(v.length>6) v = v.replace(/(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3'); else if(v.length>3) v = v.replace(/(\d{3})(\d{0,3})/,'$1.$2'); el.value = v; }
-function calcularProgressoLead(){
-  var campos = [];
-  campos.push(document.getElementById('leadNome').value.trim());
-  campos.push(document.getElementById('leadTelefone').value.trim());
-  campos.push(document.getElementById('leadQuantoQuer').value.trim());
-  campos.push(document.getElementById('leadQuantoTem').value.trim());
-  campos.push(document.getElementById('leadQuantoPode').value.trim());
-  campos.push(document.getElementById('leadCPF').value.trim());
-  campos.push(document.getElementById('leadDecide').value);
-  campos.push(document.getElementById('leadClientePorto').value);
-  campos.push(document.getElementById('leadAluguel').value);
-  var aluguel = document.getElementById('leadAluguel').value;
-  if(aluguel==='Sim'){ campos.push(document.getElementById('leadQuantoPaga').value.trim()); }
-  campos.push(document.getElementById('leadInvestimento').value.trim());
-  var total = campos.length;
-  var preenchidos = campos.filter(function(v){ return v && v.length>0; }).length;
-  var pct = Math.round(preenchidos/total*100);
-  return { pct:pct, completo: pct===100 };
-}
-function atualizarProgressoLead(){
-  if(estaEmQualquerPausa()) return;
-  var r = calcularProgressoLead();
-  document.getElementById('textoProgressoLead').textContent = 'Preenchimento: '+r.pct+'%';
-  document.getElementById('barraProgressoLead').style.width = r.pct+'%';
-  document.getElementById('barraProgressoLead').style.background = r.completo ? '#F59E0B' : '#22C55E';
-  if(r.completo){ document.getElementById('textoTipoLead').textContent = '🚀 Vai virar NF!'; document.getElementById('msgNFLead').textContent = '🚀 100% preenchido! Esse lead vai virar NF - Negócio Fechado!'; document.getElementById('msgNFLead').style.color = '#92400E'; }
-  else { document.getElementById('textoTipoLead').textContent = 'Lead potencial'; document.getElementById('msgNFLead').textContent = 'Preencha 100% para virar 🚀 NF - Negócio Fechado'; document.getElementById('msgNFLead').style.color = '#92400E'; }
-}
-function mascaraTelefone(el){ if(estaEmQualquerPausa()){ el.blur(); return; } var v = el.value.replace(/\D/g,'').slice(0,11); if(v.length>10) v = v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3'); else if(v.length>6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3'); else if(v.length>2) v = v.replace(/(\d{2})(\d{0,5})/,'($1) $2'); else if(v.length>0) v = v.replace(/(\d{0,2})/,'($1'); el.value = v; }
-function mascaraValor(el){ if(estaEmQualquerPausa()){ el.blur(); return; } var v = el.value.replace(/\D/g,''); if(!v){ el.value=''; return; } v = (parseInt(v)/100).toLocaleString('pt-BR',{style:'currency', currency:'BRL'}); el.value = v; }
-function adicionarLead(){
-  if(estaEmAlmoco()) return;
-  if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada.'); return; }
-  var nome = document.getElementById('leadNome').value.trim();
-  var tel = document.getElementById('leadTelefone').value.trim();
-  if(!nome){ alert('Informe o Nome!'); document.getElementById('leadNome').focus(); return; }
-  if(!tel){ alert('Informe o Telefone!'); document.getElementById('leadTelefone').focus(); return; }
-  var novo = {
-    nome: nome, telefone: tel,
-    quantoQuer: document.getElementById('leadQuantoQuer').value.trim(),
-    quantoTem: document.getElementById('leadQuantoTem').value.trim(),
-    quantoPode: document.getElementById('leadQuantoPode').value.trim(),
-    cpf: document.getElementById('leadCPF').value.trim(),
-    decide: document.getElementById('leadDecide').value,
-    clientePorto: document.getElementById('leadClientePorto').value,
-    aluguel: document.getElementById('leadAluguel').value,
-    quantoPaga: document.getElementById('leadQuantoPaga').value.trim(),
-    investimento: document.getElementById('leadInvestimento').value.trim(),
-    ehNF: calcularProgressoLead().completo,
-    valor: document.getElementById('leadQuantoQuer').value.trim() || '—',
-    dataCriacao: dataHojeISO()
-  };
-  leadsPotenciais.push(novo);
-  var msg = novo.ehNF ? '🚀 Lead <b>'+nome+'</b> adicionado como <b>NF - Negócio Fechado!</b>' : '✅ Lead <b>'+nome+'</b> adicionado como <b>Lead potencial</b>! Falta preencher para virar NF.';
-  document.getElementById('msgLead').innerHTML = `<div class="mensagem ok">${msg}</div>`;
-  ['leadNome','leadTelefone','leadQuantoQuer','leadQuantoTem','leadQuantoPode','leadCPF','leadQuantoPaga','leadInvestimento'].forEach(function(id){ document.getElementById(id).value=''; });
-  ['leadDecide','leadClientePorto','leadAluguel'].forEach(function(id){ document.getElementById(id).value=''; });
-  document.getElementById('campoQuantoPaga').classList.add('escondido');
-  atualizarProgressoLead();
-  document.getElementById('leadNome').focus();
-  renderLeads(); salvarEstado(); atualizarResumo();
-}
-function removerLead(idx){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } if(!confirm('Apagar esse lead? Só você pode apagar com o X.')) return; leadsPotenciais.splice(idx,1); renderLeads(); salvarEstado(); atualizarResumo(); }
-function renderLeads(){
-  var el = document.getElementById('listaLeads');
-  if(leadsPotenciais.length===0){ el.innerHTML=''; return; }
-  var nfHoje = contarNF(), negHoje = contarNegociacoes();
-  var html = `<div class="contador-leads">🚀 ${nfHoje} NF hoje • 💬 ${negHoje} negociação(ões) hoje • Total salvo ${leadsPotenciais.length}</div>`;
-  leadsPotenciais.forEach(function(l,i){
-    var ehDeHoje = !l.dataCriacao || ehHoje(l.dataCriacao);
-    var seloData = ehDeHoje ? '' : '<span class="badge-antigo">📅 '+formatarDataCurta(l.dataCriacao)+' - não conta hoje</span>';
-    var classeAntigo = ehDeHoje ? '' : ' antigo';
-    if(l.ehNF){
-      html += `<div class="item-lead nf${classeAntigo}"><div><b>🚀 ${l.nome} - NF</b>${seloData}<span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'} • Tem: ${l.quantoTem||'—'} • Pode: ${l.quantoPode||'—'}</span><span>🪪 ${l.cpf||'—'} • Decide: ${l.decide||'—'} • Porto: ${l.clientePorto||'—'}</span><span>🏠 Aluguel: ${l.aluguel||'—'} ${l.aluguel==='Sim' ? '• Paga: '+(l.quantoPaga||'—') : ''} • 📈 ${l.investimento||'—'}</span></div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
-    } else {
-      html += `<div class="item-lead${classeAntigo}"><div><b>⭐ ${l.nome} - Lead potencial</b>${seloData}<span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'} • Tem: ${l.quantoTem||'—'} • Pode: ${l.quantoPode||'—'}</span>${l.investimento ? `<span>📈 ${l.investimento}</span>` : ''}</div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
-    }
-  });
-  el.innerHTML = html;
-}
-var frases = ["🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!","🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.","📞 Cada ligação é uma porta. Quem não liga, não abre.","💪 Você não precisa ser o melhor, precisa ser o mais constante.","🎯 Não atenda leads. Encante leads. É assim que se fecha consórcio.","🚀 Se você fez ontem, hoje você faz melhor. Bora, Lucas!","⏰ O tempo não espera. Quem age primeiro, vende primeiro.","👑 Porto Seguro não vende consórcio. Vende sonho. Entregue isso.","📈 Um lead ignorado hoje é uma venda do concorrente amanhã.","✨ Comece agora. O lead perfeito não existe, o atendido sim.","💼 Profissional não espera ter vontade. Ele faz mesmo sem vontade.","🏁 Não pare no meio. Termine o que você começou.","🎯 Foco total! Mais 10 minutos de ação valem mais que 1 hora de enrolação.","💎 Quem atende com verdade, vende sem precisar forçar.","🚀 Bora ligar! Seu próximo sim pode estar na próxima ligação.","🔥 Não desista no meio. O resultado vem pra quem continua.","📞 Ligação feita é chance criada. Não deixe pra depois.","⭐ Você é o melhor vendedor da sua história. Prove hoje!"];
+function mascaraCPF(el){ var v = el.value.replace(/\D/g,'').slice(0,11); if(v.length>9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4'); else if(v.length>6) v = v.replace(/(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3'); else if(v.length>3) v = v.replace(/(\d{3})(\d{0,3})/,'$1.$2'); el.value = v; }
+function calcularProgressoLead(){ var campos = []; campos.push(document.getElementById('leadNome').value.trim()); campos.push(document.getElementById('leadTelefone').value.trim()); campos.push(document.getElementById('leadQuantoQuer').value.trim()); campos.push(document.getElementById('leadQuantoTem').value.trim()); campos.push(document.getElementById('leadQuantoPode').value.trim()); campos.push(document.getElementById('leadCPF').value.trim()); campos.push(document.getElementById('leadDecide').value); campos.push(document.getElementById('leadClientePorto').value); campos.push(document.getElementById('leadAluguel').value); var aluguel = document.getElementById('leadAluguel').value; if(aluguel==='Sim'){ campos.push(document.getElementById('leadQuantoPaga').value.trim()); } campos.push(document.getElementById('leadInvestimento').value.trim()); var total = campos.length; var preenchidos = campos.filter(function(v){ return v && v.length>0; }).length; var pct = Math.round(preenchidos/total*100); return { pct:pct, completo: pct===100 }; }
+function atualizarProgressoLead(){ var r = calcularProgressoLead(); document.getElementById('textoProgressoLead').textContent = 'Preenchimento: '+r.pct+'%'; document.getElementById('barraProgressoLead').style.width = r.pct+'%'; if(r.completo){ document.getElementById('textoTipoLead').textContent = '🚀 Vai virar NF!'; document.getElementById('msgNFLead').textContent = '🚀 100% preenchido! Esse lead vai virar NF!'; } else { document.getElementById('textoTipoLead').textContent = 'Lead potencial'; document.getElementById('msgNFLead').textContent = 'Preencha 100% para virar 🚀 NF'; } }
+function mascaraTelefone(el){ var v = el.value.replace(/\D/g,'').slice(0,11); if(v.length>10) v = v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3'); else if(v.length>6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3'); else if(v.length>2) v = v.replace(/(\d{2})(\d{0,5})/,'($1) $2'); else if(v.length>0) v = v.replace(/(\d{0,2})/,'($1'); el.value = v; }
+function mascaraValor(el){ var v = el.value.replace(/\D/g,''); if(!v){ el.value=''; return; } v = (parseInt(v)/100).toLocaleString('pt-BR',{style:'currency', currency:'BRL'}); el.value = v; }
+function adicionarLead(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } var nome = document.getElementById('leadNome').value.trim(); var tel = document.getElementById('leadTelefone').value.trim(); if(!nome){ alert('Informe o Nome!'); return; } if(!tel){ alert('Informe o Telefone!'); return; } var novo = { nome: nome, telefone: tel, quantoQuer: document.getElementById('leadQuantoQuer').value.trim(), quantoTem: document.getElementById('leadQuantoTem').value.trim(), quantoPode: document.getElementById('leadQuantoPode').value.trim(), cpf: document.getElementById('leadCPF').value.trim(), decide: document.getElementById('leadDecide').value, clientePorto: document.getElementById('leadClientePorto').value, aluguel: document.getElementById('leadAluguel').value, quantoPaga: document.getElementById('leadQuantoPaga').value.trim(), investimento: document.getElementById('leadInvestimento').value.trim(), ehNF: calcularProgressoLead().completo, valor: document.getElementById('leadQuantoQuer').value.trim() || '—', dataCriacao: dataHojeISO() }; leadsPotenciais.push(novo); ['leadNome','leadTelefone','leadQuantoQuer','leadQuantoTem','leadQuantoPode','leadCPF','leadQuantoPaga','leadInvestimento'].forEach(function(id){ document.getElementById(id).value=''; }); ['leadDecide','leadClientePorto','leadAluguel'].forEach(function(id){ document.getElementById(id).value=''; }); document.getElementById('campoQuantoPaga').classList.add('escondido'); atualizarProgressoLead(); renderLeads(); salvarEstado(); atualizarResumo(); }
+function removerLead(idx){ if(!confirm('Apagar esse lead? Só você pode apagar com o X.')) return; leadsPotenciais.splice(idx,1); renderLeads(); salvarEstado(); atualizarResumo(); }
+function renderLeads(){ var el = document.getElementById('listaLeads'); if(leadsPotenciais.length===0){ el.innerHTML=''; return; } var nfHoje = contarNF(), negHoje = contarNegociacoes(); var html = `<div class="contador-leads">🚀 ${nfHoje} NF hoje • 💬 ${negHoje} negociação(ões) hoje • Total salvo ${leadsPotenciais.length}</div>`; leadsPotenciais.forEach(function(l,i){ var ehDeHoje = !l.dataCriacao || ehHoje(l.dataCriacao); var seloData = ehDeHoje ? '' : '<span class="badge-antigo">📅 '+formatarDataCurta(l.dataCriacao)+' - não conta hoje</span>'; var classeAntigo = ehDeHoje ? '' : ' antigo'; if(l.ehNF){ html += `<div class="item-lead nf${classeAntigo}"><div><b>🚀 ${l.nome} - NF</b>${seloData}<span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'}</span></div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`; } else { html += `<div class="item-lead${classeAntigo}"><div><b>⭐ ${l.nome} - Lead potencial</b>${seloData}<span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'}</span></div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`; } }); el.innerHTML = html; }
+var frases = ["🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!","🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.","📞 Cada ligação é uma porta. Quem não liga, não abre."];
 function atualizarRelogio(){ var agora = new Date(); var dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado']; document.getElementById('diaSemana').textContent = dias[agora.getDay()]; document.getElementById('dataHoje').textContent = agora.toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'}); document.getElementById('horaAtual').textContent = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0'); document.getElementById('segundosAtual').textContent = String(agora.getSeconds()).padStart(2,'0')+' segundos • São José dos Campos'; var bloco = agora.getHours()*6 + Math.floor(agora.getMinutes()/10); document.getElementById('fraseMotivacional').textContent = frases[bloco % frases.length]; }
 setInterval(atualizarRelogio, 1000); atualizarRelogio();
 function renderLigacoes(){ var html=''; for(var i=0;i<totalQuadrados;i++){ var on = ligacoes.has(i); html += `<div class="quadrado ${on?'preenchido':''}" onclick="toggleLigacao(${i})">${on?'✓':''}</div>`; } document.getElementById('gridLigacoes').innerHTML = html; document.getElementById('totalLigacoes').textContent = ligacoes.size; }
-function toggleLigacao(i){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada.'); return; } if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); if(navigator.vibrate) navigator.vibrate(30); renderLigacoes(); salvarEstado(); atualizarResumo(); }
-function adicionarQuadradinhos(q){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; totalQuadrados+=q; renderLigacoes(); salvarEstado(); }
-function zerarLigacoes(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); salvarEstado(); }
+function toggleLigacao(i){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); renderLigacoes(); salvarEstado(); atualizarResumo(); }
+function adicionarQuadradinhos(q){ totalQuadrados+=q; renderLigacoes(); salvarEstado(); }
+function zerarLigacoes(){ if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); salvarEstado(); }
 carregarEstado();
 renderMenu1(); renderMenu2(); renderMenu3(); renderLigacoes(); renderLeads(); renderRetornos(); atualizarResumo(); sincronizarWhats(); atualizarProgressoLead();
 setInterval(salvarEstado, 5000);
