@@ -95,6 +95,20 @@ h2{font-size:15px;margin:0 0 4px}
 .campo-c2s{background:#FFFBEB;border:2px dashed #F59E0B;border-radius:12px;padding:12px;margin-top:10px;text-align:center}
 .campo-c2s label{color:#000;font-weight:800;font-size:13px;display:block;margin-bottom:8px}
 .campo-c2s input{width:100%;padding:12px;border:2px solid #F59E0B;border-radius:10px;font-size:20px;font-weight:800;text-align:center;outline:none}
+/* LEAD POTENCIAL */
+.painel-lead{background:#fff;color:#000;border-radius:16px;padding:14px;margin-top:12px}
+.btn-aba-lead{width:100%;border:2px dashed #0B2A5B;background:#EFF6FF;color:#0B2A5B;border-radius:12px;padding:14px;font-weight:900;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.btn-aba-lead.aberto{background:#0B2A5B;color:#fff}
+.form-lead{margin-top:12px}
+.campo-form{margin-bottom:10px}
+.campo-form label{display:block;font-weight:800;font-size:13px;margin-bottom:6px;color:#000}
+.campo-form input{width:100%;padding:13px;border:2px solid #E5E7EB;border-radius:10px;font-size:15px;outline:none;color:#000}
+.campo-form input:focus{border-color:#0B2A5B}
+.item-lead{background:#F0FDF4;border:2px solid #22C55E;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.item-lead b{font-size:14px}
+.item-lead span{font-size:12px;color:#475569;display:block;margin-top:2px}
+.btn-remover-lead{border:0;background:#FEE2E2;color:#991B1B;border-radius:8px;padding:6px 10px;font-weight:800;cursor:pointer;font-size:12px}
+.contador-leads{text-align:center;font-weight:800;font-size:13px;margin:8px 0;color:#0B2A5B}
 </style>
 </head>
 <body>
@@ -172,7 +186,6 @@ h2{font-size:15px;margin:0 0 4px}
       <div id="menuTarefa4"><div class="mensagem aviso">🔒 A 4ª Atividade já está aqui, mas só pode ser iniciada após concluir a 3ª Atividade.</div></div>
       <div id="msgMenu4"></div>
     </div>
-
   </div>
 
   <div class="col-dir">
@@ -193,6 +206,29 @@ h2{font-size:15px;margin:0 0 4px}
         <button class="btn" style="padding:10px;font-size:13px;background:#E5E7EB" onclick="zerarLigacoes()">🔄 Zerar</button>
       </div>
     </div>
+
+    <!-- ABA INSERIR LEAD POTENCIAL - ABAIXO DAS LIGAÇÕES -->
+    <div class="painel-lead">
+      <button id="btnAbaLead" class="btn-aba-lead" onclick="toggleAbaLead()">➕ Inserir lead potencial <span id="setaAbaLead">▼</span></button>
+      <div id="formLead" class="form-lead escondido">
+        <div class="campo-form">
+          <label>👤 Nome</label>
+          <input type="text" id="leadNome" placeholder="Ex: Maria Silva" autocomplete="off">
+        </div>
+        <div class="campo-form">
+          <label>📱 Telefone:</label>
+          <input type="tel" id="leadTelefone" placeholder="Ex: (12) 99999-9999" autocomplete="off" oninput="mascaraTelefone(this)">
+        </div>
+        <div class="campo-form">
+          <label>💰 Valor do crédito:</label>
+          <input type="text" id="leadValor" placeholder="Ex: R$ 150.000" inputmode="numeric" autocomplete="off" oninput="mascaraValor(this)">
+        </div>
+        <button class="btn btn-verde" onclick="adicionarLead()">✅ Adicionar lead</button>
+        <div id="msgLead"></div>
+      </div>
+      <div id="listaLeads"></div>
+    </div>
+
   </div>
 </div>
 
@@ -208,6 +244,8 @@ var opcaoPausaSel = -1, timerPausa = null, segundosRestantes = 600, qtdC2s = 0;
 var pausaConcluidas = [false,false,false];
 var modoAtual = 'trabalho';
 var ligacoes = new Set();
+var leadsPotenciais = [];
+var abaLeadAberta = false;
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
 function alterarModo(novo){
   if(novo==='almoco'){
@@ -234,65 +272,75 @@ function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''
 function toggle1(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço! Volte para Trabalho para continuar.'); return; } if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); }
 function confirmarQtd1(e){ if(estaEmAlmoco()) return; if(travado1) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
 function responderInteracao(interagiu){ document.getElementById('modalPergunta').classList.add('escondido'); if(interagiu){ travado1 = true; sel1 = true; document.getElementById('msgMenu1').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads1} leads.<br>✅ Atividade 1 concluída e travada.</div>`; document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent = '✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent = '✅ Liberada! Marque quando for começar.'; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">✅ 2ª Atividade liberada!</div>`; } else { document.getElementById('msgMenu1').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads1} leads.</div>`; } renderMenu1(); renderMenu2(); renderMenu3(); }
-
-// 2ª - SÓ 1 CONFIRMAÇÃO: Confirmar quantidade -> Entendi, concluir -> trava direto
 function renderMenu2(){ var bloqueada = !travado1; var trav = travado2 ? 'travado' : (bloqueada ? 'bloqueado' : (sel2?'selecionado':'')); document.getElementById('menuTarefa2').innerHTML = `<label class="menu-item ${trav}" onclick="if(${bloqueada}){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return false; }"><input type="checkbox" ${sel2?'checked':''} ${travado2||bloqueada?'disabled':''} onchange="toggle2(this.checked)"><span class="emoji">${bloqueada?'🔒':'🔍'}</span><span style="flex:1;min-width:0"><span class="nome">Fazer o filtro dos 3 ultimos dias</span>${bloqueada?`<div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:700">🔒 Conclua a 1ª Atividade para liberar.</div>`:''}${sel2 && !bloqueada?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label><input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 42" value="${qtdLeads2>0?qtdLeads2:''}" ${travado2?'disabled':''} oninput="if(!travado2) qtdLeads2=parseInt(this.value)||0"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado2?'disabled':''} onclick="confirmarQtd2(event)">${travado2?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel2 && !travado2 && !bloqueada && !iniciado2) setTimeout(()=>{ var el=document.getElementById('inputLeads2'); if(el) el.focus(); },100); }
 function toggle2(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(travado2) return; if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; } sel2=m; if(!m){ qtdLeads2=0; iniciado2=false; document.getElementById('msgMenu2').innerHTML=''; } renderMenu2(); }
 function confirmarQtd2(e){ if(estaEmAlmoco()) return; if(travado2) return; if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; } if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads2){ alert('Informe quantos leads você recebeu!'); return; } document.getElementById('textoModal2').innerHTML = 'Você recebeu <b>'+qtdLeads2+'</b> leads nos 3 ultimos dias.<br><br>👉 <b>Faça contato com os leads dos 3 ultimos dias.</b>'; document.getElementById('modal2').classList.remove('escondido'); }
 function fecharModal2(){ document.getElementById('modal2').classList.add('escondido'); concluirAtividade2(); }
 function concluirAtividade2(){ if(estaEmAlmoco()) return; if(!travado1) return; travado2 = true; sel2 = true; iniciado2=true; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">🔍 Parabéns! Você fez contato com os ${qtdLeads2} leads.<br>✅ Atividade 2 concluída e travada.</div>`; document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent = '✅ Concluída'; document.getElementById('badgeBloqueio3').classList.add('escondido'); document.getElementById('card3').classList.remove('bloqueado'); document.getElementById('sub3').textContent = '✅ Liberada! Marque quando for começar.'; document.getElementById('msgMenu3').innerHTML = `<div class="mensagem ok">✅ 3ª Atividade liberada!</div>`; renderMenu2(); renderMenu3(); }
-
-// 3ª - SÓ 1 CONFIRMAÇÃO
 function renderMenu3(){ var bloqueada = !travado2; var trav = travado3 ? 'travado' : (bloqueada ? 'bloqueado' : (sel3?'selecionado':'')); var valorInput = (qtdNeg3!==null && qtdNeg3!==undefined) ? qtdNeg3 : ''; document.getElementById('menuTarefa3').innerHTML = `<label class="menu-item ${trav}" onclick="if(${bloqueada}){ alert('🔒 Conclua a 2ª Atividade primeiro!'); return false; }"><input type="checkbox" ${sel3?'checked':''} ${travado3||bloqueada?'disabled':''} onchange="toggle3(this.checked)"><span class="emoji">${bloqueada?'🔒':'💬'}</span><span style="flex:1;min-width:0"><span class="nome">Voltar nas negociações do dia anterior</span>${bloqueada?`<div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:700">🔒 Conclua a 2ª Atividade para liberar.</div>`:''}${sel3 && !bloqueada?`<div class="campo-leads" onclick="event.stopPropagation()"><label>💬 Quantas negociações você tinha do dia anterior?</label><input type="number" id="inputNeg3" inputmode="numeric" placeholder="Ex: 0, 1, 5..." value="${valorInput}" ${travado3?'disabled':''} oninput="qtdNeg3=this.value==='' ? null : parseInt(this.value)||0"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado3?'disabled':''} onclick="confirmarQtd3(event)">${travado3?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel3 && !travado3 && !bloqueada && !iniciado3) setTimeout(()=>{ var el=document.getElementById('inputNeg3'); if(el) el.focus(); },100); }
 function toggle3(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(travado3) return; if(!travado2){ alert('🔒 Conclua a 2ª Atividade primeiro!'); return; } sel3=m; if(!m){ qtdNeg3=null; iniciado3=false; document.getElementById('msgMenu3').innerHTML=''; } renderMenu3(); }
 function confirmarQtd3(e){ if(estaEmAlmoco()) return; if(travado3) return; if(!travado2){ alert('🔒 Conclua a 2ª Atividade primeiro!'); return; } if(e){e.preventDefault(); e.stopPropagation();} if(qtdNeg3===null || qtdNeg3===undefined || qtdNeg3===''){ alert('Informe quantas negociações! Pode ser 0.'); return; } if(qtdNeg3===0){ document.getElementById('tituloModal3').textContent = 'Que vergonha...'; document.getElementById('textoModal3').innerHTML = 'Você informou <b>0</b> negociações.<br><br>😔 <b>Que vergonha... mas amanhã será diferente.</b>'; } else { document.getElementById('tituloModal3').textContent = 'Bora voltar nas negociações!'; document.getElementById('textoModal3').innerHTML = 'Você tem <b>'+qtdNeg3+'</b> negociação(ões).<br><br>💡 <b>Ao vender peça indicações.</b>'; } document.getElementById('modal3').classList.remove('escondido'); }
 function fecharModal3(){ document.getElementById('modal3').classList.add('escondido'); concluirAtividade3(); }
 function concluirAtividade3(){ if(estaEmAlmoco()) return; if(!travado2) return; travado3 = true; sel3 = true; iniciado3=true; var textoFinal = qtdNeg3===0 ? `😔 Você tinha <b>0</b> negociações.<br><b>Que vergonha... mas amanhã será diferente.</b>` : `💬 Parabéns! Você voltou nas <b>${qtdNeg3}</b> negociação(ões).<br>💡 <b>Ao vender peça indicações.</b>`; document.getElementById('msgMenu3').innerHTML = `<div class="mensagem ok">${textoFinal}<br>✅ Atividade 3 concluída e travada.</div>`; document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent = '✅ Concluída'; renderMenu3(); mostrarPausa(); liberarAtividade4(); }
 function liberarAtividade4(){ document.getElementById('badgeBloqueio4').classList.add('escondido'); document.getElementById('card4').classList.remove('bloqueado'); document.getElementById('sub4').textContent = '✅ Liberada! Aguardando definição do que fazer na 4ª.'; document.getElementById('menuTarefa4').innerHTML = `<div class="mensagem ok">✅ 4ª Atividade liberada! Me fala o que vai ser a 4ª que eu coloco aqui.</div>`; }
-
-// ===== PAUSA - LIVRE ESCOLHA - SÓ 1 CONFIRMAÇÃO =====
 function mostrarPausa(){ var el=document.getElementById('telaPausa'); el.classList.remove('escondido'); el.scrollIntoView({behavior:'smooth', block:'start'}); atualizarEstadoPausa(); }
 function responderPausa(sim){ if(estaEmAlmoco()) return; document.getElementById('perguntaPausa').classList.add('escondido'); if(sim){ document.getElementById('areaCronometro').classList.remove('escondido'); iniciarCronometroPausa(); } else { document.getElementById('msgPausaNao').classList.remove('escondido'); document.getElementById('opcoesPausa').classList.remove('escondido'); } }
 function iniciarCronometroPausa(){ segundosRestantes = 600; atualizarCronometroPausa(); if(timerPausa) clearInterval(timerPausa); timerPausa = setInterval(()=>{ segundosRestantes--; atualizarCronometroPausa(); if(segundosRestantes<=0){ clearInterval(timerPausa); finalizarPausa(); } },1000); }
 function atualizarCronometroPausa(){ var m = Math.floor(segundosRestantes/60); var s = segundosRestantes%60; document.getElementById('textoCronometro').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); document.getElementById('barraPausa').style.width = (segundosRestantes/600*100)+'%'; }
 function pularPausa(){ if(timerPausa) clearInterval(timerPausa); finalizarPausa(); }
 function finalizarPausa(){ document.getElementById('areaCronometro').classList.add('escondido'); document.getElementById('msgPausaFim').classList.remove('escondido'); document.getElementById('opcoesPausa').classList.remove('escondido'); }
-function atualizarEstadoPausa(){
-  for(var i=0;i<3;i++){
-    var label = document.getElementById('labelOpcao'+i);
-    var cb = label.querySelector('input');
-    if(pausaConcluidas[i]){ label.classList.remove('selecionado'); label.classList.add('travado'); cb.checked=true; cb.disabled=true; }
-    else { label.classList.remove('travado'); cb.disabled=false; }
-  }
-  if(pausaConcluidas[0] && pausaConcluidas[1] && pausaConcluidas[2]){ document.getElementById('btnConfirmarOpcao').classList.add('escondido'); }
-  else { document.getElementById('btnConfirmarOpcao').classList.remove('escondido'); }
+function atualizarEstadoPausa(){ for(var i=0;i<3;i++){ var label = document.getElementById('labelOpcao'+i); var cb = label.querySelector('input'); if(pausaConcluidas[i]){ label.classList.remove('selecionado'); label.classList.add('travado'); cb.checked=true; cb.disabled=true; } else { label.classList.remove('travado'); cb.disabled=false; } } if(pausaConcluidas[0] && pausaConcluidas[1] && pausaConcluidas[2]){ document.getElementById('btnConfirmarOpcao').classList.add('escondido'); } else { document.getElementById('btnConfirmarOpcao').classList.remove('escondido'); } }
+function selecionarOpcaoPausa(cb, idx){ if(estaEmAlmoco()){ cb.checked=false; return; } if(pausaConcluidas[idx]){ alert('🔒 Esta opção já foi concluída e não pode ser alterada!'); cb.checked=true; return; } var todos = document.querySelectorAll('#opcoesPausa input[type=checkbox]'); todos.forEach((c,i)=>{ if(i!==idx && !pausaConcluidas[i]){ c.checked=false; c.closest('label').classList.remove('selecionado'); } }); document.getElementById('msgOpcaoPausa').innerHTML=''; document.getElementById('areaOpcaoPausa').innerHTML=''; if(cb.checked){ opcaoPausaSel = idx; cb.closest('label').classList.add('selecionado'); if(idx===0){ document.getElementById('areaOpcaoPausa').innerHTML = `<div class="campo-c2s"><label>📋 Quantas atividades tem no C2s?</label><input type="number" id="inputC2s" inputmode="numeric" placeholder="Ex: 55" value="${qtdC2s>0?qtdC2s:''}" oninput="qtdC2s=parseInt(this.value)||0"></div>`; setTimeout(()=>{ var el=document.getElementById('inputC2s'); if(el) el.focus(); },100); } else if(idx===1){ document.getElementById('areaOpcaoPausa').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; } else if(idx===2){ document.getElementById('areaOpcaoPausa').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads, são novas oportunidades que chegam</div>`; } } else { opcaoPausaSel = -1; } }
+function confirmarOpcaoPausa(){ if(estaEmAlmoco()) return; if(opcaoPausaSel===-1){ alert('Escolha uma das 3 opções primeiro!'); return; } if(pausaConcluidas[0] && pausaConcluidas[1] && pausaConcluidas[2]){ alert('Todas já concluídas!'); return; } var textos = ['Vamos zerar o C2s até o meio dia para ter novas atividades a tarde','Vou fazer uma lista','Vou ficar no discador']; var atual = opcaoPausaSel; if(atual===0){ if(!qtdC2s){ alert('Informe quantas atividades tem no C2s!'); return; } document.getElementById('msgOpcaoPausa').innerHTML = `<div class="mensagem destaque">📋 Você tem <b>${qtdC2s}</b> atividades no C2s.<br><br>⚠️ Antes de ligar, leia a frase que deixei para você abaixo do relógio!!</div>`; } else if(atual===1){ document.getElementById('msgOpcaoPausa').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; } else if(atual===2){ document.getElementById('msgOpcaoPausa').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads, são novas oportunidades que chegam</div>`; } pausaConcluidas[atual]=true; var todas = pausaConcluidas[0] && pausaConcluidas[1] && pausaConcluidas[2]; var qtdFaltam = pausaConcluidas.filter(function(v){return !v}).length; if(todas){ document.getElementById('msgOpcaoPausa').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[atual]}</b><br>✅ Todas as opções da pausa concluídas!</div>`; } else { document.getElementById('msgOpcaoPausa').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[atual]}</b><br>👉 Ainda faltam ${qtdFaltam} opção(ões). Escolha outra!</div>`; } document.getElementById('areaOpcaoPausa').innerHTML=''; opcaoPausaSel=-1; qtdC2s=0; atualizarEstadoPausa(); }
+
+// ===== LEAD POTENCIAL =====
+function toggleAbaLead(){
+  if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço! Volte para Trabalho para continuar.'); return; }
+  abaLeadAberta = !abaLeadAberta;
+  document.getElementById('formLead').classList.toggle('escondido', !abaLeadAberta);
+  document.getElementById('btnAbaLead').classList.toggle('aberto', abaLeadAberta);
+  document.getElementById('setaAbaLead').textContent = abaLeadAberta ? '▲' : '▼';
+  if(abaLeadAberta) setTimeout(()=>{ document.getElementById('leadNome').focus(); },100);
 }
-function selecionarOpcaoPausa(cb, idx){
-  if(estaEmAlmoco()){ cb.checked=false; return; }
-  if(pausaConcluidas[idx]){ alert('🔒 Esta opção já foi concluída e não pode ser alterada!'); cb.checked=true; return; }
-  var todos = document.querySelectorAll('#opcoesPausa input[type=checkbox]');
-  todos.forEach((c,i)=>{ if(i!==idx && !pausaConcluidas[i]){ c.checked=false; c.closest('label').classList.remove('selecionado'); } });
-  document.getElementById('msgOpcaoPausa').innerHTML=''; document.getElementById('areaOpcaoPausa').innerHTML='';
-  if(cb.checked){ opcaoPausaSel = idx; cb.closest('label').classList.add('selecionado'); if(idx===0){ document.getElementById('areaOpcaoPausa').innerHTML = `<div class="campo-c2s"><label>📋 Quantas atividades tem no C2s?</label><input type="number" id="inputC2s" inputmode="numeric" placeholder="Ex: 55" value="${qtdC2s>0?qtdC2s:''}" oninput="qtdC2s=parseInt(this.value)||0"></div>`; setTimeout(()=>{ var el=document.getElementById('inputC2s'); if(el) el.focus(); },100); } else if(idx===1){ document.getElementById('areaOpcaoPausa').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; } else if(idx===2){ document.getElementById('areaOpcaoPausa').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads, são novas oportunidades que chegam</div>`; } } else { opcaoPausaSel = -1; }
+function mascaraTelefone(el){
+  var v = el.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>10) v = v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3');
+  else if(v.length>6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3');
+  else if(v.length>2) v = v.replace(/(\d{2})(\d{0,5})/,'($1) $2');
+  else if(v.length>0) v = v.replace(/(\d{0,2})/,'($1');
+  el.value = v;
 }
-function confirmarOpcaoPausa(){
+function mascaraValor(el){
+  var v = el.value.replace(/\D/g,'');
+  if(!v){ el.value=''; return; }
+  v = (parseInt(v)/100).toLocaleString('pt-BR',{style:'currency', currency:'BRL'});
+  el.value = v;
+}
+function adicionarLead(){
   if(estaEmAlmoco()) return;
-  if(opcaoPausaSel===-1){ alert('Escolha uma das 3 opções primeiro!'); return; }
-  if(pausaConcluidas[0] && pausaConcluidas[1] && pausaConcluidas[2]){ alert('Todas já concluídas!'); return; }
-  // SÓ 1 CONFIRMAÇÃO - já conclui e trava direto, sem botão Concluir separado
-  var textos = ['Vamos zerar o C2s até o meio dia para ter novas atividades a tarde','Vou fazer uma lista','Vou ficar no discador'];
-  var atual = opcaoPausaSel;
-  if(atual===0){ if(!qtdC2s){ alert('Informe quantas atividades tem no C2s!'); return; } document.getElementById('msgOpcaoPausa').innerHTML = `<div class="mensagem destaque">📋 Você tem <b>${qtdC2s}</b> atividades no C2s.<br><br>⚠️ Antes de ligar, leia a frase que deixei para você abaixo do relógio!!</div>`; }
-  else if(atual===1){ document.getElementById('msgOpcaoPausa').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; }
-  else if(atual===2){ document.getElementById('msgOpcaoPausa').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads, são novas oportunidades que chegam</div>`; }
-  pausaConcluidas[atual]=true;
-  var todas = pausaConcluidas[0] && pausaConcluidas[1] && pausaConcluidas[2];
-  var qtdFaltam = pausaConcluidas.filter(function(v){return !v}).length;
-  if(todas){ document.getElementById('msgOpcaoPausa').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[atual]}</b><br>✅ Todas as opções da pausa concluídas!</div>`; }
-  else { document.getElementById('msgOpcaoPausa').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[atual]}</b><br>👉 Ainda faltam ${qtdFaltam} opção(ões). Escolha outra!</div>`; }
-  document.getElementById('areaOpcaoPausa').innerHTML='';
-  opcaoPausaSel=-1; qtdC2s=0;
-  atualizarEstadoPausa();
+  var nome = document.getElementById('leadNome').value.trim();
+  var tel = document.getElementById('leadTelefone').value.trim();
+  var valor = document.getElementById('leadValor').value.trim();
+  if(!nome){ alert('Informe o Nome do lead!'); document.getElementById('leadNome').focus(); return; }
+  if(!tel){ alert('Informe o Telefone do lead!'); document.getElementById('leadTelefone').focus(); return; }
+  if(!valor){ alert('Informe o Valor do crédito!'); document.getElementById('leadValor').focus(); return; }
+  leadsPotenciais.push({nome:nome, telefone:tel, valor:valor});
+  document.getElementById('leadNome').value='';
+  document.getElementById('leadTelefone').value='';
+  document.getElementById('leadValor').value='';
+  document.getElementById('msgLead').innerHTML = `<div class="mensagem ok">✅ Lead <b>${nome}</b> adicionado! Pode adicionar outro.</div>`;
+  document.getElementById('leadNome').focus();
+  renderLeads();
+}
+function removerLead(idx){ leadsPotenciais.splice(idx,1); renderLeads(); }
+function renderLeads(){
+  var el = document.getElementById('listaLeads');
+  if(leadsPotenciais.length===0){ el.innerHTML=''; return; }
+  var html = `<div class="contador-leads">⭐ ${leadsPotenciais.length} lead(s) potencial(is) adicionado(s)</div>`;
+  leadsPotenciais.forEach(function(l,i){
+    html += `<div class="item-lead"><div><b>⭐ ${l.nome}</b><span>📱 ${l.telefone}</span><span>💰 ${l.valor}</span></div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
+  });
+  el.innerHTML = html;
 }
 var frases = ["🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!","🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.","📞 Cada ligação é uma porta. Quem não liga, não abre.","💪 Você não precisa ser o melhor, precisa ser o mais constante.","🎯 Não atenda leads. Encante leads. É assim que se fecha consórcio.","🚀 Se você fez ontem, hoje você faz melhor. Bora, Lucas!","⏰ O tempo não espera. Quem age primeiro, vende primeiro.","👑 Porto Seguro não vende consórcio. Vende sonho. Entregue isso.","📈 Um lead ignorado hoje é uma venda do concorrente amanhã.","✨ Comece agora. O lead perfeito não existe, o atendido sim.","💼 Profissional não espera ter vontade. Ele faz mesmo sem vontade.","🏁 Não pare no meio. Termine o que você começou."];
 function atualizarRelogio(){ var agora = new Date(); var dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado']; document.getElementById('diaSemana').textContent = dias[agora.getDay()]; document.getElementById('dataHoje').textContent = agora.toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'}); document.getElementById('horaAtual').textContent = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0'); document.getElementById('segundosAtual').textContent = String(agora.getSeconds()).padStart(2,'0')+' segundos • São José dos Campos'; var bloco = agora.getHours()*2 + (agora.getMinutes()>=30?1:0); document.getElementById('fraseMotivacional').textContent = frases[bloco % frases.length]; var falta = agora.getMinutes()>=30 ? 60-agora.getMinutes() : 30-agora.getMinutes(); document.getElementById('contadorFrase').textContent = 'Próxima frase em '+falta+' min • Troca a cada 30 minutos'; }
@@ -302,7 +350,7 @@ function renderLigacoes(){ if(estaEmAlmoco()) return; var html=''; for(var i=0;i
 function toggleLigacao(i){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço! Volte para Trabalho para continuar.'); return; } if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); if(navigator.vibrate) navigator.vibrate(30); renderLigacoes(); }
 function adicionarQuadradinhos(q){ if(estaEmAlmoco()) return; totalQuadrados+=q; renderLigacoes(); }
 function zerarLigacoes(){ if(estaEmAlmoco()) return; if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); }
-renderMenu1(); renderMenu2(); renderMenu3(); renderLigacoes();
+renderMenu1(); renderMenu2(); renderMenu3(); renderLigacoes(); renderLeads();
 </script>
 </body>
 </html>
