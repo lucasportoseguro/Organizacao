@@ -13,16 +13,20 @@ header p{opacity:.85;font-size:13px;margin:6px 0 14px}
 .card{background:#fff;color:#000;border-radius:16px;padding:14px;margin-bottom:12px}
 h2{font-size:16px;margin:0 0 4px}
 .sub{font-size:12px;color:#666;margin-bottom:10px}
-.menu-item{display:flex;gap:10px;align-items:center;background:#F8FAFC;border:2px solid #E5E7EB;border-radius:14px;padding:11px;margin-bottom:8px;cursor:pointer}
+.menu-item{display:flex;gap:10px;align-items:flex-start;background:#F8FAFC;border:2px solid #E5E7EB;border-radius:14px;padding:11px;margin-bottom:8px;cursor:pointer}
 .menu-item.selecionado{border-color:#22C55E;background:#F0FDF4}
-.menu-item input{width:22px;height:22px;accent-color:#22C55E}
-.menu-item .emoji{font-size:22px}
-.menu-item .nome{font-weight:800;font-size:14px;color:#000;line-height:1.2}
+.menu-item input[type=checkbox]{width:22px;height:22px;accent-color:#22C55E;margin-top:2px}
+.menu-item .emoji{font-size:26px}
+.menu-item .nome{font-weight:800;font-size:15px;color:#000;line-height:1.2}
 .menu-item .tempo{font-size:11px;color:#666;font-weight:700}
 .menu-item .ordem{margin-left:auto;background:#22C55E;color:#fff;font-size:12px;font-weight:800;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;min-width:28px}
+.campo-leads{margin-top:10px;background:#FFFBEB;border:2px dashed #F59E0B;border-radius:12px;padding:10px}
+.campo-leads label{font-size:12px;font-weight:800;color:#000;display:block;margin-bottom:6px}
+.campo-leads input{width:100%;padding:12px;border:2px solid #F59E0B;border-radius:10px;font-size:18px;font-weight:800;text-align:center;color:#000;outline:none}
+.campo-leads input:focus{border-color:#22C55E}
+.campo-leads small{font-size:11px;color:#666}
 .btn{width:100%;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
 .btn-verde{background:#22C55E;color:#fff}
-.btn-azul{background:#0B2A5B;color:#fff}
 .btn-cinza{background:#E5E7EB;color:#000}
 .etapa{display:flex;gap:10px;background:#F8FAFC;border-radius:14px;padding:12px;margin-bottom:10px;border-left:6px solid #22C55E;align-items:flex-start}
 .etapa.ativa{outline:3px solid #FFC700;background:#fff}
@@ -42,6 +46,8 @@ h2{font-size:16px;margin:0 0 4px}
 .topo div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px}
 .topo b{font-size:20px;display:block;color:#000}
 .topo span{font-size:11px;color:#666}
+.box-leads-exec{background:#FFFBEB;border:2px solid #F59E0B;border-radius:12px;padding:10px;margin-top:8px;text-align:center;color:#000}
+.box-leads-exec b{font-size:22px}
 </style>
 </head>
 <body>
@@ -51,13 +57,13 @@ h2{font-size:16px;margin:0 0 4px}
   <p>Lucas Fortes • Consórcio Porto Seguro • <span id="dataHoje"></span></p>
 </header>
 
-<!-- TELA 1: MENU DE SELEÇÃO -->
+<!-- TELA 1: MENU -->
 <div id="telaMenu">
   <div class="card">
     <h2>☑️ 1. Selecione as tarefas de hoje</h2>
     <div class="sub">Marque na ordem que você vai fazer.</div>
     <div id="menuTarefas"></div>
-    <div style="text-align:center;margin-top:10px;font-size:13px;font-weight:700;color:#000" id="resumoMenu"></div>
+    <div style="text-align:center;margin-top:10px;font-size:13px;font-weight:700;color:#000" id="resumoMenu">Nenhuma tarefa selecionada</div>
     <button class="btn btn-verde" style="margin-top:10px" onclick="comecarDia()">▶️ Começar meu dia</button>
   </div>
 </div>
@@ -68,7 +74,7 @@ h2{font-size:16px;margin:0 0 4px}
     <div class="topo">
       <div><b id="qtdFeitas">0/1</b><span>Feitas</span></div>
       <div><b id="tempoTotalDia">30 min</b><span>Tempo total</span></div>
-      <div><b id="tempoFocado">0 min</b><span>Focado</span></div>
+      <div><b id="qtdLeadsTopo">0</b><span>Leads sem interação</span></div>
     </div>
     <div style="text-align:center;font-size:13px;font-weight:700;margin-top:10px;color:#000" id="textoProgresso"></div>
     <div class="bar"><i id="barraDia"></i></div>
@@ -81,12 +87,13 @@ h2{font-size:16px;margin:0 0 4px}
 </div>
 
 <script>
-// APENAS O INÍCIO - VAMOS MONTANDO JUNTOS
 var tarefasBase = [
-  {nome:'Atender Leads do dia', tempo:30, tipo:'venda', emoji:'📩', label:'Time de 30 minutos'},
+  {nome:'Atender Leads do dia', tempo:30, tipo:'venda', emoji:'🏆', label:'Time de 30 minutos'},
 ];
 
-var selecionadas = [0];
+// CAIXA COMEÇA DESMARCADA
+var selecionadas = [];
+var qtdLeads = 0;
 var diaAtual = [];
 var estado = [];
 var indiceAtivo = -1;
@@ -104,20 +111,36 @@ function renderMenu(){
     html += `<label class="menu-item ${sel?'selecionado':''}">
       <input type="checkbox" ${sel?'checked':''} onchange="toggleTarefa(${i}, this.checked)">
       <span class="emoji">${t.emoji}</span>
-      <span style="flex:1"><span class="nome">${t.nome}</span><br><span class="tempo">${t.label}</span></span>
+      <span style="flex:1;min-width:0">
+        <span class="nome">${t.nome}</span><br><span class="tempo">${t.label}</span>
+        ${sel?`<div class="campo-leads" onclick="event.stopPropagation()">
+          <label>🏆 Quantos leads você tinha sem interação?</label>
+          <input type="number" id="inputLeads" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads>0?qtdLeads:''}" oninput="salvarLeads(this.value)" onfocus="this.select()">
+          <small>Digite a quantidade antes de começar</small>
+        </div>`:''}
+      </span>
       ${sel?`<span class="ordem">1</span>`:''}
     </label>`;
   });
   document.getElementById('menuTarefas').innerHTML = html;
-  document.getElementById('resumoMenu').textContent = selecionadas.length===0 ? 'Nenhuma tarefa selecionada' : '1 tarefa • 30 min de trabalho';
+  document.getElementById('resumoMenu').textContent = selecionadas.length===0 ? 'Nenhuma tarefa selecionada' : '1 tarefa • 30 min • '+qtdLeads+' leads sem interação';
+  // foca no campo assim que abre
+  if(selecionadas.length>0){
+    setTimeout(()=>{ var el=document.getElementById('inputLeads'); if(el) el.focus(); },100);
+  }
 }
 function toggleTarefa(i, marcado){
   if(marcado){ if(!selecionadas.includes(i)) selecionadas.push(i); }
-  else { selecionadas = selecionadas.filter(x=>x!==i); }
+  else { selecionadas = selecionadas.filter(x=>x!==i); qtdLeads=0; }
   renderMenu();
 }
+function salvarLeads(v){ qtdLeads = parseInt(v)||0; document.getElementById('resumoMenu').textContent = '1 tarefa • 30 min • '+qtdLeads+' leads sem interação'; }
+
 function comecarDia(){
-  if(selecionadas.length===0){ alert('Selecione a tarefa!'); return; }
+  if(selecionadas.length===0){ alert('Marque a caixinha para começar!'); return; }
+  if(!qtdLeads || qtdLeads<=0){
+    if(!confirm('Você não informou quantos leads tinha. Quer começar mesmo assim?')) return;
+  }
   diaAtual = selecionadas.map(i=>tarefasBase[i]);
   estado = diaAtual.map(t=>({feito:false, restante:t.tempo*60}));
   indiceAtivo=-1; pararTimer(); minutosFocados=0;
@@ -135,6 +158,7 @@ function renderDia(){
       <button class="check ${e.feito?'on':''}" onclick="toggleCheck(${i})">${e.feito?'✓':(i+1)}</button>
       <div class="info">
         <span class="nome-tarefa">${cfg.emoji} ${cfg.nome} • ${cfg.label}</span>
+        <div class="box-leads-exec">🏆 Você começou com <b>${qtdLeads}</b> leads sem interação</div>
         <div class="sub2">${e.feito?'✅ Concluída!':indiceAtivo===i?(rodando?'🔥 Focando agora...':'⏸️ Pausado'):'Toque em Começar'}</div>
         <div class="timer">${formatar(e.restante)}</div>
         <div class="bar"><i style="width:${pct}%"></i></div>
@@ -149,9 +173,9 @@ function renderDia(){
   document.getElementById('listaEtapas').innerHTML=html;
   var feitas=estado.filter(e=>e.feito).length;
   document.getElementById('qtdFeitas').textContent=feitas+'/'+diaAtual.length;
+  document.getElementById('qtdLeadsTopo').textContent=qtdLeads;
   document.getElementById('textoProgresso').textContent=feitas+' de '+diaAtual.length+' concluídas'+(feitas===diaAtual.length&&feitas>0?' 🎉 Dia zerado!':'');
   document.getElementById('barraDia').style.width=(diaAtual.length?feitas/diaAtual.length*100:0)+'%';
-  document.getElementById('tempoFocado').textContent=Math.round(minutosFocados)+' min';
 }
 function toggleCheck(i){ pararTimer(); estado[i].feito=!estado[i].feito; if(estado[i].feito){estado[i].restante=0;}else{estado[i].restante=diaAtual[i].tempo*60;} renderDia(); }
 function comecar(i){
@@ -164,7 +188,7 @@ function comecar(i){
     if(estado[i].restante<=0){
       clearInterval(timer); rodando=false; estado[i].feito=true; estado[i].restante=0;
       if(navigator.vibrate) navigator.vibrate([500,200,500]);
-      alert('⏰ Acabou: '+diaAtual[i].nome);
+      alert('⏰ Acabou: '+diaAtual[i].nome+'\nVocê atendeu '+qtdLeads+' leads! 🏆');
     }
     renderDia();
   },1000);
@@ -173,7 +197,7 @@ function comecar(i){
 function pararTimer(){ if(timer) clearInterval(timer); rodando=false; }
 function resetarEtapa(i){ pararTimer(); estado[i].feito=false; estado[i].restante=diaAtual[i].tempo*60; renderDia(); }
 function pular(i){ pararTimer(); estado[i].feito=true; estado[i].restante=0; renderDia(); }
-function resetarDia(){ if(!confirm('Zerar todo o dia?')) return; pararTimer(); indiceAtivo=-1; estado=diaAtual.map(t=>({feito:false, restante:t.tempo*60})); minutosFocados=0; renderDia(); }
+function resetarDia(){ if(!confirm('Zerar todo o dia?')) return; pararTimer(); indiceAtivo=-1; estado=diaAtual.map(t=>({feito:false, restante:t.tempo*60})); renderDia(); }
 function voltarMenu(){ pararTimer(); document.getElementById('telaDia').classList.add('escondido'); document.getElementById('telaMenu').classList.remove('escondido'); renderMenu(); }
 renderMenu();
 </script>
