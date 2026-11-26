@@ -6,12 +6,17 @@
 <title>Organização Diária - Lucas Fortes</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
-body{margin:0;background:#0B2A5B;color:#fff;padding:14px;padding-bottom:50px}
+body{margin:0;background:#0B2A5B;color:#fff;padding:12px;padding-bottom:40px}
 header{text-align:center}
-header h1{font-size:25px;margin:0}
-header p{opacity:.85;font-size:13px;margin:6px 0 14px}
+header h1{font-size:23px;margin:0}
+header p{opacity:.85;font-size:12px;margin:4px 0 12px}
+/* LAYOUT METADE / METADE */
+.layout{display:flex;gap:12px;align-items:flex-start}
+.col-esq{flex:1;min-width:0}
+.col-dir{flex:1;min-width:0;position:sticky;top:12px}
+@media(max-width:700px){ .layout{flex-direction:column} .col-dir{position:static;width:100%} }
 .card{background:#fff;color:#000;border-radius:16px;padding:14px;margin-bottom:12px}
-h2{font-size:16px;margin:0 0 4px}
+h2{font-size:15px;margin:0 0 4px}
 .sub{font-size:12px;color:#666;margin-bottom:10px}
 .menu-item{display:flex;gap:10px;align-items:flex-start;background:#fff;border:2px solid #E5E7EB;border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer}
 .menu-item.selecionado{border-color:#22C55E;background:#F0FDF4}
@@ -26,7 +31,27 @@ h2{font-size:16px;margin:0 0 4px}
 .btn-verde{background:#22C55E;color:#fff}
 .btn-cinza{background:#E5E7EB;color:#000}
 .btn-azul{background:#0B2A5B;color:#fff}
-/* MODAL DE CONFIRMAÇÃO */
+/* LADO DIREITO - RELÓGIO */
+.painel-relogio{background:linear-gradient(180deg,#111827,#0B2A5B);color:#fff;border-radius:16px;padding:16px;text-align:center;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.dia-semana{font-size:13px;text-transform:uppercase;letter-spacing:1px;opacity:.8;font-weight:700}
+.data-hoje{font-size:14px;opacity:.9;margin-top:2px}
+.hora-grande{font-size:56px;font-weight:900;line-height:1;margin:8px 0 4px;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.segundos{font-size:13px;opacity:.7}
+.frase{margin-top:12px;background:rgba(255,255,255,.12);border-radius:12px;padding:12px;font-size:14px;line-height:1.4;font-style:italic}
+.frase small{display:block;margin-top:6px;font-style:normal;opacity:.7;font-size:11px}
+/* LIGAÇÕES */
+.painel-ligacoes{background:#fff;color:#000;border-radius:16px;padding:14px}
+.painel-ligacoes h3{margin:0;text-align:center;font-size:15px}
+.painel-ligacoes p{margin:4px 0 10px;text-align:center;font-size:12px;color:#666}
+.grid-ligacoes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.quadrado{aspect-ratio:1/1;border:2px solid #111;border-radius:10px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#999;transition:.15s}
+.quadrado.preenchido{background:#000 !important;border-color:#000;color:#fff}
+.quadrado:active{transform:scale(.92)}
+.total-ligacoes{text-align:center;margin-top:10px;font-weight:800;font-size:14px}
+.total-ligacoes b{font-size:22px}
+.barra-lig{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}
+.barra-lig i{display:block;height:100%;background:#000;width:0%;transition:.3s}
+/* MODAL */
 .modal-fundo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:99}
 .modal{background:#fff;color:#000;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}
 .modal h3{font-size:18px;margin:0}
@@ -53,49 +78,88 @@ h2{font-size:16px;margin:0 0 4px}
 .botoes button{flex:1;border:0;border-radius:10px;padding:10px;font-weight:700;cursor:pointer;font-size:13px}
 .topo{display:flex;gap:8px;text-align:center}
 .topo div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px}
-.topo b{font-size:20px;display:block;color:#000}
+.topo b{font-size:18px;display:block;color:#000}
 .topo span{font-size:11px;color:#666}
 .box-leads{background:#FFFBEB;border:2px solid #F59E0B;border-radius:12px;padding:10px;margin-top:8px;text-align:center;color:#000}
 </style>
 </head>
 <body>
 
-<header><h1>🚀 Organização Diária</h1><p>Lucas Fortes • <span id="dataHoje"></span></p></header>
+<header><h1>🚀 Organização Diária</h1><p>Lucas Fortes • Consórcio Porto Seguro</p></header>
 
-<div id="telaMenu">
-  <div class="card">
-    <h2>☑️ 1. Selecione as tarefas de hoje</h2>
-    <div class="sub">Marque na ordem que você vai fazer.</div>
-    <div id="menuTarefas"></div>
-    <div style="text-align:center;margin-top:10px;font-size:13px;font-weight:700" id="resumoMenu">Nenhuma tarefa selecionada</div>
-    <button class="btn btn-verde" style="margin-top:10px" onclick="comecarDia()">▶️ Começar meu dia</button>
-    <div id="msgMenu"></div>
+<div class="layout">
+
+  <!-- METADE ESQUERDA - TAREFAS -->
+  <div class="col-esq">
+    <div id="telaMenu">
+      <div class="card">
+        <h2>☑️ 1. Selecione as tarefas de hoje</h2>
+        <div class="sub">Marque na ordem que você vai fazer.</div>
+        <div id="menuTarefas"></div>
+        <div style="text-align:center;margin-top:10px;font-size:13px;font-weight:700" id="resumoMenu">Nenhuma tarefa selecionada</div>
+        <button class="btn btn-verde" style="margin-top:10px" onclick="comecarDia()">▶️ Começar meu dia</button>
+        <div id="msgMenu"></div>
+      </div>
+    </div>
+
+    <div id="telaDia" class="escondido">
+      <div class="card">
+        <div class="topo">
+          <div><b id="qtdFeitas">0/1</b><span>Feitas</span></div>
+          <div><b>30 min</b><span>Tempo</span></div>
+          <div><b id="qtdLeadsTopo">0</b><span>Leads</span></div>
+        </div>
+        <div class="bar" style="margin-top:10px"><i id="barraDia"></i></div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-cinza" style="padding:10px" onclick="voltarMenu()">⬅️ Voltar</button>
+          <button class="btn btn-cinza" style="padding:10px" onclick="resetarDia()">🔄 Zerar</button>
+        </div>
+      </div>
+      <div id="listaEtapas"></div>
+      <div id="msgFinal"></div>
+    </div>
   </div>
+
+  <!-- METADE DIREITA - RELÓGIO + LIGAÇÕES -->
+  <div class="col-dir">
+    <div class="painel-relogio">
+      <div class="dia-semana" id="diaSemana">--</div>
+      <div class="data-hoje" id="dataHoje">--</div>
+      <div class="hora-grande" id="horaAtual">00:00</div>
+      <div class="segundos" id="segundosAtual">00 segundos • São José dos Campos</div>
+      <div class="frase">
+        <span id="fraseMotivacional">Carregando...</span>
+        <small id="contadorFrase">Próxima frase em -- min</small>
+      </div>
+    </div>
+
+    <div class="painel-ligacoes">
+      <h3>📞 Quantidade de ligações realizadas</h3>
+      <p>Toque em um quadradinho a cada ligação feita. Ele fica preto.</p>
+      <div class="grid-ligacoes" id="gridLigacoes"></div>
+      <div class="total-ligacoes">Total hoje: <b id="totalLigacoes">0</b> / <span id="totalMeta">30</span> ligações</div>
+      <div class="barra-lig"><i id="barraLigacoes"></i></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-cinza" style="padding:10px;font-size:13px" onclick="adicionarQuadradinhos(10)">➕ +10 quadrados</button>
+        <button class="btn btn-cinza" style="padding:10px;font-size:13px" onclick="zerarLigacoes()">🔄 Zerar</button>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center">
+      <h2>📊 Resumo do fim do dia</h2>
+      <div style="font-size:13px;color:#444" id="resumoFinal">No fim do dia você verá aqui:<br><b id="resumoFinalTexto">0 ligações realizadas</b></div>
+      <button class="btn btn-azul" style="margin-top:10px" onclick="finalizarDia()">✅ Finalizar meu dia</button>
+    </div>
+  </div>
+
 </div>
 
-<div id="telaDia" class="escondido">
-  <div class="card">
-    <div class="topo">
-      <div><b id="qtdFeitas">0/1</b><span>Feitas</span></div>
-      <div><b>30 min</b><span>Tempo total</span></div>
-      <div><b id="qtdLeadsTopo">0</b><span>Leads sem interação</span></div>
-    </div>
-    <div class="bar" style="margin-top:10px"><i id="barraDia"></i></div>
-    <div style="display:flex;gap:8px;margin-top:12px">
-      <button class="btn btn-cinza" style="padding:10px" onclick="voltarMenu()">⬅️ Voltar</button>
-      <button class="btn btn-cinza" style="padding:10px" onclick="resetarDia()">🔄 Zerar</button>
-    </div>
-  </div>
-  <div id="listaEtapas"></div>
-  <div id="msgFinal"></div>
-</div>
-
-<!-- MODAL: VOCÊ INTERAGIU? -->
+<!-- MODAL -->
 <div id="modalPergunta" class="modal-fundo escondido">
   <div class="modal">
     <div style="font-size:40px">🏆</div>
     <h3>Você interagiu com esses leads?</h3>
-    <p id="textoModal">Você informou <b>0</b> leads sem interação.<br>Você já interagiu com todos eles?</p>
+    <p id="textoModal"></p>
     <div class="botoes-modal">
       <button class="btn-nao" onclick="responderInteracao(false)">❌ Não</button>
       <button class="btn-sim" onclick="responderInteracao(true)">✅ Sim, interagi</button>
@@ -104,17 +168,14 @@ h2{font-size:16px;margin:0 0 4px}
 </div>
 
 <script>
-var tarefasBase = [
-  {nome:'Atender Leads do dia', tempo:30, emoji:'🏆', label:'Time de 30 minutos'},
-];
-var selecionadas = []; // DESMARCADA
+var tarefasBase = [{nome:'Atender Leads do dia', tempo:30, emoji:'🏆', label:'Time de 30 minutos'}];
+var selecionadas = [];
 var qtdLeads = 0;
 var diaAtual = [], estado = [], indiceAtivo = -1, timer = null, rodando = false;
 
 function formatar(s){ var m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
 
 function renderMenu(){
-  document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long', day:'2-digit', month:'long'});
   var t = tarefasBase[0];
   var sel = selecionadas.includes(0);
   document.getElementById('menuTarefas').innerHTML = `
@@ -133,51 +194,26 @@ function renderMenu(){
   document.getElementById('resumoMenu').textContent = sel ? '1 tarefa • 30 min • '+qtdLeads+' leads' : 'Nenhuma tarefa selecionada';
   if(sel) setTimeout(()=>{ var el=document.getElementById('inputLeads'); if(el) el.focus(); },100);
 }
-function toggleTarefa(i, marcado){
-  if(marcado){ selecionadas=[0]; document.getElementById('msgMenu').innerHTML=''; } else { selecionadas=[]; qtdLeads=0; }
-  renderMenu();
-}
+function toggleTarefa(i, marcado){ if(marcado){ selecionadas=[0]; document.getElementById('msgMenu').innerHTML=''; } else { selecionadas=[]; qtdLeads=0; } renderMenu(); }
 function salvarLeads(v){ qtdLeads = parseInt(v)||0; document.getElementById('resumoMenu').textContent = '1 tarefa • 30 min • '+qtdLeads+' leads sem interação'; }
-
-// QUANDO CONFIRMA A QUANTIDADE -> ABRE A PERGUNTA
-function confirmarQuantidade(e){
-  e.preventDefault(); e.stopPropagation();
-  if(!qtdLeads || qtdLeads<=0){ alert('Informe quantos leads você tinha sem interação primeiro!'); return; }
-  document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads+'</b> leads sem interação.<br>Você já interagiu com todos eles?';
-  document.getElementById('modalPergunta').classList.remove('escondido');
-}
-
+function confirmarQuantidade(e){ if(e) {e.preventDefault(); e.stopPropagation();} if(!qtdLeads){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
 function responderInteracao(interagiu){
   document.getElementById('modalPergunta').classList.add('escondido');
   if(interagiu){
-    // CONFIRMOU -> PODE IR PARA ATIVIDADE 2
     document.getElementById('msgMenu').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads} leads.<br>✅ Agora você pode seguir para a Atividade 2.</div>`;
-    // Já deixa a tarefa como concluída e abre a tela do dia liberada
-    diaAtual = [tarefasBase[0]];
-    estado = [{feito:true, restante:0}];
-    document.getElementById('telaMenu').classList.add('escondido');
-    document.getElementById('telaDia').classList.remove('escondido');
-    document.getElementById('msgFinal').innerHTML = `<div class="card" style="text-align:center"><div class="mensagem ok">🏆 Tarefa 1 concluída!<br>✅ Agora você pode seguir para a Atividade 2.</div><button class="btn btn-azul" style="margin-top:10px" onclick="alert('Atividade 2 ainda será criada juntos! Me fala qual é a próxima.')">➡️ Ir para Atividade 2</button></div>`;
+    diaAtual=[tarefasBase[0]]; estado=[{feito:true, restante:0}];
+    document.getElementById('telaMenu').classList.add('escondido'); document.getElementById('telaDia').classList.remove('escondido');
+    document.getElementById('msgFinal').innerHTML = `<div class="card" style="text-align:center"><div class="mensagem ok">🏆 Tarefa 1 concluída!<br>✅ Agora você pode seguir para a Atividade 2.</div></div>`;
     renderDia();
   } else {
-    // NEGOU -> DEVE CONCLUIR A PRIMEIRA
-    document.getElementById('msgMenu').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads} leads.<br>Você deve concluir a primeira tarefa antes de seguir para a Atividade 2.<br><br>👉 Volte e termine de atender todos os leads!</div>`;
-    // Abre a tela de execução para ele concluir com o timer
-    diaAtual = [tarefasBase[0]];
-    estado = [{feito:false, restante:30*60}];
-    document.getElementById('telaMenu').classList.add('escondido');
-    document.getElementById('telaDia').classList.remove('escondido');
+    document.getElementById('msgMenu').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads} leads.<br>Você deve concluir a primeira tarefa antes de seguir.</div>`;
+    diaAtual=[tarefasBase[0]]; estado=[{feito:false, restante:30*60}];
+    document.getElementById('telaMenu').classList.add('escondido'); document.getElementById('telaDia').classList.remove('escondido');
     document.getElementById('msgFinal').innerHTML = `<div class="card"><div class="mensagem erro">⚠️ Você deve concluir a primeira tarefa.<br>Atenda os ${qtdLeads} leads antes de seguir.</div></div>`;
     renderDia();
   }
 }
-
-function comecarDia(){
-  if(selecionadas.length===0){ alert('Marque a caixinha para começar!'); return; }
-  if(!qtdLeads){ alert('Informe a quantidade e clique em Confirmar quantidade!'); return; }
-  // Se clicar aqui direto, também abre a pergunta
-  confirmarQuantidade({preventDefault:()=>{}, stopPropagation:()=>{}});
-}
+function comecarDia(){ if(selecionadas.length===0){ alert('Marque a caixinha!'); return; } if(!qtdLeads){ alert('Informe a quantidade e clique em Confirmar!'); return; } confirmarQuantidade(null); }
 function renderDia(){
   var e=estado[0], cfg=diaAtual[0];
   var pct = e.feito?100:Math.round((1800-e.restante)/1800*100);
@@ -192,7 +228,7 @@ function renderDia(){
       <div class="botoes">
         <button style="background:#22C55E;color:#fff" onclick="comecar()">${indiceAtivo===0&&rodando?'⏸️ Pausar':'▶️ Começar'}</button>
         <button style="background:#E5E7EB" onclick="resetarEtapa()">🔄 Resetar</button>
-        <button style="background:#FFC700" onclick="confirmarQuantidade({preventDefault:()=>{},stopPropagation:()=>{}})">✅ Já interagi</button>
+        <button style="background:#FFC700" onclick="confirmarQuantidade(null)">✅ Já interagi</button>
       </div>
     </div>
   </div>`;
@@ -201,23 +237,64 @@ function renderDia(){
   document.getElementById('barraDia').style.width = pct+'%';
 }
 function toggleCheck(){ pararTimer(); estado[0].feito=!estado[0].feito; estado[0].restante = estado[0].feito?0:1800; renderDia(); }
-function comecar(){
-  if(indiceAtivo===0&&rodando){ pararTimer(); renderDia(); return; }
-  pararTimer(); indiceAtivo=0;
-  if(estado[0].feito){ estado[0].feito=false; estado[0].restante=1800; }
-  rodando=true;
-  timer=setInterval(()=>{
-    estado[0].restante--;
-    if(estado[0].restante<=0){ clearInterval(timer); rodando=false; estado[0].feito=true; estado[0].restante=0; alert('⏰ Acabou! Você atendeu '+qtdLeads+' leads! 🏆'); }
-    renderDia();
-  },1000);
-  renderDia();
-}
+function comecar(){ if(indiceAtivo===0&&rodando){ pararTimer(); renderDia(); return; } pararTimer(); indiceAtivo=0; if(estado[0].feito){ estado[0].feito=false; estado[0].restante=1800; } rodando=true; timer=setInterval(()=>{ estado[0].restante--; if(estado[0].restante<=0){ clearInterval(timer); rodando=false; estado[0].feito=true; estado[0].restante=0; alert('⏰ Acabou! Você atendeu '+qtdLeads+' leads! 🏆'); } renderDia(); },1000); renderDia(); }
 function pararTimer(){ if(timer) clearInterval(timer); rodando=false; }
 function resetarEtapa(){ pararTimer(); estado[0].feito=false; estado[0].restante=1800; renderDia(); }
 function resetarDia(){ pararTimer(); estado[0].feito=false; estado[0].restante=1800; document.getElementById('msgFinal').innerHTML=''; renderDia(); }
 function voltarMenu(){ pararTimer(); document.getElementById('telaDia').classList.add('escondido'); document.getElementById('telaMenu').classList.remove('escondido'); document.getElementById('msgFinal').innerHTML=''; renderMenu(); }
-renderMenu();
+
+// ===== RELÓGIO + FRASE A CADA 30 MIN =====
+var frases = [
+  "🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!",
+  "🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.",
+  "📞 Cada ligação é uma porta. Quem não liga, não abre.",
+  "💪 Você não precisa ser o melhor, precisa ser o mais constante.",
+  "🎯 Não atenda leads. Encante leads. É assim que se fecha consórcio.",
+  "🚀 Se você fez ontem, hoje você faz melhor. Bora, Lucas!",
+  "⏰ O tempo não espera. Quem age primeiro, vende primeiro.",
+  "👑 Porto Seguro não vende consórcio. Vende sonho. Entregue isso.",
+  "📈 Um lead ignorado hoje é uma venda do concorrente amanhã.",
+  "✨ Comece agora. O lead perfeito não existe, o atendido sim.",
+  "💼 Profissional não espera ter vontade. Ele faz mesmo sem vontade.",
+  "🏁 Não pare no meio. Termine o que você começou.",
+];
+function atualizarRelogio(){
+  var agora = new Date();
+  var dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  document.getElementById('diaSemana').textContent = dias[agora.getDay()];
+  document.getElementById('dataHoje').textContent = agora.toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'});
+  document.getElementById('horaAtual').textContent = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0');
+  document.getElementById('segundosAtual').textContent = String(agora.getSeconds()).padStart(2,'0')+' segundos • São José dos Campos';
+  // Frase muda a cada 30 min: bloco = hora*2 + (min>=30?1:0)
+  var bloco = agora.getHours()*2 + (agora.getMinutes()>=30?1:0);
+  var frase = frases[bloco % frases.length];
+  document.getElementById('fraseMotivacional').textContent = frase;
+  var falta = agora.getMinutes()>=30 ? 60-agora.getMinutes() : 30-agora.getMinutes();
+  document.getElementById('contadorFrase').textContent = 'Próxima frase em '+falta+' min • Troca a cada 30 minutos';
+}
+setInterval(atualizarRelogio, 1000); atualizarRelogio();
+
+// ===== LIGAÇÕES - QUADRADINHOS PRETOS =====
+var totalQuadrados = 30;
+var ligacoes = new Set();
+function renderLigacoes(){
+  var html='';
+  for(var i=0;i<totalQuadrados;i++){
+    var on = ligacoes.has(i);
+    html += `<div class="quadrado ${on?'preenchido':''}" onclick="toggleLigacao(${i})">${on?'✓':(i+1)}</div>`;
+  }
+  document.getElementById('gridLigacoes').innerHTML = html;
+  document.getElementById('totalLigacoes').textContent = ligacoes.size;
+  document.getElementById('totalMeta').textContent = totalQuadrados;
+  document.getElementById('barraLigacoes').style.width = (ligacoes.size/totalQuadrados*100)+'%';
+  document.getElementById('resumoFinalTexto').textContent = ligacoes.size+' ligações realizadas de '+totalQuadrados;
+}
+function toggleLigacao(i){ if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); if(navigator.vibrate) navigator.vibrate(30); renderLigacoes(); }
+function adicionarQuadradinhos(q){ totalQuadrados+=q; renderLigacoes(); }
+function zerarLigacoes(){ if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); }
+function finalizarDia(){ alert('📊 Fim do dia!\n\n🏆 Leads: '+qtdLeads+'\n📞 Ligações realizadas: '+ligacoes.size+' de '+totalQuadrados+'\n\nParabéns, Lucas! 👊'); }
+
+renderMenu(); renderLigacoes();
 </script>
 </body>
 </html>
