@@ -55,6 +55,7 @@ h2{font-size:15px;margin:0 0 4px}
 .mensagem{border-radius:12px;padding:12px;font-weight:700;font-size:13px;text-align:center;margin-top:10px;line-height:1.4}
 .mensagem.ok{background:#DCFCE7;color:#166534}
 .mensagem.erro{background:#FEE2E2;color:#991B1B}
+.mensagem.aviso{background:#FFFBEB;color:#92400E;border:2px dashed #F59E0B}
 .escondido{display:none}
 </style>
 </head>
@@ -64,11 +65,20 @@ h2{font-size:15px;margin:0 0 4px}
 
 <div class="layout">
   <div class="col-esq">
+    <!-- 1ª ATIVIDADE -->
     <div class="card">
       <h2>☑️ 1ª Atividade</h2>
       <div class="sub">Marque na ordem que você vai fazer.</div>
-      <div id="menuTarefas"></div>
-      <div id="msgMenu"></div>
+      <div id="menuTarefa1"></div>
+      <div id="msgMenu1"></div>
+    </div>
+
+    <!-- 2ª ATIVIDADE -->
+    <div class="card">
+      <h2>☑️ 2ª Atividade</h2>
+      <div class="sub">Marque quando for começar.</div>
+      <div id="menuTarefa2"></div>
+      <div id="msgMenu2"></div>
     </div>
   </div>
 
@@ -97,6 +107,7 @@ h2{font-size:15px;margin:0 0 4px}
   </div>
 </div>
 
+<!-- MODAL 1ª ATIVIDADE -->
 <div id="modalPergunta" class="modal-fundo escondido">
   <div class="modal">
     <div style="font-size:40px">🏆</div>
@@ -110,36 +121,62 @@ h2{font-size:15px;margin:0 0 4px}
 </div>
 
 <script>
-var qtdLeads = 0;
-var selecionadas = [];
-function renderMenu(){
-  var sel = selecionadas.includes(0);
-  document.getElementById('menuTarefas').innerHTML = `
-  <label class="menu-item ${sel?'selecionado':''}">
-    <input type="checkbox" ${sel?'checked':''} onchange="toggleTarefa(0, this.checked)">
+var qtdLeads1 = 0, sel1 = false;
+var qtdLeads2 = 0, sel2 = false;
+
+// ===== 1ª ATIVIDADE =====
+function renderMenu1(){
+  document.getElementById('menuTarefa1').innerHTML = `
+  <label class="menu-item ${sel1?'selecionado':''}">
+    <input type="checkbox" ${sel1?'checked':''} onchange="toggle1(this.checked)">
     <span class="emoji">🏆</span>
     <span style="flex:1;min-width:0">
       <span class="nome">Atender Leads do dia</span>
-      ${sel?`<div class="campo-leads" onclick="event.stopPropagation()">
+      ${sel1?`<div class="campo-leads" onclick="event.stopPropagation()">
         <label>🏆 Quantos leads você tinha sem interação?</label>
-        <input type="number" id="inputLeads" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads>0?qtdLeads:''}" oninput="salvarLeads(this.value)">
-        <button class="btn btn-verde" style="margin-top:8px;padding:12px" onclick="confirmarQuantidade(event)">✅ Confirmar quantidade</button>
+        <input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" oninput="qtdLeads1=parseInt(this.value)||0">
+        <button class="btn btn-verde" style="margin-top:8px;padding:12px" onclick="confirmarQtd1(event)">✅ Confirmar quantidade</button>
       </div>`:''}
     </span>
   </label>`;
-  if(sel) setTimeout(()=>{ var el=document.getElementById('inputLeads'); if(el) el.focus(); },100);
+  if(sel1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100);
 }
-function toggleTarefa(i, marcado){ if(marcado){ selecionadas=[0]; document.getElementById('msgMenu').innerHTML=''; } else { selecionadas=[]; qtdLeads=0; } renderMenu(); }
-function salvarLeads(v){ qtdLeads = parseInt(v)||0; }
-function confirmarQuantidade(e){ if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
+function toggle1(m){ sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); }
+function confirmarQtd1(e){ if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
 function responderInteracao(interagiu){
   document.getElementById('modalPergunta').classList.add('escondido');
   if(interagiu){
-    document.getElementById('msgMenu').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads} leads.<br>✅ Agora você pode seguir para a Atividade 2.</div>`;
+    document.getElementById('msgMenu1').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads1} leads.<br>✅ Agora você pode seguir para a Atividade 2.</div>`;
   } else {
-    document.getElementById('msgMenu').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads} leads.<br>Você deve concluir a primeira tarefa antes de seguir para a Atividade 2.</div>`;
+    document.getElementById('msgMenu1').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads1} leads.<br>Você deve concluir a primeira tarefa antes de seguir para a Atividade 2.</div>`;
   }
 }
+
+// ===== 2ª ATIVIDADE =====
+function renderMenu2(){
+  document.getElementById('menuTarefa2').innerHTML = `
+  <label class="menu-item ${sel2?'selecionado':''}">
+    <input type="checkbox" ${sel2?'checked':''} onchange="toggle2(this.checked)">
+    <span class="emoji">🔍</span>
+    <span style="flex:1;min-width:0">
+      <span class="nome">Fazer o filtro dos 3 ultimos dias</span>
+      ${sel2?`<div class="campo-leads" onclick="event.stopPropagation()">
+        <label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label>
+        <input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 25" value="${qtdLeads2>0?qtdLeads2:''}" oninput="qtdLeads2=parseInt(this.value)||0">
+        <button class="btn btn-verde" style="margin-top:8px;padding:12px" onclick="confirmarQtd2(event)">✅ Confirmar quantidade</button>
+      </div>`:''}
+    </span>
+  </label>`;
+  if(sel2) setTimeout(()=>{ var el=document.getElementById('inputLeads2'); if(el) el.focus(); },100);
+}
+function toggle2(m){ sel2=m; if(!m){qtdLeads2=0; document.getElementById('msgMenu2').innerHTML='';} renderMenu2(); }
+function confirmarQtd2(e){
+  if(e){e.preventDefault(); e.stopPropagation();}
+  if(!qtdLeads2){ alert('Informe quantos leads você recebeu nos 3 ultimos dias!'); return; }
+  document.getElementById('msgMenu2').innerHTML = `<div class="mensagem aviso">📞 Você recebeu <b>${qtdLeads2}</b> leads nos 3 ultimos dias.<br><br>👉 Faça contato com os leads e depois conclua esta tarefa.</div>`;
+}
+
+// RELÓGIO + FRASE
 var frases = [
   "🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!",
   "🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.",
@@ -167,6 +204,8 @@ function atualizarRelogio(){
   document.getElementById('contadorFrase').textContent = 'Próxima frase em '+falta+' min • Troca a cada 30 minutos';
 }
 setInterval(atualizarRelogio, 1000); atualizarRelogio();
+
+// LIGAÇÕES 0,7cm
 var totalQuadrados = 30;
 var ligacoes = new Set();
 function renderLigacoes(){
@@ -181,7 +220,8 @@ function renderLigacoes(){
 function toggleLigacao(i){ if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); if(navigator.vibrate) navigator.vibrate(30); renderLigacoes(); }
 function adicionarQuadradinhos(q){ totalQuadrados+=q; renderLigacoes(); }
 function zerarLigacoes(){ if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); }
-renderMenu(); renderLigacoes();
+
+renderMenu1(); renderMenu2(); renderLigacoes();
 </script>
 </body>
 </html>
