@@ -9,7 +9,6 @@
 body{margin:0;background:#0B2A5B;color:#fff;padding:12px;padding-bottom:20px}
 body.em-almoco{pointer-events:none}
 body.em-almoco #barraTopo, body.em-almoco #avisoAlmoco{pointer-events:auto}
-/* TRAVA TOTAL NA PAUSA */
 body.em-pausa .layout, body.em-pausa footer{pointer-events:none;opacity:.55;filter:grayscale(.3)}
 body.em-pausa #telaPausa{pointer-events:auto;opacity:1;filter:none}
 body.em-pausa #barraTopo{pointer-events:none}
@@ -25,7 +24,6 @@ header p{opacity:.85;font-size:12px;margin:4px 0 12px}
 .toggle-modo button{border:0;border-radius:20px;padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer;background:transparent;color:#64748B}
 .toggle-modo button.ativo-trabalho{background:#22C55E;color:#fff}
 .toggle-modo button.ativo-almoco{background:#F59E0B;color:#fff}
-/* AVISO ALMOÇO - HARMONICO COM A PÁGINA */
 #avisoAlmoco{position:fixed;top:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:430px;z-index:9999;background:linear-gradient(135deg,rgba(11,42,91,.96),rgba(30,58,110,.96));backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.22);border-radius:18px;color:#fff;text-align:center;padding:14px 16px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
 #avisoAlmoco .badge-almoco{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.45);color:#FCD34D;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:5px 10px;border-radius:20px;margin-bottom:6px}
 #avisoAlmoco .titulo-almoco{font-weight:900;font-size:15px;line-height:1.3;margin:0}
@@ -66,12 +64,6 @@ h2{font-size:15px;margin:0 0 4px}
 .segundos{font-size:13px;opacity:.7}
 .frase{margin-top:12px;background:rgba(255,255,255,.12);border-radius:12px;padding:12px;font-size:14px;line-height:1.4;font-style:italic}
 .frase small{display:none !important}
-.info-mercado{display:flex;gap:8px;margin-top:12px}
-.info-item{flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 4px;text-align:center}
-.info-item .icone{font-size:16px}
-.info-item .rotulo{font-size:10px;opacity:.8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.info-item .valor{font-size:14px;font-weight:900;margin-top:2px}
-.info-item .atualizacao{font-size:10px;opacity:.6;margin-top:2px}
 .painel-ligacoes{background:#fff;color:#000;border-radius:16px;padding:14px}
 .painel-ligacoes h3{margin:0;text-align:center;font-size:15px}
 .painel-ligacoes p{margin:4px 0 10px;text-align:center;font-size:12px;color:#666}
@@ -150,6 +142,19 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 .campo-pergunta input{width:100%;padding:14px;border:2px solid #0B2A5B;border-radius:12px;font-size:22px;font-weight:900;text-align:center;outline:none;color:#000}
 .barra-progresso{height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:4px}
 .barra-progresso div{height:100%;background:#22C55E;transition:width .3s}
+/* IMPORTANTE - RETORNO */
+.painel-importante{background:#FFF7ED;border:2px solid #F59E0B;border-radius:16px;padding:14px;margin-top:12px;color:#000}
+.painel-importante h3{margin:0;font-size:15px;display:flex;align-items:center;justify-content:space-between}
+.badge-importante{background:#F59E0B;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px}
+.btn-aba-retorno{width:100%;border:2px dashed #F59E0B;background:#FFFBEB;color:#92400E;border-radius:12px;padding:13px;font-weight:900;font-size:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.btn-aba-retorno.aberto{background:#F59E0B;color:#fff}
+.item-retorno{background:#fff;border:2px solid #FDE68A;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.item-retorno.urgente{background:#FEF3C7;border-color:#F59E0B;animation:piscarBorda 1s infinite}
+@keyframes piscarBorda{0%,100%{border-color:#F59E0B}50%{border-color:#EF4444}}
+.item-retorno b{font-size:14px}
+.item-retorno span{font-size:12px;color:#475569;display:block;margin-top:2px}
+.item-retorno .tempo{font-weight:900;color:#92400E}
+.btn-ligar-retorno{border:0;background:#25D366;color:#fff;border-radius:8px;padding:7px 10px;font-weight:800;cursor:pointer;font-size:12px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -225,11 +230,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <div class="hora-grande" id="horaAtual">00:00</div>
       <div class="segundos" id="segundosAtual">00 segundos</div>
       <div class="frase"><span id="fraseMotivacional">Carregando...</span><small id="contadorFrase">Oculto</small></div>
-      <div class="info-mercado">
-        <div class="info-item"><div class="icone">💵</div><div class="rotulo">Dólar</div><div class="valor" id="valorDolar">R$ --</div><div class="atualizacao" id="atualDolar">Carregando...</div></div>
-        <div class="info-item"><div class="icone">💶</div><div class="rotulo">Euro</div><div class="valor" id="valorEuro">R$ --</div><div class="atualizacao" id="atualEuro">Carregando...</div></div>
-        <div class="info-item"><div class="icone">🌡️</div><div class="rotulo">São José dos Campos</div><div class="valor" id="valorTemp">--°C</div><div class="atualizacao" id="atualTemp">Carregando...</div></div>
-      </div>
     </div>
     <div class="painel-ligacoes">
       <h3>📞 Quantidade de ligações realizadas</h3>
@@ -279,6 +279,21 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       </div>
       <div id="listaLeads"></div>
     </div>
+
+    <!-- ÁREA IMPORTANTE - RETORNO -->
+    <div class="painel-importante">
+      <h3>⭐ Importante <span class="badge-importante" id="badgeRetornos">0 retorno(s)</span></h3>
+      <p style="font-size:12px;color:#78716C;margin:6px 0 0">Retorno para cliente - você será avisado 5 min antes.</p>
+      <button id="btnAbaRetorno" class="btn-aba-retorno" onclick="toggleAbaRetorno()">➕ Criar retorno <span id="setaAbaRetorno">▼</span></button>
+      <div id="formRetorno" class="form-lead escondido">
+        <div class="campo-form"><label>👤 Nome:</label><input type="text" id="retornoNome" placeholder="Ex: Carlos Silva" autocomplete="off"></div>
+        <div class="campo-form"><label>📱 Telefone:</label><input type="tel" id="retornoTelefone" placeholder="Ex: (12) 99999-9999" autocomplete="off" oninput="mascaraTelefone(this)"></div>
+        <div class="campo-form"><label>⏰ Horário:</label><input type="time" id="retornoHorario"></div>
+        <button class="btn" style="background:#F59E0B;color:#fff" onclick="adicionarRetorno()">✅ Salvar retorno</button>
+        <div id="msgRetorno"></div>
+      </div>
+      <div id="listaRetornos" style="margin-top:12px"></div>
+    </div>
   </div>
 </div>
 
@@ -312,6 +327,20 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
     <p style="font-size:12px;color:#991B1B;font-weight:800">🔒 As opções da 3ª estão travadas até concluir a pausa.</p>
     <button class="btn btn-cinza" onclick="pularPausa45()">⏩ Pular pausa e continuar</button>
     <div id="msgFimPausa45" class="escondido"><div class="mensagem ok">✅ Pausa finalizada! Bora continuar! 🚀</div></div>
+  </div>
+</div>
+
+<!-- ALARME RETORNO 5 MIN -->
+<div id="modalRetornoAlarme" class="modal-fundo escondido" style="z-index:400">
+  <div class="modal" style="border:3px solid #F59E0B">
+    <div style="font-size:48px">⏰</div>
+    <h3 id="tituloAlarmeRetorno">Está próximo de retornar!</h3>
+    <p id="textoAlarmeRetorno" style="font-size:15px;line-height:1.5">Faltam 5 minutos para retornar para o cliente.</p>
+    <div class="botoes-modal">
+      <button class="btn-cinza" onclick="fecharAlarmeRetorno()">Entendi</button>
+      <button class="btn-sim" onclick="ligarClienteRetorno()">📞 Ligar agora</button>
+    </div>
+    <button class="btn btn-cinza" style="margin-top:8px" onclick="adiarAlarmeRetorno()">⏰ Lembrar em 5 min</button>
   </div>
 </div>
 
@@ -370,15 +399,32 @@ var qtdIndicacoes = 0, qtdLeadsRecebidos = 0;
 var modoAtual = 'trabalho';
 var ligacoes = new Set();
 var leadsPotenciais = [];
-var abaLeadAberta = false;
+var retornos = [];
+var abaLeadAberta = false, abaRetornoAberta = false;
+var retornoAlarmeAtual = -1;
 var totalQuadrados = 30;
 var timer45 = null, timerMini = null, inicioOpcao3 = 0, emPausa45 = false, timerPausa45 = null, segundosPausa45 = 600, pausa45MostradaPara = -1;
 function estaEmQualquerPausa(){ return emPausaCafe || emPausa45; }
 function atualizarBloqueioPausa(){ if(estaEmQualquerPausa()){ document.body.classList.add('em-pausa'); } else { document.body.classList.remove('em-pausa'); } }
 function contarNF(){ return leadsPotenciais.filter(function(l){ return l.ehNF; }).length; }
 function contarNegociacoes(){ return leadsPotenciais.filter(function(l){ return !l.ehNF; }).length; }
-function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, qtdWhats:qtdWhats, qtdIndicacoes:qtdIndicacoes, qtdLeadsRecebidos:qtdLeadsRecebidos, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
-function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; qtdWhats=d.qtdWhats||0; qtdIndicacoes=d.qtdIndicacoes||0; qtdLeadsRecebidos=d.qtdLeadsRecebidos||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); atualizarBloqueioPausa(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
+function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, qtdWhats:qtdWhats, qtdIndicacoes:qtdIndicacoes, qtdLeadsRecebidos:qtdLeadsRecebidos, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, retornos:retornos, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
+function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; qtdWhats=d.qtdWhats||0; qtdIndicacoes=d.qtdIndicacoes||0; qtdLeadsRecebidos=d.qtdLeadsRecebidos||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; retornos=d.retornos||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); atualizarBloqueioPausa(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
+// RETORNOS - IMPORTANTE
+function toggleAbaRetorno(){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } abaRetornoAberta = !abaRetornoAberta; document.getElementById('formRetorno').classList.toggle('escondido', !abaRetornoAberta); document.getElementById('btnAbaRetorno').classList.toggle('aberto', abaRetornoAberta); document.getElementById('setaAbaRetorno').textContent = abaRetornoAberta ? '▲' : '▼'; if(abaRetornoAberta) setTimeout(function(){ document.getElementById('retornoNome').focus(); },100); }
+function adicionarRetorno(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; var nome=document.getElementById('retornoNome').value.trim(); var tel=document.getElementById('retornoTelefone').value.trim(); var hor=document.getElementById('retornoHorario').value; if(!nome){ alert('Informe o Nome!'); document.getElementById('retornoNome').focus(); return; } if(!tel){ alert('Informe o Telefone!'); document.getElementById('retornoTelefone').focus(); return; } if(!hor){ alert('Informe o Horário!'); document.getElementById('retornoHorario').focus(); return; } retornos.push({nome:nome, telefone:tel, horario:hor, avisado5:false, avisado0:false}); retornos.sort(function(a,b){ return a.horario.localeCompare(b.horario); }); document.getElementById('retornoNome').value=''; document.getElementById('retornoTelefone').value=''; document.getElementById('retornoHorario').value=''; document.getElementById('msgRetorno').innerHTML='<div class="mensagem ok">✅ Retorno de <b>'+nome+'</b> às <b>'+hor+'</b> salvo! Você será avisado 5 min antes.</div>'; document.getElementById('retornoNome').focus(); renderRetornos(); salvarEstado(); }
+function removerRetorno(idx){ if(!confirm('Remover esse retorno?')) return; retornos.splice(idx,1); renderRetornos(); salvarEstado(); }
+function concluirRetorno(idx){ retornos.splice(idx,1); renderRetornos(); salvarEstado(); }
+function minutosParaRetorno(horario){ var agora=new Date(); var partes=horario.split(':'); var alvo=new Date(); alvo.setHours(parseInt(partes[0]), parseInt(partes[1]), 0, 0); var diff=Math.round((alvo - agora)/60000); return diff; }
+function formatarTempoRetorno(diff){ if(diff<0) return '⚠️ Passou da hora!'; if(diff===0) return '🔴 AGORA!'; if(diff===1) return '⏰ Falta 1 min'; return '⏰ Falta '+diff+' min'; }
+function renderRetornos(){ var el=document.getElementById('listaRetornos'); document.getElementById('badgeRetornos').textContent = retornos.length+' retorno(s)'; if(retornos.length===0){ el.innerHTML='<p style="font-size:12px;color:#78716C;text-align:center;margin:0">Nenhum retorno agendado.</p>'; return; } var html=''; retornos.forEach(function(r,i){ var diff=minutosParaRetorno(r.horario); var urgente = diff<=5 && diff>=0; html+='<div class="item-retorno '+(urgente?'urgente':'')+'"><div><b>⏰ '+r.nome+'</b><span>📱 '+r.telefone+'</span><span>🕐 Horário: <b>'+r.horario+'</b></span><span class="tempo">'+formatarTempoRetorno(diff)+'</span></div><div style="display:flex;flex-direction:column;gap:4px"><button class="btn-ligar-retorno" onclick="ligarRetorno('+i+')">📞 Ligar</button><button class="btn-remover-lead" onclick="concluirRetorno('+i+')">✅ Feito</button><button class="btn-remover-lead" onclick="removerRetorno('+i+')">✕</button></div></div>'; }); el.innerHTML=html; }
+function ligarRetorno(idx){ var r=retornos[idx]; if(!r) return; var num=r.telefone.replace(/\D/g,''); if(num) window.open('https://wa.me/55'+num,'_blank'); else alert('Telefone inválido'); }
+function tocarAlarme(){ try{ if(navigator.vibrate) navigator.vibrate([300,200,300,200,300]); var ctx=new (window.AudioContext||window.webkitAudioContext)(); for(var i=0;i<3;i++){ (function(k){ setTimeout(function(){ var o=ctx.createOscillator(); var g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value=880; o.type='sine'; g.gain.setValueAtTime(0.3, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.6); o.start(); o.stop(ctx.currentTime+0.6); }, k*700); })(i); } }catch(e){} }
+function verificarRetornos(){ retornos.forEach(function(r,idx){ var diff=minutosParaRetorno(r.horario); if(diff===5 && !r.avisado5){ r.avisado5=true; retornoAlarmeAtual=idx; tocarAlarme(); document.getElementById('tituloAlarmeRetorno').textContent='⏰ Está próximo de retornar!'; document.getElementById('textoAlarmeRetorno').innerHTML='Faltam <b>5 minutos</b> para retornar para <b>'+r.nome+'</b> às <b>'+r.horario+'</b>.<br>📱 '+r.telefone+'<br><br>Se prepara para ligar!'; document.getElementById('modalRetornoAlarme').classList.remove('escondido'); salvarEstado(); renderRetornos(); } else if(diff<=0 && diff>=-1 && !r.avisado0){ r.avisado0=true; retornoAlarmeAtual=idx; tocarAlarme(); document.getElementById('tituloAlarmeRetorno').textContent='🔴 Hora de retornar!'; document.getElementById('textoAlarmeRetorno').innerHTML='Chegou a hora de retornar para <b>'+r.nome+'</b>!<br>📱 '+r.telefone+'<br>🕐 Horário: <b>'+r.horario+'</b>'; document.getElementById('modalRetornoAlarme').classList.remove('escondido'); salvarEstado(); renderRetornos(); } }); }
+function fecharAlarmeRetorno(){ document.getElementById('modalRetornoAlarme').classList.add('escondido'); }
+function ligarClienteRetorno(){ if(retornoAlarmeAtual>=0 && retornos[retornoAlarmeAtual]){ ligarRetorno(retornoAlarmeAtual); } fecharAlarmeRetorno(); }
+function adiarAlarmeRetorno(){ fecharAlarmeRetorno(); }
+setInterval(function(){ verificarRetornos(); renderRetornos(); }, 30000);
 function abrirConcluirDia(){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Conclua a pausa primeiro.'); return; } document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); document.getElementById('etapaPerguntasConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('textoConcluirDia').innerHTML = 'Deseja enviar o relatório?<br><br><small style="font-size:12px;color:#CBD5E1">Ligações: '+ligacoes.size+' | Whats: '+(qtdWhats||0)+' | Negociações: '+contarNegociacoes()+' | NF: '+contarNF()+'</small>'; document.getElementById('modalConcluirDia').classList.remove('escondido'); }
 function fecharModalConcluir(){ document.getElementById('modalConcluirDia').classList.add('escondido'); }
 function voltarPerguntaConcluir(){ document.getElementById('etapaPerguntasConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); }
@@ -596,14 +642,12 @@ function renderLeads(){
 var frases = ["🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!","🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.","📞 Cada ligação é uma porta. Quem não liga, não abre.","💪 Você não precisa ser o melhor, precisa ser o mais constante.","🎯 Não atenda leads. Encante leads. É assim que se fecha consórcio.","🚀 Se você fez ontem, hoje você faz melhor. Bora, Lucas!","⏰ O tempo não espera. Quem age primeiro, vende primeiro.","👑 Porto Seguro não vende consórcio. Vende sonho. Entregue isso.","📈 Um lead ignorado hoje é uma venda do concorrente amanhã.","✨ Comece agora. O lead perfeito não existe, o atendido sim.","💼 Profissional não espera ter vontade. Ele faz mesmo sem vontade.","🏁 Não pare no meio. Termine o que você começou.","🎯 Foco total! Mais 10 minutos de ação valem mais que 1 hora de enrolação.","💎 Quem atende com verdade, vende sem precisar forçar.","🚀 Bora ligar! Seu próximo sim pode estar na próxima ligação.","🔥 Não desista no meio. O resultado vem pra quem continua.","📞 Ligação feita é chance criada. Não deixe pra depois.","⭐ Você é o melhor vendedor da sua história. Prove hoje!"];
 function atualizarRelogio(){ var agora = new Date(); var dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado']; document.getElementById('diaSemana').textContent = dias[agora.getDay()]; document.getElementById('dataHoje').textContent = agora.toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'}); document.getElementById('horaAtual').textContent = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0'); document.getElementById('segundosAtual').textContent = String(agora.getSeconds()).padStart(2,'0')+' segundos • São José dos Campos'; var bloco = agora.getHours()*6 + Math.floor(agora.getMinutes()/10); document.getElementById('fraseMotivacional').textContent = frases[bloco % frases.length]; }
 setInterval(atualizarRelogio, 1000); atualizarRelogio();
-async function atualizarMercado(){ try{ var r = await fetch('https://open.er-api.com/v6/latest/USD'); var d = await r.json(); if(d && d.rates && d.rates.BRL){ document.getElementById('valorDolar').textContent = 'R$ ' + d.rates.BRL.toFixed(2).replace('.',','); document.getElementById('atualDolar').textContent = 'Atualizado agora'; } var r2 = await fetch('https://open.er-api.com/v6/latest/EUR'); var d2 = await r2.json(); if(d2 && d2.rates && d2.rates.BRL){ document.getElementById('valorEuro').textContent = 'R$ ' + d2.rates.BRL.toFixed(2).replace('.',','); document.getElementById('atualEuro').textContent = 'Atualizado agora'; } }catch(e){ document.getElementById('atualDolar').textContent = 'Sem conexão'; document.getElementById('atualEuro').textContent = 'Sem conexão'; } try{ var rt = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-23.18&longitude=-45.88&current=temperature_2m&timezone=America%2FSao_Paulo'); var dt = await rt.json(); if(dt && dt.current){ document.getElementById('valorTemp').textContent = Math.round(dt.current.temperature_2m) + '°C'; document.getElementById('atualTemp').textContent = 'Agora em SJC'; } }catch(e){ document.getElementById('atualTemp').textContent = 'Sem conexão'; } }
-atualizarMercado(); setInterval(atualizarMercado, 600000);
 function renderLigacoes(){ var html=''; for(var i=0;i<totalQuadrados;i++){ var on = ligacoes.has(i); html += `<div class="quadrado ${on?'preenchido':''}" onclick="toggleLigacao(${i})">${on?'✓':''}</div>`; } document.getElementById('gridLigacoes').innerHTML = html; document.getElementById('totalLigacoes').textContent = ligacoes.size; }
 function toggleLigacao(i){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada.'); return; } if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); if(navigator.vibrate) navigator.vibrate(30); renderLigacoes(); salvarEstado(); atualizarResumo(); }
 function adicionarQuadradinhos(q){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; totalQuadrados+=q; renderLigacoes(); salvarEstado(); }
 function zerarLigacoes(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); salvarEstado(); }
 carregarEstado();
-renderMenu1(); renderMenu2(); renderMenu3(); renderLigacoes(); renderLeads(); atualizarResumo(); sincronizarWhats(); atualizarProgressoLead();
+renderMenu1(); renderMenu2(); renderMenu3(); renderLigacoes(); renderLeads(); renderRetornos(); atualizarResumo(); sincronizarWhats(); atualizarProgressoLead();
 setInterval(salvarEstado, 5000);
 </script>
 </body>
