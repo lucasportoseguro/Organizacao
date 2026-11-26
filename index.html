@@ -88,6 +88,7 @@ h2{font-size:15px;margin:0 0 4px}
 .mensagem.destaque{background:#0B2A5B;color:#fff;font-size:15px;line-height:1.5}
 .badge-travado{display:inline-block;background:#22C55E;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;margin-left:6px}
 .badge-bloqueado{display:inline-block;background:#94A3B8;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;margin-left:6px}
+.badge-antigo{display:inline-block;background:#E5E7EB;color:#475569;font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;margin-left:6px}
 .escondido{display:none}
 .card-pausa{background:#1F2937;color:#fff;border-radius:20px;overflow:hidden;padding:0;border:3px solid #F59E0B}
 .card-pausa img{width:100%;height:220px;object-fit:cover;display:block}
@@ -117,6 +118,7 @@ h2{font-size:15px;margin:0 0 4px}
 .campo-form textarea{resize:vertical;min-height:70px}
 .item-lead{background:#F0FDF4;border:2px solid #22C55E;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .item-lead.nf{background:#FFF7ED;border-color:#F59E0B}
+.item-lead.antigo{opacity:.75;border-style:dashed}
 .item-lead b{font-size:14px}
 .item-lead span{font-size:12px;color:#475569;display:block;margin-top:2px}
 .btn-remover-lead{border:0;background:#FEE2E2;color:#991B1B;border-radius:8px;padding:6px 10px;font-weight:800;cursor:pointer;font-size:12px}
@@ -142,7 +144,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 .campo-pergunta input{width:100%;padding:14px;border:2px solid #0B2A5B;border-radius:12px;font-size:22px;font-weight:900;text-align:center;outline:none;color:#000}
 .barra-progresso{height:8px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:4px}
 .barra-progresso div{height:100%;background:#22C55E;transition:width .3s}
-/* IMPORTANTE - RETORNO */
 .painel-importante{background:#FFF7ED;border:2px solid #F59E0B;border-radius:16px;padding:14px;margin-top:12px;color:#000}
 .painel-importante h3{margin:0;font-size:15px;display:flex;align-items:center;justify-content:space-between}
 .badge-importante{background:#F59E0B;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px}
@@ -280,7 +281,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <div id="listaLeads"></div>
     </div>
 
-    <!-- ÁREA IMPORTANTE - RETORNO -->
     <div class="painel-importante">
       <h3>⭐ Importante <span class="badge-importante" id="badgeRetornos">0 retorno(s)</span></h3>
       <p style="font-size:12px;color:#78716C;margin:6px 0 0">Retorno para cliente - você será avisado 5 min antes.</p>
@@ -330,7 +330,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
   </div>
 </div>
 
-<!-- ALARME RETORNO 5 MIN -->
 <div id="modalRetornoAlarme" class="modal-fundo escondido" style="z-index:400">
   <div class="modal" style="border:3px solid #F59E0B">
     <div style="font-size:48px">⏰</div>
@@ -370,7 +369,7 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
           <label>2️⃣ Quantos leads recebeu hoje?</label>
           <input type="number" id="inputLeadsRecebidos" inputmode="numeric" placeholder="Ex: 15" min="0" value="">
         </div>
-        <p style="font-size:12px;color:#64748B;margin:10px 0 0;text-align:center">🚀 Numero de NF é automático: conta quantos leads estão 100% preenchidos.</p>
+        <p style="font-size:12px;color:#64748B;margin:10px 0 0;text-align:center">🚀 Numero de NF é automático: conta só os leads criados hoje.</p>
       </div>
       <button class="btn btn-verde" style="margin-top:12px" onclick="confirmarPerguntasConcluir()">✅ Concluir e ver relatório</button>
       <button class="btn btn-cinza" style="margin-top:8px" onclick="voltarPerguntaConcluir()">⬅️ Voltar</button>
@@ -389,6 +388,7 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 
 <script>
 var CHAVE = 'lucasFortesDia_v3';
+var CHAVE_PERSISTENTE = 'lucasFortesPersistente_v1';
 var qtdLeads1 = 0, sel1 = false, travado1 = false;
 var qtdLeads2 = 0, sel2 = false, travado2 = false, iniciado2 = false;
 var opcao3Sel = -1, travado3 = false, escolhas3 = [], qtdC2s = 0, concluidas3 = [false,false,false];
@@ -404,28 +404,36 @@ var abaLeadAberta = false, abaRetornoAberta = false;
 var retornoAlarmeAtual = -1;
 var totalQuadrados = 30;
 var timer45 = null, timerMini = null, inicioOpcao3 = 0, emPausa45 = false, timerPausa45 = null, segundosPausa45 = 600, pausa45MostradaPara = -1;
+function dataHojeISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function ehHoje(data){ return data===dataHojeISO(); }
+function formatarDataCurta(iso){ if(!iso) return ''; if(iso===dataHojeISO()) return 'Hoje'; var p=iso.split('-'); return p[2]+'/'+p[1]; }
 function estaEmQualquerPausa(){ return emPausaCafe || emPausa45; }
 function atualizarBloqueioPausa(){ if(estaEmQualquerPausa()){ document.body.classList.add('em-pausa'); } else { document.body.classList.remove('em-pausa'); } }
-function contarNF(){ return leadsPotenciais.filter(function(l){ return l.ehNF; }).length; }
-function contarNegociacoes(){ return leadsPotenciais.filter(function(l){ return !l.ehNF; }).length; }
-function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, qtdWhats:qtdWhats, qtdIndicacoes:qtdIndicacoes, qtdLeadsRecebidos:qtdLeadsRecebidos, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, retornos:retornos, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
-function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; qtdWhats=d.qtdWhats||0; qtdIndicacoes=d.qtdIndicacoes||0; qtdLeadsRecebidos=d.qtdLeadsRecebidos||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; retornos=d.retornos||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); atualizarBloqueioPausa(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
-// RETORNOS - IMPORTANTE
+// CONTAGEM SÓ DE HOJE PARA O RELATÓRIO
+function leadsHoje(){ return leadsPotenciais.filter(function(l){ return !l.dataCriacao || ehHoje(l.dataCriacao); }); }
+function contarNF(){ return leadsHoje().filter(function(l){ return l.ehNF; }).length; }
+function contarNegociacoes(){ return leadsHoje().filter(function(l){ return !l.ehNF; }).length; }
+function contarNFTotal(){ return leadsPotenciais.filter(function(l){ return l.ehNF; }).length; }
+function contarNegTotal(){ return leadsPotenciais.filter(function(l){ return !l.ehNF; }).length; }
+function salvarPersistente(){ try{ localStorage.setItem(CHAVE_PERSISTENTE, JSON.stringify({leadsPotenciais:leadsPotenciais, retornos:retornos})); }catch(e){} }
+function carregarPersistente(){ try{ var raw=localStorage.getItem(CHAVE_PERSISTENTE); if(!raw) return; var d=JSON.parse(raw); if(d.leadsPotenciais) leadsPotenciais=d.leadsPotenciais; if(d.retornos) retornos=d.retornos; }catch(e){} }
+function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, qtdWhats:qtdWhats, qtdIndicacoes:qtdIndicacoes, qtdLeadsRecebidos:qtdLeadsRecebidos, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); salvarPersistente(); }catch(e){} }
+function carregarEstado(){ try{ carregarPersistente(); var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; qtdWhats=d.qtdWhats||0; qtdIndicacoes=d.qtdIndicacoes||0; qtdLeadsRecebidos=d.qtdLeadsRecebidos||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(d.leadsPotenciais) leadsPotenciais=d.leadsPotenciais; if(d.retornos) retornos=d.retornos; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); atualizarBloqueioPausa(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
 function toggleAbaRetorno(){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } abaRetornoAberta = !abaRetornoAberta; document.getElementById('formRetorno').classList.toggle('escondido', !abaRetornoAberta); document.getElementById('btnAbaRetorno').classList.toggle('aberto', abaRetornoAberta); document.getElementById('setaAbaRetorno').textContent = abaRetornoAberta ? '▲' : '▼'; if(abaRetornoAberta) setTimeout(function(){ document.getElementById('retornoNome').focus(); },100); }
-function adicionarRetorno(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; var nome=document.getElementById('retornoNome').value.trim(); var tel=document.getElementById('retornoTelefone').value.trim(); var hor=document.getElementById('retornoHorario').value; if(!nome){ alert('Informe o Nome!'); document.getElementById('retornoNome').focus(); return; } if(!tel){ alert('Informe o Telefone!'); document.getElementById('retornoTelefone').focus(); return; } if(!hor){ alert('Informe o Horário!'); document.getElementById('retornoHorario').focus(); return; } retornos.push({nome:nome, telefone:tel, horario:hor, avisado5:false, avisado0:false}); retornos.sort(function(a,b){ return a.horario.localeCompare(b.horario); }); document.getElementById('retornoNome').value=''; document.getElementById('retornoTelefone').value=''; document.getElementById('retornoHorario').value=''; document.getElementById('msgRetorno').innerHTML='<div class="mensagem ok">✅ Retorno de <b>'+nome+'</b> às <b>'+hor+'</b> salvo! Você será avisado 5 min antes.</div>'; document.getElementById('retornoNome').focus(); renderRetornos(); salvarEstado(); }
-function removerRetorno(idx){ if(!confirm('Remover esse retorno?')) return; retornos.splice(idx,1); renderRetornos(); salvarEstado(); }
+function adicionarRetorno(){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; var nome=document.getElementById('retornoNome').value.trim(); var tel=document.getElementById('retornoTelefone').value.trim(); var hor=document.getElementById('retornoHorario').value; if(!nome){ alert('Informe o Nome!'); document.getElementById('retornoNome').focus(); return; } if(!tel){ alert('Informe o Telefone!'); document.getElementById('retornoTelefone').focus(); return; } if(!hor){ alert('Informe o Horário!'); document.getElementById('retornoHorario').focus(); return; } retornos.push({nome:nome, telefone:tel, horario:hor, dataCriacao:dataHojeISO(), avisado5:false, avisado0:false}); retornos.sort(function(a,b){ return a.horario.localeCompare(b.horario); }); document.getElementById('retornoNome').value=''; document.getElementById('retornoTelefone').value=''; document.getElementById('retornoHorario').value=''; document.getElementById('msgRetorno').innerHTML='<div class="mensagem ok">✅ Retorno de <b>'+nome+'</b> às <b>'+hor+'</b> salvo! Você será avisado 5 min antes.</div>'; document.getElementById('retornoNome').focus(); renderRetornos(); salvarEstado(); }
+function removerRetorno(idx){ if(!confirm('Remover esse retorno? Só você pode apagar com o X.')) return; retornos.splice(idx,1); renderRetornos(); salvarEstado(); }
 function concluirRetorno(idx){ retornos.splice(idx,1); renderRetornos(); salvarEstado(); }
 function minutosParaRetorno(horario){ var agora=new Date(); var partes=horario.split(':'); var alvo=new Date(); alvo.setHours(parseInt(partes[0]), parseInt(partes[1]), 0, 0); var diff=Math.round((alvo - agora)/60000); return diff; }
 function formatarTempoRetorno(diff){ if(diff<0) return '⚠️ Passou da hora!'; if(diff===0) return '🔴 AGORA!'; if(diff===1) return '⏰ Falta 1 min'; return '⏰ Falta '+diff+' min'; }
-function renderRetornos(){ var el=document.getElementById('listaRetornos'); document.getElementById('badgeRetornos').textContent = retornos.length+' retorno(s)'; if(retornos.length===0){ el.innerHTML='<p style="font-size:12px;color:#78716C;text-align:center;margin:0">Nenhum retorno agendado.</p>'; return; } var html=''; retornos.forEach(function(r,i){ var diff=minutosParaRetorno(r.horario); var urgente = diff<=5 && diff>=0; html+='<div class="item-retorno '+(urgente?'urgente':'')+'"><div><b>⏰ '+r.nome+'</b><span>📱 '+r.telefone+'</span><span>🕐 Horário: <b>'+r.horario+'</b></span><span class="tempo">'+formatarTempoRetorno(diff)+'</span></div><div style="display:flex;flex-direction:column;gap:4px"><button class="btn-ligar-retorno" onclick="ligarRetorno('+i+')">📞 Ligar</button><button class="btn-remover-lead" onclick="concluirRetorno('+i+')">✅ Feito</button><button class="btn-remover-lead" onclick="removerRetorno('+i+')">✕</button></div></div>'; }); el.innerHTML=html; }
+function renderRetornos(){ var el=document.getElementById('listaRetornos'); document.getElementById('badgeRetornos').textContent = retornos.length+' retorno(s)'; if(retornos.length===0){ el.innerHTML='<p style="font-size:12px;color:#78716C;text-align:center;margin:0">Nenhum retorno agendado.</p>'; return; } var html=''; retornos.forEach(function(r,i){ var diff=minutosParaRetorno(r.horario); var ehDeHoje = !r.dataCriacao || ehHoje(r.dataCriacao); var urgente = diff<=5 && diff>=0 && ehDeHoje; html+='<div class="item-retorno '+(urgente?'urgente':'')+'"><div><b>⏰ '+r.nome+'</b>'+(!ehDeHoje?'<span class="badge-antigo">📅 '+formatarDataCurta(r.dataCriacao)+'</span>':'')+'<span>📱 '+r.telefone+'</span><span>🕐 Horário: <b>'+r.horario+'</b></span><span class="tempo">'+(ehDeHoje?formatarTempoRetorno(diff):'De outro dia - só apaga com X')+'</span></div><div style="display:flex;flex-direction:column;gap:4px"><button class="btn-ligar-retorno" onclick="ligarRetorno('+i+')">📞 Ligar</button><button class="btn-remover-lead" onclick="concluirRetorno('+i+')">✅ Feito</button><button class="btn-remover-lead" onclick="removerRetorno('+i+')">✕</button></div></div>'; }); el.innerHTML=html; }
 function ligarRetorno(idx){ var r=retornos[idx]; if(!r) return; var num=r.telefone.replace(/\D/g,''); if(num) window.open('https://wa.me/55'+num,'_blank'); else alert('Telefone inválido'); }
 function tocarAlarme(){ try{ if(navigator.vibrate) navigator.vibrate([300,200,300,200,300]); var ctx=new (window.AudioContext||window.webkitAudioContext)(); for(var i=0;i<3;i++){ (function(k){ setTimeout(function(){ var o=ctx.createOscillator(); var g=ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value=880; o.type='sine'; g.gain.setValueAtTime(0.3, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.6); o.start(); o.stop(ctx.currentTime+0.6); }, k*700); })(i); } }catch(e){} }
-function verificarRetornos(){ retornos.forEach(function(r,idx){ var diff=minutosParaRetorno(r.horario); if(diff===5 && !r.avisado5){ r.avisado5=true; retornoAlarmeAtual=idx; tocarAlarme(); document.getElementById('tituloAlarmeRetorno').textContent='⏰ Está próximo de retornar!'; document.getElementById('textoAlarmeRetorno').innerHTML='Faltam <b>5 minutos</b> para retornar para <b>'+r.nome+'</b> às <b>'+r.horario+'</b>.<br>📱 '+r.telefone+'<br><br>Se prepara para ligar!'; document.getElementById('modalRetornoAlarme').classList.remove('escondido'); salvarEstado(); renderRetornos(); } else if(diff<=0 && diff>=-1 && !r.avisado0){ r.avisado0=true; retornoAlarmeAtual=idx; tocarAlarme(); document.getElementById('tituloAlarmeRetorno').textContent='🔴 Hora de retornar!'; document.getElementById('textoAlarmeRetorno').innerHTML='Chegou a hora de retornar para <b>'+r.nome+'</b>!<br>📱 '+r.telefone+'<br>🕐 Horário: <b>'+r.horario+'</b>'; document.getElementById('modalRetornoAlarme').classList.remove('escondido'); salvarEstado(); renderRetornos(); } }); }
+function verificarRetornos(){ retornos.forEach(function(r,idx){ if(r.dataCriacao && !ehHoje(r.dataCriacao)) return; var diff=minutosParaRetorno(r.horario); if(diff===5 && !r.avisado5){ r.avisado5=true; retornoAlarmeAtual=idx; tocarAlarme(); document.getElementById('tituloAlarmeRetorno').textContent='⏰ Está próximo de retornar!'; document.getElementById('textoAlarmeRetorno').innerHTML='Faltam <b>5 minutos</b> para retornar para <b>'+r.nome+'</b> às <b>'+r.horario+'</b>.<br>📱 '+r.telefone+'<br><br>Se prepara para ligar!'; document.getElementById('modalRetornoAlarme').classList.remove('escondido'); salvarEstado(); renderRetornos(); } else if(diff<=0 && diff>=-1 && !r.avisado0){ r.avisado0=true; retornoAlarmeAtual=idx; tocarAlarme(); document.getElementById('tituloAlarmeRetorno').textContent='🔴 Hora de retornar!'; document.getElementById('textoAlarmeRetorno').innerHTML='Chegou a hora de retornar para <b>'+r.nome+'</b>!<br>📱 '+r.telefone+'<br>🕐 Horário: <b>'+r.horario+'</b>'; document.getElementById('modalRetornoAlarme').classList.remove('escondido'); salvarEstado(); renderRetornos(); } }); }
 function fecharAlarmeRetorno(){ document.getElementById('modalRetornoAlarme').classList.add('escondido'); }
 function ligarClienteRetorno(){ if(retornoAlarmeAtual>=0 && retornos[retornoAlarmeAtual]){ ligarRetorno(retornoAlarmeAtual); } fecharAlarmeRetorno(); }
 function adiarAlarmeRetorno(){ fecharAlarmeRetorno(); }
 setInterval(function(){ verificarRetornos(); renderRetornos(); }, 30000);
-function abrirConcluirDia(){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Conclua a pausa primeiro.'); return; } document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); document.getElementById('etapaPerguntasConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('textoConcluirDia').innerHTML = 'Deseja enviar o relatório?<br><br><small style="font-size:12px;color:#CBD5E1">Ligações: '+ligacoes.size+' | Whats: '+(qtdWhats||0)+' | Negociações: '+contarNegociacoes()+' | NF: '+contarNF()+'</small>'; document.getElementById('modalConcluirDia').classList.remove('escondido'); }
+function abrirConcluirDia(){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Conclua a pausa primeiro.'); return; } document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); document.getElementById('etapaPerguntasConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('textoConcluirDia').innerHTML = 'Deseja enviar o relatório?<br><br><small style="font-size:12px;color:#CBD5E1">Ligações: '+ligacoes.size+' | Whats: '+(qtdWhats||0)+' | Negociações hoje: '+contarNegociacoes()+' | NF hoje: '+contarNF()+'</small>'; document.getElementById('modalConcluirDia').classList.remove('escondido'); }
 function fecharModalConcluir(){ document.getElementById('modalConcluirDia').classList.add('escondido'); }
 function voltarPerguntaConcluir(){ document.getElementById('etapaPerguntasConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); }
 function voltarParaPerguntas(){ document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('etapaPerguntasConcluir').classList.remove('escondido'); }
@@ -435,9 +443,9 @@ function mostrarFeedbackConcluir(){ mostrarPerguntasConcluir(); }
 function mostrarFeedback(){ abrirConcluirDia(); }
 function enviarWhatsAppConcluir(){ var texto = gerarTextoRelatorio(); var url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); window.open(url,'_blank'); }
 function copiarRelatorioConcluir(){ var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ alert('✅ Relatório copiado!'); }); } else { alert(texto); } }
-function concluirDiaSemRelatorio(){ if(!confirm('🏁 Concluir seu dia e zerar tudo?\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; zerarTudo(); }
-function confirmarZerarTudo(){ if(!confirm('🏁 Concluir e zerar tudo?\n\nVocê já enviou / copiou o relatório? Isso vai ZERAR tudo.')) return; zerarTudo(); }
-function zerarTudo(){ localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v2'); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
+function concluirDiaSemRelatorio(){ if(!confirm('🏁 Concluir seu dia e zerar tudo?\n\nIsso vai ZERAR o dia, mas MANTER leads, NF e retornos. Tem certeza?')) return; zerarTudo(); }
+function confirmarZerarTudo(){ if(!confirm('🏁 Concluir e zerar tudo?\n\nVocê já enviou / copiou o relatório? Isso vai ZERAR o dia, mas MANTER leads, NF e retornos.')) return; zerarTudo(); }
+function zerarTudo(){ salvarPersistente(); localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v2'); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
 function concluirDia(){ abrirConcluirDia(); }
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
 function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
@@ -547,8 +555,8 @@ function gerarTextoRelatorio(){
   var linhas = [];
   linhas.push('Ligações feitas: ' + ligacoes.size);
   linhas.push('Whatsapp enviados: ' + (qtdWhats||0));
-  var negs = leadsPotenciais.filter(function(l){ return !l.ehNF; });
-  var nfs = leadsPotenciais.filter(function(l){ return l.ehNF; });
+  var negs = leadsHoje().filter(function(l){ return !l.ehNF; });
+  var nfs = leadsHoje().filter(function(l){ return l.ehNF; });
   linhas.push('Numero de negociações: ' + negs.length);
   negs.forEach(function(l){ linhas.push(' • ' + l.nome + ' - ' + (l.quantoQuer || l.valor || '—')); });
   linhas.push('Numero de NF: ' + nfs.length);
@@ -612,7 +620,8 @@ function adicionarLead(){
     quantoPaga: document.getElementById('leadQuantoPaga').value.trim(),
     investimento: document.getElementById('leadInvestimento').value.trim(),
     ehNF: calcularProgressoLead().completo,
-    valor: document.getElementById('leadQuantoQuer').value.trim() || '—'
+    valor: document.getElementById('leadQuantoQuer').value.trim() || '—',
+    dataCriacao: dataHojeISO()
   };
   leadsPotenciais.push(novo);
   var msg = novo.ehNF ? '🚀 Lead <b>'+nome+'</b> adicionado como <b>NF - Negócio Fechado!</b>' : '✅ Lead <b>'+nome+'</b> adicionado como <b>Lead potencial</b>! Falta preencher para virar NF.';
@@ -624,17 +633,20 @@ function adicionarLead(){
   document.getElementById('leadNome').focus();
   renderLeads(); salvarEstado(); atualizarResumo();
 }
-function removerLead(idx){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } leadsPotenciais.splice(idx,1); renderLeads(); salvarEstado(); atualizarResumo(); }
+function removerLead(idx){ if(estaEmQualquerPausa()){ alert('☕ Você está em pausa!'); return; } if(!confirm('Apagar esse lead? Só você pode apagar com o X.')) return; leadsPotenciais.splice(idx,1); renderLeads(); salvarEstado(); atualizarResumo(); }
 function renderLeads(){
   var el = document.getElementById('listaLeads');
   if(leadsPotenciais.length===0){ el.innerHTML=''; return; }
-  var nf = contarNF(), neg = contarNegociacoes();
-  var html = `<div class="contador-leads">🚀 ${nf} NF • 💬 ${neg} negociação(ões) • Total ${leadsPotenciais.length}</div>`;
+  var nfHoje = contarNF(), negHoje = contarNegociacoes();
+  var html = `<div class="contador-leads">🚀 ${nfHoje} NF hoje • 💬 ${negHoje} negociação(ões) hoje • Total salvo ${leadsPotenciais.length}</div>`;
   leadsPotenciais.forEach(function(l,i){
+    var ehDeHoje = !l.dataCriacao || ehHoje(l.dataCriacao);
+    var seloData = ehDeHoje ? '' : '<span class="badge-antigo">📅 '+formatarDataCurta(l.dataCriacao)+' - não conta hoje</span>';
+    var classeAntigo = ehDeHoje ? '' : ' antigo';
     if(l.ehNF){
-      html += `<div class="item-lead nf"><div><b>🚀 ${l.nome} - NF</b><span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'} • Tem: ${l.quantoTem||'—'} • Pode: ${l.quantoPode||'—'}</span><span>🪪 ${l.cpf||'—'} • Decide: ${l.decide||'—'} • Porto: ${l.clientePorto||'—'}</span><span>🏠 Aluguel: ${l.aluguel||'—'} ${l.aluguel==='Sim' ? '• Paga: '+(l.quantoPaga||'—') : ''} • 📈 ${l.investimento||'—'}</span></div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
+      html += `<div class="item-lead nf${classeAntigo}"><div><b>🚀 ${l.nome} - NF</b>${seloData}<span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'} • Tem: ${l.quantoTem||'—'} • Pode: ${l.quantoPode||'—'}</span><span>🪪 ${l.cpf||'—'} • Decide: ${l.decide||'—'} • Porto: ${l.clientePorto||'—'}</span><span>🏠 Aluguel: ${l.aluguel||'—'} ${l.aluguel==='Sim' ? '• Paga: '+(l.quantoPaga||'—') : ''} • 📈 ${l.investimento||'—'}</span></div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
     } else {
-      html += `<div class="item-lead"><div><b>⭐ ${l.nome} - Lead potencial</b><span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'} • Tem: ${l.quantoTem||'—'} • Pode: ${l.quantoPode||'—'}</span>${l.investimento ? `<span>📈 ${l.investimento}</span>` : ''}</div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
+      html += `<div class="item-lead${classeAntigo}"><div><b>⭐ ${l.nome} - Lead potencial</b>${seloData}<span>📱 ${l.telefone}</span><span>💰 Quer: ${l.quantoQuer||'—'} • Tem: ${l.quantoTem||'—'} • Pode: ${l.quantoPode||'—'}</span>${l.investimento ? `<span>📈 ${l.investimento}</span>` : ''}</div><button class="btn-remover-lead" onclick="removerLead(${i})">✕</button></div>`;
     }
   });
   el.innerHTML = html;
