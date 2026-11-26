@@ -69,8 +69,8 @@ h2{font-size:15px;margin:0 0 4px}
 .quadrado:active{transform:scale(.92)}
 .total-ligacoes{text-align:center;margin-top:10px;font-weight:800;font-size:14px}
 .total-ligacoes b{font-size:22px}
-.modal-fundo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:99}
-.modal{background:#fff;color:#000;border-radius:20px;padding:20px;width:100%;max-width:400px;text-align:center;max-height:90vh;overflow-y:auto}
+.modal-fundo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:16px;z-index:99}
+.modal{background:#fff;color:#000;border-radius:20px;padding:20px;width:100%;max-width:400px;text-align:center;max-height:92vh;overflow-y:auto}
 .modal h3{font-size:18px;margin:0}
 .modal p{font-size:14px;color:#444;line-height:1.4}
 .modal .botoes-modal{display:flex;gap:10px;margin-top:16px}
@@ -81,7 +81,6 @@ h2{font-size:15px;margin:0 0 4px}
 .mensagem.ok{background:#DCFCE7;color:#166534}
 .mensagem.erro{background:#FEE2E2;color:#991B1B}
 .mensagem.aviso{background:#FFFBEB;color:#92400E;border:2px dashed #F59E0B}
-.mensagem.vergonha{background:#FEE2E2;color:#991B1B;border:2px dashed #EF4444}
 .mensagem.destaque{background:#0B2A5B;color:#fff;font-size:15px;line-height:1.5}
 .badge-travado{display:inline-block;background:#22C55E;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;margin-left:6px}
 .badge-bloqueado{display:inline-block;background:#94A3B8;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;margin-left:6px}
@@ -117,26 +116,27 @@ h2{font-size:15px;margin:0 0 4px}
 .item-lead span{font-size:12px;color:#475569;display:block;margin-top:2px}
 .btn-remover-lead{border:0;background:#FEE2E2;color:#991B1B;border-radius:8px;padding:6px 10px;font-weight:800;cursor:pointer;font-size:12px}
 .contador-leads{text-align:center;font-weight:800;font-size:13px;margin:8px 0;color:#0B2A5B}
-.card-feedback{background:#111827;color:#fff;border-radius:20px;padding:16px;border:3px solid #25D366}
-.card-feedback h2{color:#fff}
 .estrelas{display:flex;gap:6px;justify-content:center;margin:10px 0}
 .estrela{font-size:36px;cursor:pointer;opacity:.3;transition:transform .1s}
 .estrela.ativa{opacity:1;transform:scale(1.15)}
 .estrela:active{transform:scale(.9)}
-.resumo-dia{background:#fff;color:#000;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;white-space:pre-wrap;text-align:left;margin-top:10px}
+.resumo-dia{background:#fff;color:#000;border:1px solid #E5E7EB;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;white-space:pre-wrap;text-align:left;margin-top:10px}
 .contador-whats{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
 .contador-whats button{width:44px;height:44px;border:0;border-radius:50%;background:#25D366;color:#fff;font-size:22px;font-weight:900;cursor:pointer}
 .contador-whats input{width:80px;text-align:center;padding:10px;border:2px solid #E5E7EB;border-radius:10px;font-size:18px;font-weight:900;outline:none}
-/* AMPULHETA - NO QUADRADO VERMELHO: LADO DIREITO, ABAIXO DO TOGGLE */
 #miniTimer{position:fixed;top:68px;right:12px;z-index:1000;background:#111827;color:#fff;border:2px solid #F59E0B;border-radius:20px;padding:7px 13px;font-size:13px;font-weight:900;box-shadow:0 4px 15px rgba(0,0,0,.4);display:flex;gap:6px;align-items:center}
 #miniTimer.pausa{background:#F59E0B;color:#000;border-color:#000}
 #miniTimer .ponto{width:8px;height:8px;border-radius:50%;background:#22C55E;animation:piscar 1s infinite}
 @keyframes piscar{0%,100%{opacity:1}50%{opacity:.3}}
-/* RODAPÉ - CONCLUIR DIA MAIS HARMÔNICO */
 footer{margin-top:18px;padding:18px 12px 8px;text-align:center;border-top:1px solid rgba(255,255,255,.15)}
 footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 .btn-rodape{width:100%;max-width:420px;border:1px solid rgba(255,255,255,.25);background:#1F2937;color:#fff;border-radius:14px;padding:13px;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn-rodape:active{transform:scale(.98)}
+/* FEEDBACK NO MEIO DA TELA */
+.modal-feedback{background:#111827;color:#fff;border:3px solid #25D366}
+.modal-feedback h3{color:#fff}
+.modal-feedback p{color:#E5E7EB}
+.modal-feedback label{color:#fff}
 </style>
 </head>
 <body>
@@ -202,40 +202,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
       <div id="menuTarefa3"><div class="mensagem aviso">🔒 Conclua a 2ª + café para liberar a 3ª.</div></div>
       <div id="msgMenu3"></div>
     </div>
-
-    <div id="cardFeedback" class="card-feedback escondido">
-      <h2>🏁 Feedback do dia + Relatório</h2>
-      <p style="font-size:13px;opacity:.85;margin:6px 0 0">Parabéns, você concluiu todas as atividades! Como foi seu dia?</p>
-      <p style="text-align:center;font-weight:800;margin:14px 0 0">⭐ Como você avalia seu dia?</p>
-      <div class="estrelas" id="estrelas">
-        <span class="estrela" onclick="avaliarDia(1)">⭐</span>
-        <span class="estrela" onclick="avaliarDia(2)">⭐</span>
-        <span class="estrela" onclick="avaliarDia(3)">⭐</span>
-        <span class="estrela" onclick="avaliarDia(4)">⭐</span>
-        <span class="estrela" onclick="avaliarDia(5)">⭐</span>
-      </div>
-      <p id="textoEstrelas" style="text-align:center;font-size:13px;opacity:.8;margin:0">Toque nas estrelas para avaliar</p>
-      <div style="margin-top:14px">
-        <label style="font-weight:800;font-size:13px;display:block;text-align:center;margin-bottom:6px">💬 N de mensagens enviadas no Whats:</label>
-        <div class="contador-whats">
-          <button type="button" onclick="alterarWhats(-1)">−</button>
-          <input type="number" id="inputWhats" value="0" min="0" oninput="qtdWhats=parseInt(this.value)||0; salvarEstado(); atualizarResumo();">
-          <button type="button" onclick="alterarWhats(1)">+</button>
-        </div>
-      </div>
-      <div style="margin-top:12px">
-        <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px">📝 Como foi seu dia?</label>
-        <textarea id="feedbackDia" placeholder="Ex: Dia bom, consegui falar com bastante gente..." style="width:100%;padding:12px;border-radius:10px;border:0;font-size:14px;min-height:70px;resize:vertical;outline:none;color:#000" oninput="avaliacaoComentario=this.value; salvarEstado(); atualizarResumo();"></textarea>
-      </div>
-      <div style="margin-top:10px">
-        <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px">📱 Número do WhatsApp para enviar (opcional)</label>
-        <input id="numeroWhats" type="tel" placeholder="Ex: 5512999999999 - se deixar em branco, você escolhe o contato" style="width:100%;padding:12px;border-radius:10px;border:0;font-size:14px;outline:none;color:#000" oninput="numeroWhats=this.value; salvarEstado();">
-      </div>
-      <div class="resumo-dia" id="resumoDia">Carregando resumo...</div>
-      <button class="btn btn-whats" style="margin-top:12px" onclick="enviarWhatsApp()">📲 Enviar relatório via WhatsApp</button>
-      <button class="btn" style="margin-top:8px;background:#374151;color:#fff" onclick="copiarRelatorio()">📋 Copiar relatório</button>
-      <div id="msgFeedback"></div>
-    </div>
   </div>
 
   <div class="col-dir">
@@ -283,7 +249,6 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
   </div>
 </div>
 
-<!-- RODAPÉ - CONCLUIR DIA -->
 <footer>
   <p>Lucas Fortes • Consórcio Porto Seguro</p>
   <button class="btn-rodape" onclick="abrirConcluirDia()">🏁 Concluir meu dia e zerar tudo</button>
@@ -317,28 +282,54 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
   </div>
 </div>
 
-<!-- MODAL CONCLUIR DIA -->
+<!-- MODAL CONCLUIR DIA + FEEDBACK NO MEIO DA TELA -->
 <div id="modalConcluirDia" class="modal-fundo escondido" style="z-index:300">
-  <div class="modal">
+  <div class="modal modal-feedback">
     <div id="etapaPerguntaConcluir">
       <div style="font-size:40px">🏁</div>
       <h3>Concluir meu dia?</h3>
       <p id="textoConcluirDia">Deseja enviar o relatório?</p>
-      <p style="font-size:12px;color:#64748B">Será exibido o relatório com as atividades realizadas até o momento.<br>Não é obrigatório ter concluído todos os checkboxes da 3ª.</p>
+      <p style="font-size:12px;color:#CBD5E1">Será exibido o relatório com as atividades realizadas até o momento.<br>Não é obrigatório ter concluído todos os checkboxes da 3ª.</p>
       <div class="botoes-modal">
         <button class="btn-cinza" onclick="concluirDiaSemRelatorio()">Não, só zerar</button>
-        <button class="btn-sim" onclick="mostrarRelatorioConcluir()">✅ Sim, enviar relatório</button>
+        <button class="btn-sim" onclick="mostrarFeedbackConcluir()">✅ Sim, enviar relatório</button>
       </div>
       <button class="btn btn-cinza" style="margin-top:10px" onclick="fecharModalConcluir()">Voltar</button>
     </div>
-    <div id="etapaRelatorioConcluir" class="escondido">
-      <div style="font-size:36px">📋</div>
-      <h3>Relatório até o momento</h3>
-      <div class="resumo-dia" id="resumoConcluirDia" style="border:1px solid #E5E7EB">Carregando...</div>
+    <div id="etapaFeedbackConcluir" class="escondido">
+      <div style="font-size:36px">🏁</div>
+      <h3>Feedback do dia + Relatório</h3>
+      <p style="font-size:13px;margin:6px 0 0">Parabéns! Como foi seu dia?</p>
+      <p style="text-align:center;font-weight:800;margin:14px 0 0">⭐ Como você avalia seu dia?</p>
+      <div class="estrelas" id="estrelas">
+        <span class="estrela" onclick="avaliarDia(1)">⭐</span>
+        <span class="estrela" onclick="avaliarDia(2)">⭐</span>
+        <span class="estrela" onclick="avaliarDia(3)">⭐</span>
+        <span class="estrela" onclick="avaliarDia(4)">⭐</span>
+        <span class="estrela" onclick="avaliarDia(5)">⭐</span>
+      </div>
+      <p id="textoEstrelas" style="text-align:center;font-size:13px;opacity:.8;margin:0">Toque nas estrelas para avaliar</p>
+      <div style="margin-top:14px">
+        <label style="font-weight:800;font-size:13px;display:block;text-align:center;margin-bottom:6px">💬 N de mensagens enviadas no Whats:</label>
+        <div class="contador-whats">
+          <button type="button" onclick="alterarWhats(-1)" style="background:#25D366">−</button>
+          <input type="number" id="inputWhats" value="0" min="0" oninput="qtdWhats=parseInt(this.value)||0; salvarEstado(); atualizarResumo();">
+          <button type="button" onclick="alterarWhats(1)" style="background:#25D366">+</button>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px;text-align:left">📝 Como foi seu dia?</label>
+        <textarea id="feedbackDia" placeholder="Ex: Dia bom, consegui falar com bastante gente..." style="width:100%;padding:12px;border-radius:10px;border:0;font-size:14px;min-height:70px;resize:vertical;outline:none;color:#000" oninput="avaliacaoComentario=this.value; salvarEstado(); atualizarResumo();"></textarea>
+      </div>
+      <div style="margin-top:10px">
+        <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px;text-align:left">📱 Número do WhatsApp para enviar (opcional)</label>
+        <input id="numeroWhats" type="tel" placeholder="Ex: 5512999999999" style="width:100%;padding:12px;border-radius:10px;border:0;font-size:14px;outline:none;color:#000" oninput="numeroWhats=this.value; salvarEstado();">
+      </div>
+      <div class="resumo-dia" id="resumoConcluirDia">Carregando...</div>
       <button class="btn btn-whats" style="margin-top:12px" onclick="enviarWhatsAppConcluir()">📲 Enviar relatório via WhatsApp</button>
       <button class="btn" style="margin-top:8px;background:#374151;color:#fff" onclick="copiarRelatorioConcluir()">📋 Copiar relatório</button>
       <button class="btn" style="margin-top:8px;background:#EF4444;color:#fff" onclick="confirmarZerarTudo()">🏁 Concluir e zerar tudo</button>
-      <button class="btn btn-cinza" style="margin-top:8px" onclick="fecharModalConcluir()">Voltar e continuar o dia</button>
+      <button class="btn btn-cinza" style="margin-top:8px" onclick="voltarPerguntaConcluir()">⬅️ Voltar</button>
     </div>
   </div>
 </div>
@@ -360,11 +351,12 @@ var totalQuadrados = 30;
 var timer45 = null, timerMini = null, inicioOpcao3 = 0, emPausa45 = false, timerPausa45 = null, segundosPausa45 = 600, pausa45MostradaPara = -1;
 function estaEmQualquerPausa(){ return emPausaCafe || emPausa45; }
 function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, avaliacaoEstrelas:avaliacaoEstrelas, avaliacaoComentario:avaliacaoComentario, numeroWhats:numeroWhats, qtdWhats:qtdWhats, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
-function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; avaliacaoEstrelas=d.avaliacaoEstrelas||0; avaliacaoComentario=d.avaliacaoComentario||''; numeroWhats=d.numeroWhats||''; qtdWhats=d.qtdWhats||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; mostrarFeedback(); } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
-// CONCLUIR DIA - RODAPÉ + PERGUNTA RELATÓRIO
-function abrirConcluirDia(){ document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('textoConcluirDia').innerHTML = 'Deseja enviar o relatório?<br><br><small style="font-size:12px;color:#64748B">Ligações: '+ligacoes.size+' | Whats: '+(qtdWhats||0)+' | Leads potenciais: '+leadsPotenciais.length+'</small>'; document.getElementById('modalConcluirDia').classList.remove('escondido'); }
+function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; avaliacaoEstrelas=d.avaliacaoEstrelas||0; avaliacaoComentario=d.avaliacaoComentario||''; numeroWhats=d.numeroWhats||''; qtdWhats=d.qtdWhats||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
+function abrirConcluirDia(){ document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); document.getElementById('etapaFeedbackConcluir').classList.add('escondido'); document.getElementById('textoConcluirDia').innerHTML = 'Deseja enviar o relatório?<br><br><small style="font-size:12px;color:#CBD5E1">Ligações: '+ligacoes.size+' | Whats: '+(qtdWhats||0)+' | Leads potenciais: '+leadsPotenciais.length+'</small>'; document.getElementById('modalConcluirDia').classList.remove('escondido'); }
 function fecharModalConcluir(){ document.getElementById('modalConcluirDia').classList.add('escondido'); }
-function mostrarRelatorioConcluir(){ atualizarResumo(); document.getElementById('resumoConcluirDia').textContent = gerarTextoRelatorio(); document.getElementById('etapaPerguntaConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.remove('escondido'); }
+function voltarPerguntaConcluir(){ document.getElementById('etapaFeedbackConcluir').classList.add('escondido'); document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); }
+function mostrarFeedbackConcluir(){ document.getElementById('etapaPerguntaConcluir').classList.add('escondido'); document.getElementById('etapaFeedbackConcluir').classList.remove('escondido'); document.getElementById('feedbackDia').value=avaliacaoComentario; document.getElementById('numeroWhats').value=numeroWhats; sincronizarWhats(); atualizarEstrelas(); atualizarResumo(); }
+function mostrarFeedback(){ mostrarFeedbackConcluir(); document.getElementById('modalConcluirDia').classList.remove('escondido'); }
 function enviarWhatsAppConcluir(){ var texto = gerarTextoRelatorio(); var num = (document.getElementById('numeroWhats') ? document.getElementById('numeroWhats').value||'' : '').replace(/\D/g,''); var url; if(num){ url = 'https://wa.me/'+num+'?text='+encodeURIComponent(texto); } else { url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); } window.open(url,'_blank'); }
 function copiarRelatorioConcluir(){ var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ alert('✅ Relatório copiado!'); }); } else { alert(texto); } }
 function concluirDiaSemRelatorio(){ if(!confirm('🏁 Concluir seu dia e zerar tudo?\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; zerarTudo(); }
@@ -465,7 +457,8 @@ function confirmarOpcao3(){
     document.getElementById('badge3').classList.remove('escondido');
     document.getElementById('card3').classList.add('travado');
     document.getElementById('sub3').textContent = '✅ Concluída';
-    renderMenu3(); mostrarFeedback();
+    renderMenu3();
+    // NÃO mostra feedback aqui mais - só no concluir dia
   } else {
     document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">👉 Agora escolha outra opção!</div>`;
     renderMenu3();
@@ -475,7 +468,6 @@ function confirmarOpcao3(){
 }
 function alterarWhats(delta){ qtdWhats = Math.max(0, (qtdWhats||0)+delta); sincronizarWhats(); salvarEstado(); atualizarResumo(); }
 function sincronizarWhats(){ var a=document.getElementById('inputWhats'); if(a) a.value=qtdWhats; var b=document.getElementById('inputWhatsTopo'); if(b) b.value=qtdWhats; }
-function mostrarFeedback(){ var el=document.getElementById('cardFeedback'); el.classList.remove('escondido'); document.getElementById('feedbackDia').value=avaliacaoComentario; document.getElementById('numeroWhats').value=numeroWhats; sincronizarWhats(); atualizarEstrelas(); atualizarResumo(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
 function avaliarDia(n){ avaliacaoEstrelas=n; atualizarEstrelas(); atualizarResumo(); salvarEstado(); }
 function atualizarEstrelas(){ var estrelas=document.querySelectorAll('#estrelas .estrela'); estrelas.forEach(function(e,i){ e.classList.toggle('ativa', i<avaliacaoEstrelas); }); var textos=['','😞 Péssimo','😐 Mais ou menos','🙂 Bom','😃 Muito bom','🏆 Excelente!']; document.getElementById('textoEstrelas').textContent = avaliacaoEstrelas>0 ? textos[avaliacaoEstrelas]+' - '+avaliacaoEstrelas+'/5' : 'Toque nas estrelas para avaliar'; }
 function gerarTextoRelatorio(){
@@ -502,9 +494,9 @@ function gerarTextoRelatorio(){
   linhas.push('🚀 Bora pra cima, amanhã tem mais!');
   return linhas.join('\n');
 }
-function atualizarResumo(){ document.getElementById('resumoDia').textContent = gerarTextoRelatorio(); }
-function enviarWhatsApp(){ atualizarResumo(); var texto = gerarTextoRelatorio(); var num = (document.getElementById('numeroWhats').value||'').replace(/\D/g,''); numeroWhats = document.getElementById('numeroWhats').value; salvarEstado(); var url; if(num){ url = 'https://wa.me/'+num+'?text='+encodeURIComponent(texto); } else { url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); } window.open(url,'_blank'); document.getElementById('msgFeedback').innerHTML = `<div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ WhatsApp aberto com o relatório pronto!</div>`; }
-function copiarRelatorio(){ atualizarResumo(); var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ document.getElementById('msgFeedback').innerHTML = `<div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ Relatório copiado!</div>`; }); } else { alert(texto); } }
+function atualizarResumo(){ var el=document.getElementById('resumoConcluirDia'); if(el) el.textContent = gerarTextoRelatorio(); }
+function enviarWhatsApp(){ enviarWhatsAppConcluir(); }
+function copiarRelatorio(){ copiarRelatorioConcluir(); }
 function toggleAbaLead(){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } abaLeadAberta = !abaLeadAberta; document.getElementById('formLead').classList.toggle('escondido', !abaLeadAberta); document.getElementById('btnAbaLead').classList.toggle('aberto', abaLeadAberta); document.getElementById('setaAbaLead').textContent = abaLeadAberta ? '▲' : '▼'; if(abaLeadAberta) setTimeout(()=>{ document.getElementById('leadNome').focus(); },100); }
 function mascaraTelefone(el){ var v = el.value.replace(/\D/g,'').slice(0,11); if(v.length>10) v = v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3'); else if(v.length>6) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3'); else if(v.length>2) v = v.replace(/(\d{2})(\d{0,5})/,'($1) $2'); else if(v.length>0) v = v.replace(/(\d{0,2})/,'($1'); el.value = v; }
 function mascaraValor(el){ var v = el.value.replace(/\D/g,''); if(!v){ el.value=''; return; } v = (parseInt(v)/100).toLocaleString('pt-BR',{style:'currency', currency:'BRL'}); el.value = v; }
