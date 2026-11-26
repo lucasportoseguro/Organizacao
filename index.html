@@ -25,8 +25,13 @@ header p{opacity:.85;font-size:12px;margin:4px 0 12px}
 .toggle-modo button{border:0;border-radius:20px;padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer;background:transparent;color:#64748B}
 .toggle-modo button.ativo-trabalho{background:#22C55E;color:#fff}
 .toggle-modo button.ativo-almoco{background:#F59E0B;color:#fff}
-#avisoAlmoco{position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#000;text-align:center;padding:12px;font-weight:800;font-size:14px;line-height:1.4;box-shadow:0 4px 20px rgba(0,0,0,.3)}
-#avisoAlmoco small{display:block;font-weight:800;font-size:15px;margin-top:4px}
+/* AVISO ALMOÇO - HARMONICO COM A PÁGINA */
+#avisoAlmoco{position:fixed;top:12px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:430px;z-index:9999;background:linear-gradient(135deg,rgba(11,42,91,.96),rgba(30,58,110,.96));backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.22);border-radius:18px;color:#fff;text-align:center;padding:14px 16px;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+#avisoAlmoco .badge-almoco{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.45);color:#FCD34D;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:5px 10px;border-radius:20px;margin-bottom:6px}
+#avisoAlmoco .titulo-almoco{font-weight:900;font-size:15px;line-height:1.3;margin:0}
+#avisoAlmoco small{display:block;font-weight:600;font-size:12.5px;margin-top:4px;color:rgba(255,255,255,.75)}
+#avisoAlmoco .btn-voltar{margin-top:10px;border:0;background:#22C55E;color:#fff;padding:11px 18px;border-radius:12px;font-weight:800;cursor:pointer;font-size:13.5px;box-shadow:0 4px 14px rgba(34,197,94,.35);width:100%}
+#avisoAlmoco .btn-voltar:active{transform:scale(.98)}
 .layout{display:flex;gap:12px;align-items:flex-start}
 .col-esq{flex:1;min-width:0}
 .col-dir{flex:1;min-width:0;position:sticky;top:12px}
@@ -152,9 +157,10 @@ footer p{font-size:12px;opacity:.7;margin:0 0 10px}
 <div id="miniTimer" class="escondido"><span class="ponto"></span><span id="miniTimerTexto">⏳ 45:00</span></div>
 
 <div id="avisoAlmoco" class="escondido">
-  🍽️ VOCÊ ESTÁ EM ALMOÇO - PAUSADO
+  <span class="badge-almoco">🍽️ Em almoço • Pausado</span>
+  <p class="titulo-almoco">Você está em almoço</p>
   <small id="textoAvisoAlmoco">Ligações até o momento: 0</small>
-  <button onclick="alterarModo('trabalho')" style="margin-top:8px;border:0;background:#000;color:#fff;padding:10px 18px;border-radius:20px;font-weight:800;cursor:pointer">▶️ Voltar para Trabalho</button>
+  <button class="btn-voltar" onclick="alterarModo('trabalho')">▶️ Voltar para Trabalho</button>
 </div>
 
 <div id="barraTopo">
@@ -388,7 +394,7 @@ function confirmarZerarTudo(){ if(!confirm('🏁 Concluir e zerar tudo?\n\nVocê
 function zerarTudo(){ localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v2'); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
 function concluirDia(){ abrirConcluirDia(); }
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
-function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.body.style.paddingTop='70px'; document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.body.style.paddingTop='12px'; document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
+function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
 function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''); document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1){qtdLeads1=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel1 && !travado1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100); }
 function toggle1(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(estaEmQualquerPausa()){ alert('☕ Você está em pausa! Não pode mexer em nada até acabar.'); return; } if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); salvarEstado(); }
 function confirmarQtd1(e){ if(estaEmAlmoco()) return; if(estaEmQualquerPausa()) return; if(travado1) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
