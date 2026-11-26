@@ -3,75 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organização do meu dia</title>
+<title>Organização Diária - Lucas Fortes</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
-body{margin:0;background:#0B2A5B;color:#fff;padding:14px;padding-bottom:40px}
-header{text-align:center;margin-bottom:14px}
-header h1{font-size:26px;margin:0;color:#fff}
-header p{opacity:.9;font-size:13px;margin:6px 0 0;color:#fff}
+body{margin:0;background:#0B2A5B;color:#fff;padding:14px;padding-bottom:50px}
+header{text-align:center}
+header h1{font-size:25px;margin:0;line-height:1.1}
+header p{opacity:.85;font-size:13px;margin:6px 0 14px}
 .card{background:#fff;color:#000;border-radius:16px;padding:14px;margin-bottom:12px}
-.topo-dia{display:flex;gap:8px;text-align:center}
-.topo-dia div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px;color:#000}
-.topo-dia b{font-size:22px;display:block;color:#000}
-.topo-dia span{font-size:11px;opacity:.7;color:#000}
-.bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}
-.bar i{display:block;height:100%;background:#22C55E;width:0%;transition:.3s}
+h2{font-size:16px;margin:0 0 4px}
+.sub{font-size:12px;color:#666;margin-bottom:10px}
+.menu-item{display:flex;gap:10px;align-items:center;background:#F8FAFC;border:2px solid #E5E7EB;border-radius:14px;padding:11px;margin-bottom:8px;cursor:pointer}
+.menu-item.selecionado{border-color:#22C55E;background:#F0FDF4}
+.menu-item input{width:22px;height:22px;accent-color:#22C55E}
+.menu-item .emoji{font-size:22px}
+.menu-item .nome{font-weight:800;font-size:14px;color:#000;line-height:1.2}
+.menu-item .tempo{font-size:11px;color:#666;font-weight:700}
+.menu-item .ordem{margin-left:auto;background:#0B2A5B;color:#fff;font-size:12px;font-weight:800;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;min-width:28px}
+.menu-item.selecionado .ordem{background:#22C55E}
+.btn{width:100%;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
+.btn-verde{background:#22C55E;color:#fff}
+.btn-azul{background:#0B2A5B;color:#fff}
+.btn-cinza{background:#E5E7EB;color:#000}
 .etapa{display:flex;gap:10px;background:#F8FAFC;border-radius:14px;padding:12px;margin-bottom:10px;border-left:6px solid #0B2A5B;align-items:flex-start}
 .etapa.venda{border-left-color:#22C55E}
 .etapa.cafe{border-left-color:#F59E0B;background:#FFFBEB}
 .etapa.admin{border-left-color:#0B2A5B}
 .etapa.almoco{border-left-color:#EF4444;background:#FEF2F2}
 .etapa.ativa{outline:3px solid #FFC700;background:#fff}
-.etapa.feita{opacity:.5}
-.etapa.feita .titulo{text-decoration:line-through}
-.check{width:28px;height:28px;min-width:28px;border-radius:50%;border:2px solid #CBD5E1;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000}
+.etapa.feita{opacity:.55}
+.etapa.feita .nome-tarefa{text-decoration:line-through}
+.check{width:30px;height:30px;min-width:30px;border-radius:50%;border:2px solid #CBD5E1;background:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#000}
 .check.on{background:#22C55E;border-color:#22C55E;color:#fff}
 .info{flex:1;min-width:0}
-.titulo{font-weight:800;font-size:16px;color:#000 !important;line-height:1.3}
-.sub{font-size:12px;color:#444 !important}
-.timer{font-size:26px;font-weight:900;text-align:center;margin:6px 0 2px;color:#000 !important}
-.botoes{display:flex;gap:6px;margin-top:6px}
-.botoes button{flex:1;border:0;border-radius:10px;padding:9px;font-weight:700;cursor:pointer;font-size:13px}
-.btn-start{background:#22C55E;color:#fff}
-.btn-pause{background:#FEF3C7;color:#000}
-.btn-reset{background:#E5E7EB;color:#000}
-.btn-next{background:#0B2A5B;color:#fff;width:100%;padding:12px;border:0;border-radius:12px;font-weight:800;font-size:15px;margin-top:4px}
-/* NOME DA TAREFA PRETO - CORRIGIDO */
-.hora-atual{font-size:13px;font-weight:800;color:#000 !important;background:#FFC700 !important;padding:6px 10px;border-radius:20px;display:inline-block;line-height:1.3}
+.nome-tarefa{font-size:14px;font-weight:800;color:#000 !important;background:#FFC700;padding:6px 10px;border-radius:20px;display:inline-block;line-height:1.3}
+.sub2{font-size:12px;color:#555;margin-top:6px}
+.timer{font-size:26px;font-weight:900;text-align:center;margin:6px 0 2px;color:#000}
+.bar{height:10px;background:#E5E7EB;border-radius:20px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:#22C55E;width:0%;transition:.3s}
+.botoes{display:flex;gap:6px;margin-top:8px}
+.botoes button{flex:1;border:0;border-radius:10px;padding:10px;font-weight:700;cursor:pointer;font-size:13px}
+.escondido{display:none}
+.topo{display:flex;gap:8px;text-align:center}
+.topo div{flex:1;background:#F1F5F9;border-radius:12px;padding:10px}
+.topo b{font-size:20px;display:block;color:#000}
+.topo span{font-size:11px;color:#666}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🚀 Organização do meu dia</h1>
-  <p>Lucas Fortes • <span id="dataHoje"></span></p>
+  <h1>🚀 Organização Diária</h1>
+  <p>Lucas Fortes • Consórcio Porto Seguro • <span id="dataHoje"></span></p>
 </header>
 
-<div class="card">
-  <div class="topo-dia">
-    <div><b id="qtdFeitas">0/9</b><span>Etapas feitas</span></div>
-    <div><b>5h55</b><span>Tempo total</span></div>
-    <div><b id="tempoFocado">0 min</b><span>Focado hoje</span></div>
-  </div>
-  <div style="text-align:center;font-size:13px;font-weight:700;margin-top:10px;color:#000" id="textoProgresso">0 de 9 concluídas</div>
-  <div class="bar"><i id="barraDia"></i></div>
-  <div style="display:flex;gap:8px;margin-top:12px">
-    <button onclick="resetarDia()" style="flex:1;background:#E5E7EB;border:0;border-radius:10px;padding:10px;font-weight:700;color:#000">🔄 Zerar dia</button>
-    <button onclick="ativarSom()" style="flex:1;background:#FEF3C7;border:0;border-radius:10px;padding:10px;font-weight:700;color:#000">🔔 Ativar som</button>
+<!-- TELA 1: MENU DE SELEÇÃO -->
+<div id="telaMenu">
+  <div class="card">
+    <h2>☑️ 1. Selecione as tarefas de hoje</h2>
+    <div class="sub">Marque na ordem que você vai fazer. O sistema já deixa na sequência certa.</div>
+    <div id="menuTarefas"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-cinza" style="flex:1" onclick="selecionarTodas()">Marcar todas</button>
+      <button class="btn btn-cinza" style="flex:1" onclick="limparTodas()">Limpar</button>
+    </div>
+    <div style="text-align:center;margin-top:10px;font-size:13px;font-weight:700;color:#000" id="resumoMenu">Nenhuma tarefa selecionada</div>
+    <button class="btn btn-verde" style="margin-top:10px" onclick="comecarDia()">▶️ Começar meu dia com essa ordem</button>
   </div>
 </div>
 
-<div id="listaEtapas"></div>
-
-<div class="card" style="text-align:center">
-  <h3 style="margin:0;color:#000">🎉 Fim do dia</h3>
-  <button class="btn-next" onclick="finalizarDia()">✅ Finalizar meu dia</button>
+<!-- TELA 2: EXECUÇÃO -->
+<div id="telaDia" class="escondido">
+  <div class="card">
+    <div class="topo">
+      <div><b id="qtdFeitas">0/0</b><span>Feitas</span></div>
+      <div><b id="tempoTotalDia">0</b><span>Tempo total</span></div>
+      <div><b id="tempoFocado">0 min</b><span>Focado</span></div>
+    </div>
+    <div style="text-align:center;font-size:13px;font-weight:700;margin-top:10px;color:#000" id="textoProgresso"></div>
+    <div class="bar"><i id="barraDia"></i></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-cinza" style="padding:10px" onclick="voltarMenu()">⬅️ Voltar pro menu</button>
+      <button class="btn btn-cinza" style="padding:10px" onclick="resetarDia()">🔄 Zerar dia</button>
+    </div>
+  </div>
+  <div id="listaEtapas"></div>
+  <div class="card" style="text-align:center">
+    <h2 style="text-align:center">🎉 Fim do dia</h2>
+    <button class="btn btn-azul" onclick="finalizarDia()">✅ Finalizar meu dia</button>
+  </div>
 </div>
 
 <script>
-var etapas = [
-  {nome:'Atender leads do dia(Não interagidos)', tempo:30, tipo:'venda', emoji:'📩', label:'Time de 30 minutos'},
+// ORDEM OFICIAL DO SEU DIA
+var tarefasBase = [
+  {nome:'Atender Leads do dia', tempo:30, tipo:'venda', emoji:'📩', label:'Time de 30 minutos'},
   {nome:'Café', tempo:5, tipo:'cafe', emoji:'☕', label:'5 minutos'},
   {nome:'Fazer o filtro dos 3 ultimos dias', tempo:60, tipo:'admin', emoji:'📋', label:'1 Hora'},
   {nome:'café', tempo:10, tipo:'cafe', emoji:'☕', label:'10 minutos'},
@@ -81,64 +107,110 @@ var etapas = [
   {nome:'Fazer uma lista', tempo:60, tipo:'admin', emoji:'📝', label:'1 hora'},
   {nome:'café', tempo:10, tipo:'cafe', emoji:'☕', label:'10 minutos'},
 ];
-var estado = JSON.parse(localStorage.getItem('dia_lucas_v5')||'null') || etapas.map(e=>({feito:false, restante:e.tempo*60}));
-var indiceAtivo = -1; var timer = null; var rodando = false;
-var minutosFocados = parseInt(localStorage.getItem('min_foco_dia_v5')||'0');
-function salvar(){ localStorage.setItem('dia_lucas_v5', JSON.stringify(estado)); localStorage.setItem('min_foco_dia_v5', minutosFocados); }
+
+var selecionadas = tarefasBase.map((_,i)=>i); // já vem todas marcadas
+var diaAtual = [];
+var estado = [];
+var indiceAtivo = -1;
+var timer = null;
+var rodando = false;
+var minutosFocados = 0;
+
 function formatar(s){ var m=Math.floor(s/60), seg=s%60; return String(m).padStart(2,'0')+':'+String(seg).padStart(2,'0'); }
-function tocar(){ try{ for(let i=0;i<3;i++){ setTimeout(()=>{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }, i*800); } }catch(e){} if(navigator.vibrate) navigator.vibrate([500,200,500]); }
-function render(){
-  document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'long'});
-  var html = '';
+function formatarTotal(min){ var h=Math.floor(min/60), m=min%60; return h>0 ? h+'h'+(m>0?' '+m+'min':'') : m+' min'; }
+
+function renderMenu(){
+  document.getElementById('dataHoje').textContent = new Date().toLocaleDateString('pt-BR',{weekday:'long', day:'2-digit', month:'long'});
+  var html='';
+  tarefasBase.forEach((t,i)=>{
+    var sel = selecionadas.includes(i);
+    var ordem = sel ? selecionadas.indexOf(i)+1 : '';
+    html += `<label class="menu-item ${sel?'selecionado':''}">
+      <input type="checkbox" ${sel?'checked':''} onchange="toggleTarefa(${i}, this.checked)">
+      <span class="emoji">${t.emoji}</span>
+      <span style="flex:1"><span class="nome">${t.nome}</span><br><span class="tempo">${t.label}</span></span>
+      ${sel?`<span class="ordem">${ordem}</span>`:''}
+    </label>`;
+  });
+  document.getElementById('menuTarefas').innerHTML = html;
+  var totalMin = selecionadas.reduce((s,i)=>s+tarefasBase[i].tempo,0);
+  document.getElementById('resumoMenu').textContent = selecionadas.length===0 ? 'Nenhuma tarefa selecionada' : selecionadas.length+' tarefas • '+formatarTotal(totalMin)+' de trabalho';
+}
+function toggleTarefa(i, marcado){
+  if(marcado){ if(!selecionadas.includes(i)) selecionadas.push(i); }
+  else { selecionadas = selecionadas.filter(x=>x!==i); }
+  renderMenu();
+}
+function selecionarTodas(){ selecionadas = tarefasBase.map((_,i)=>i); renderMenu(); }
+function limparTodas(){ selecionadas = []; renderMenu(); }
+
+function comecarDia(){
+  if(selecionadas.length===0){ alert('Selecione pelo menos 1 tarefa!'); return; }
+  // Mantém a ordem oficial que você definiu
+  selecionadas.sort((a,b)=>a-b);
+  diaAtual = selecionadas.map(i=>tarefasBase[i]);
+  estado = diaAtual.map(t=>({feito:false, restante:t.tempo*60}));
+  indiceAtivo=-1; pararTimer(); minutosFocados=0;
+  document.getElementById('telaMenu').classList.add('escondido');
+  document.getElementById('telaDia').classList.remove('escondido');
+  window.scrollTo(0,0);
+  renderDia();
+}
+
+function renderDia(){
+  var html='';
   estado.forEach((e,i)=>{
-    var cfg = etapas[i];
-    var pct = Math.round((cfg.tempo*60 - e.restante)/(cfg.tempo*60)*100);
-    html += `<div class="etapa ${cfg.tipo} ${indiceAtivo===i?'ativa':''} ${e.feito?'feita':''}">
+    var cfg=diaAtual[i];
+    var pct=Math.round((cfg.tempo*60-e.restante)/(cfg.tempo*60)*100);
+    html+=`<div class="etapa ${cfg.tipo} ${indiceAtivo===i?'ativa':''} ${e.feito?'feita':''}">
       <button class="check ${e.feito?'on':''}" onclick="toggleCheck(${i})">${e.feito?'✓':(i+1)}</button>
       <div class="info">
-        <div><span class="hora-atual">${cfg.emoji} ${cfg.nome} • ${cfg.label}</span></div>
-        <div class="sub" style="margin-top:6px">${e.feito ? '✅ Concluída!' : indiceAtivo===i ? (rodando ? '🔥 Focando agora...' : '⏸️ Pausado') : 'Toque em Começar para iniciar o timer'}</div>
+        <span class="nome-tarefa">${cfg.emoji} ${cfg.nome} • ${cfg.label}</span>
+        <div class="sub2">${e.feito?'✅ Concluída!':indiceAtivo===i?(rodando?'🔥 Focando agora...':'⏸️ Pausado'):'Toque em Começar'}</div>
         <div class="timer">${formatar(e.restante)}</div>
         <div class="bar"><i style="width:${pct}%;background:${cfg.tipo==='cafe'?'#F59E0B':cfg.tipo==='almoco'?'#EF4444':'#22C55E'}"></i></div>
         <div class="botoes">
-          <button class="btn-start" onclick="comecar(${i})">${indiceAtivo===i && rodando ? '⏸️ Pausar' : '▶️ Começar'}</button>
-          <button class="btn-reset" onclick="resetarEtapa(${i})">🔄 Resetar</button>
-          <button class="btn-pause" onclick="pular(${i})">⏭️ Pular</button>
+          <button style="background:#22C55E;color:#fff" onclick="comecar(${i})">${indiceAtivo===i&&rodando?'⏸️ Pausar':'▶️ Começar'}</button>
+          <button style="background:#E5E7EB;color:#000" onclick="resetarEtapa(${i})">🔄 Resetar</button>
+          <button style="background:#FEF3C7;color:#000" onclick="pular(${i})">⏭️ Pular</button>
         </div>
       </div>
     </div>`;
   });
-  document.getElementById('listaEtapas').innerHTML = html;
-  var feitas = estado.filter(e=>e.feito).length;
-  document.getElementById('qtdFeitas').textContent = feitas + '/9';
-  document.getElementById('textoProgresso').textContent = feitas + ' de 9 concluídas' + (feitas===9?' 🎉 Dia zerado!':'');
-  document.getElementById('barraDia').style.width = (feitas/9*100)+'%';
-  document.getElementById('tempoFocado').textContent = Math.round(minutosFocados) + ' min';
+  document.getElementById('listaEtapas').innerHTML=html;
+  var feitas=estado.filter(e=>e.feito).length;
+  var totalMin=diaAtual.reduce((s,t)=>s+t.tempo,0);
+  document.getElementById('qtdFeitas').textContent=feitas+'/'+diaAtual.length;
+  document.getElementById('tempoTotalDia').textContent=formatarTotal(totalMin);
+  document.getElementById('textoProgresso').textContent=feitas+' de '+diaAtual.length+' concluídas'+(feitas===diaAtual.length&&feitas>0?' 🎉 Dia zerado!':'');
+  document.getElementById('barraDia').style.width=(diaAtual.length?feitas/diaAtual.length*100:0)+'%';
+  document.getElementById('tempoFocado').textContent=Math.round(minutosFocados)+' min';
 }
-function toggleCheck(i){ pararTimer(); estado[i].feito = !estado[i].feito; if(estado[i].feito){ estado[i].restante = 0; tocar(); } else { estado[i].restante = etapas[i].tempo*60; } salvar(); render(); }
+function toggleCheck(i){ pararTimer(); estado[i].feito=!estado[i].feito; if(estado[i].feito){estado[i].restante=0;}else{estado[i].restante=diaAtual[i].tempo*60;} renderDia(); }
 function comecar(i){
-  if(indiceAtivo===i && rodando){ pararTimer(); render(); return; }
-  pararTimer(); indiceAtivo = i;
-  if(estado[i].feito){ estado[i].feito=false; estado[i].restante = etapas[i].tempo*60; }
-  rodando = true;
-  timer = setInterval(()=>{
-    estado[i].restante--; minutosFocados += 1/60;
+  if(indiceAtivo===i&&rodando){pararTimer();renderDia();return;}
+  pararTimer(); indiceAtivo=i;
+  if(estado[i].feito){estado[i].feito=false;estado[i].restante=diaAtual[i].tempo*60;}
+  rodando=true;
+  timer=setInterval(()=>{
+    estado[i].restante--; minutosFocados+=1/60;
     if(estado[i].restante<=0){
-      clearInterval(timer); rodando=false; estado[i].feito=true; estado[i].restante=0; tocar();
-      alert('⏰ Acabou: ' + etapas[i].nome + '\nDá o check e vai pra próxima! 👊');
-      if(i+1 < etapas.length){ setTimeout(()=>comecar(i+1), 500); }
+      clearInterval(timer); rodando=false; estado[i].feito=true; estado[i].restante=0;
+      if(navigator.vibrate) navigator.vibrate([500,200,500]);
+      alert('⏰ Acabou: '+diaAtual[i].nome+'\nDá o check e vai pra próxima! 👊');
+      if(i+1<diaAtual.length) setTimeout(()=>comecar(i+1),500);
     }
-    salvar(); render();
+    renderDia();
   },1000);
-  render();
+  renderDia();
 }
 function pararTimer(){ if(timer) clearInterval(timer); rodando=false; }
-function resetarEtapa(i){ pararTimer(); estado[i].feito=false; estado[i].restante=etapas[i].tempo*60; salvar(); render(); }
-function pular(i){ pararTimer(); estado[i].feito=true; estado[i].restante=0; salvar(); render(); if(i+1<etapas.length) comecar(i+1); }
-function resetarDia(){ if(!confirm('Zerar todo o dia?')) return; pararTimer(); indiceAtivo=-1; estado = etapas.map(e=>({feito:false, restante:e.tempo*60})); minutosFocados=0; salvar(); render(); }
-function ativarSom(){ try{ new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play(); }catch(e){} if('Notification' in window) Notification.requestPermission(); alert('Som ativado! Deixe a aba aberta.'); }
-function finalizarDia(){ var feitas = estado.filter(e=>e.feito).length; alert('🎉 Dia finalizado!\n\nVocê fez '+feitas+' de 9 etapas\nTempo focado: '+Math.round(minutosFocados)+' min'); }
-render();
+function resetarEtapa(i){ pararTimer(); estado[i].feito=false; estado[i].restante=diaAtual[i].tempo*60; renderDia(); }
+function pular(i){ pararTimer(); estado[i].feito=true; estado[i].restante=0; renderDia(); if(i+1<diaAtual.length) comecar(i+1); }
+function resetarDia(){ if(!confirm('Zerar todo o dia?')) return; pararTimer(); indiceAtivo=-1; estado=diaAtual.map(t=>({feito:false, restante:t.tempo*60})); minutosFocados=0; renderDia(); }
+function voltarMenu(){ pararTimer(); document.getElementById('telaDia').classList.add('escondido'); document.getElementById('telaMenu').classList.remove('escondido'); renderMenu(); }
+function finalizarDia(){ var feitas=estado.filter(e=>e.feito).length; alert('🎉 Dia finalizado!\n\nVocê fez '+feitas+' de '+diaAtual.length+' tarefas\nTempo focado: '+Math.round(minutosFocados)+' min'); }
+renderMenu();
 </script>
 </body>
 </html>
