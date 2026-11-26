@@ -124,6 +124,9 @@ h2{font-size:15px;margin:0 0 4px}
 .estrela.ativa{opacity:1;transform:scale(1.15)}
 .estrela:active{transform:scale(.9)}
 .resumo-dia{background:#fff;color:#000;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;white-space:pre-wrap;text-align:left;margin-top:10px}
+.contador-whats{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
+.contador-whats button{width:44px;height:44px;border:0;border-radius:50%;background:#25D366;color:#fff;font-size:22px;font-weight:900;cursor:pointer}
+.contador-whats input{width:80px;text-align:center;padding:10px;border:2px solid #E5E7EB;border-radius:10px;font-size:18px;font-weight:900;outline:none}
 </style>
 </head>
 <body>
@@ -158,7 +161,6 @@ h2{font-size:15px;margin:0 0 4px}
       <div id="menuTarefa2"></div><div id="msgMenu2"></div>
     </div>
 
-    <!-- CAFÉ APÓS 2ª -->
     <div id="telaPausa" class="card-pausa escondido">
       <img src="cafe.jpg" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80'" alt="Café">
       <div class="pausa-conteudo">
@@ -183,17 +185,13 @@ h2{font-size:15px;margin:0 0 4px}
       </div>
     </div>
 
-    <!-- 3ª ATIVIDADE CORRETA: O QUE VOCÊ VAI FAZER AGORA? -->
     <div class="card bloqueado" id="card3">
       <h2>☑️ 3ª Atividade <span id="badgeBloqueio3"><span class="badge-bloqueado">🔒 BLOQUEADA</span></span><span id="badge3" class="escondido"><span class="badge-travado">✅ CONCLUÍDA - TRAVADA</span></span></h2>
       <div class="sub" id="sub3">🔒 Conclua a 2ª Atividade + café para liberar.</div>
-      <div id="menuTarefa3">
-        <div class="mensagem aviso">🔒 Conclua a 2ª + café para liberar a 3ª.</div>
-      </div>
+      <div id="menuTarefa3"><div class="mensagem aviso">🔒 Conclua a 2ª + café para liberar a 3ª.</div></div>
       <div id="msgMenu3"></div>
     </div>
 
-    <!-- 4ª ATIVIDADE CORRETA: VOLTAR NAS NEGOCIAÇÕES -->
     <div class="card bloqueado" id="card4">
       <h2>☑️ 4ª Atividade <span id="badgeBloqueio4"><span class="badge-bloqueado">🔒 BLOQUEADA</span></span><span id="badge4" class="escondido"><span class="badge-travado">✅ CONCLUÍDA - TRAVADA</span></span></h2>
       <div class="sub" id="sub4">🔒 Conclua a 3ª Atividade para liberar.</div>
@@ -213,6 +211,17 @@ h2{font-size:15px;margin:0 0 4px}
         <span class="estrela" onclick="avaliarDia(5)">⭐</span>
       </div>
       <p id="textoEstrelas" style="text-align:center;font-size:13px;opacity:.8;margin:0">Toque nas estrelas para avaliar</p>
+
+      <div style="margin-top:14px">
+        <label style="font-weight:800;font-size:13px;display:block;text-align:center;margin-bottom:6px">💬 N de mensagens enviadas no Whats:</label>
+        <div class="contador-whats">
+          <button type="button" onclick="alterarWhats(-1)">−</button>
+          <input type="number" id="inputWhats" value="0" min="0" oninput="qtdWhats=parseInt(this.value)||0; salvarEstado(); atualizarResumo();">
+          <button type="button" onclick="alterarWhats(1)">+</button>
+        </div>
+        <small style="font-size:11px;opacity:.7;display:block;text-align:center;margin-top:4px">Aperte + a cada mensagem enviada no WhatsApp</small>
+      </div>
+
       <div style="margin-top:12px">
         <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px">📝 Como foi seu dia?</label>
         <textarea id="feedbackDia" placeholder="Ex: Dia bom, consegui falar com bastante gente..." style="width:100%;padding:12px;border-radius:10px;border:0;font-size:14px;min-height:70px;resize:vertical;outline:none;color:#000" oninput="avaliacaoComentario=this.value; salvarEstado(); atualizarResumo();"></textarea>
@@ -220,7 +229,6 @@ h2{font-size:15px;margin:0 0 4px}
       <div style="margin-top:10px">
         <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px">📱 Número do WhatsApp para enviar (opcional)</label>
         <input id="numeroWhats" type="tel" placeholder="Ex: 5512999999999 - se deixar em branco, você escolhe o contato" style="width:100%;padding:12px;border-radius:10px;border:0;font-size:14px;outline:none;color:#000" oninput="numeroWhats=this.value; salvarEstado();">
-        <small style="font-size:11px;opacity:.7;display:block;margin-top:4px">Deixe em branco para escolher o contato na hora.</small>
       </div>
       <div class="resumo-dia" id="resumoDia">Carregando resumo...</div>
       <button class="btn btn-whats" style="margin-top:12px" onclick="enviarWhatsApp()">📲 Enviar relatório via WhatsApp</button>
@@ -252,6 +260,15 @@ h2{font-size:15px;margin:0 0 4px}
         <button class="btn btn-azul" style="padding:10px;font-size:13px" onclick="adicionarQuadradinhos(10)">➕ +10</button>
         <button class="btn" style="padding:10px;font-size:13px;background:#E5E7EB" onclick="zerarLigacoes()">🔄 Zerar</button>
       </div>
+      <!-- CONTADOR WHATS TAMBÉM VISÍVEL O DIA TODO -->
+      <div style="margin-top:14px;border-top:1px dashed #CBD5E1;padding-top:10px;text-align:center">
+        <div style="font-weight:800;font-size:13px">💬 N de mensagens enviadas no Whats:</div>
+        <div class="contador-whats">
+          <button type="button" onclick="alterarWhats(-1)" style="background:#0B2A5B">−</button>
+          <input type="number" id="inputWhatsTopo" value="0" min="0" oninput="qtdWhats=parseInt(this.value)||0; sincronizarWhats(); salvarEstado(); atualizarResumo();">
+          <button type="button" onclick="alterarWhats(1)" style="background:#0B2A5B">+</button>
+        </div>
+      </div>
     </div>
     <div class="painel-lead">
       <button id="btnAbaLead" class="btn-aba-lead" onclick="toggleAbaLead()">➕ Inserir lead potencial <span id="setaAbaLead">▼</span></button>
@@ -275,99 +292,74 @@ h2{font-size:15px;margin:0 0 4px}
 var CHAVE = 'lucasFortesDia_v2';
 var qtdLeads1 = 0, sel1 = false, travado1 = false;
 var qtdLeads2 = 0, sel2 = false, travado2 = false, iniciado2 = false;
-// 3ª = ESCOLHA
 var opcao3Sel = -1, travado3 = false, escolha3 = '', qtdC2s = 0;
-// 4ª = NEGOCIAÇÕES
 var qtdNeg4 = null, sel4 = false, travado4 = false, iniciado4 = false;
 var timerPausa = null, segundosRestantes = 600;
 var cafeRespondido = false;
 var avaliacaoEstrelas = 0, avaliacaoComentario = '', numeroWhats = '';
+var qtdWhats = 0;
 var modoAtual = 'trabalho';
 var ligacoes = new Set();
 var leadsPotenciais = [];
 var abaLeadAberta = false;
 var totalQuadrados = 30;
-function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolha3:escolha3, qtdC2s:qtdC2s, qtdNeg4:qtdNeg4, sel4:sel4, travado4:travado4, iniciado4:iniciado4, cafeRespondido:cafeRespondido, avaliacaoEstrelas:avaliacaoEstrelas, avaliacaoComentario:avaliacaoComentario, numeroWhats:numeroWhats, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'', msg4:document.getElementById('msgMenu4')?document.getElementById('msgMenu4').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
-function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=d.opcao3Sel!==undefined?d.opcao3Sel:-1; travado3=!!d.travado3; escolha3=d.escolha3||''; qtdC2s=d.qtdC2s||0; qtdNeg4=(d.qtdNeg4!==undefined?d.qtdNeg4:null); sel4=!!d.sel4; travado4=!!d.travado4; iniciado4=!!d.iniciado4; cafeRespondido=!!d.cafeRespondido; avaliacaoEstrelas=d.avaliacaoEstrelas||0; avaliacaoComentario=d.avaliacaoComentario||''; numeroWhats=d.numeroWhats||''; ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; liberarAtividade4(); } if(travado4){ document.getElementById('badge4').classList.remove('escondido'); document.getElementById('card4').classList.add('travado'); document.getElementById('sub4').textContent='✅ Concluída'; mostrarFeedback(); } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(d.msg4) document.getElementById('msgMenu4').innerHTML=d.msg4; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } return true; }catch(e){ return false; } }
-function concluirDia(){ var resumo = 'Ligações: '+ligacoes.size+' | Leads potenciais: '+leadsPotenciais.length; if(!confirm('🏁 Concluir seu dia?\n\n'+resumo+'\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
+function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolha3:escolha3, qtdC2s:qtdC2s, qtdNeg4:qtdNeg4, sel4:sel4, travado4:travado4, iniciado4:iniciado4, cafeRespondido:cafeRespondido, avaliacaoEstrelas:avaliacaoEstrelas, avaliacaoComentario:avaliacaoComentario, numeroWhats:numeroWhats, qtdWhats:qtdWhats, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'', msg4:document.getElementById('msgMenu4')?document.getElementById('msgMenu4').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
+function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=d.opcao3Sel!==undefined?d.opcao3Sel:-1; travado3=!!d.travado3; escolha3=d.escolha3||''; qtdC2s=d.qtdC2s||0; qtdNeg4=(d.qtdNeg4!==undefined?d.qtdNeg4:null); sel4=!!d.sel4; travado4=!!d.travado4; iniciado4=!!d.iniciado4; cafeRespondido=!!d.cafeRespondido; avaliacaoEstrelas=d.avaliacaoEstrelas||0; avaliacaoComentario=d.avaliacaoComentario||''; numeroWhats=d.numeroWhats||''; qtdWhats=d.qtdWhats||0; ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; liberarAtividade4(); } if(travado4){ document.getElementById('badge4').classList.remove('escondido'); document.getElementById('card4').classList.add('travado'); document.getElementById('sub4').textContent='✅ Concluída'; mostrarFeedback(); } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(d.msg4) document.getElementById('msgMenu4').innerHTML=d.msg4; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); return true; }catch(e){ return false; } }
+function concluirDia(){ if(!confirm('🏁 Concluir seu dia?\n\nLigações: '+ligacoes.size+' | Whats: '+qtdWhats+' | Negociações: '+leadsPotenciais.length+'\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
 function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.body.style.paddingTop='70px'; document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.body.style.paddingTop='12px'; document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
-// 1ª
 function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''); document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1){qtdLeads1=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel1 && !travado1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100); }
 function toggle1(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); salvarEstado(); }
 function confirmarQtd1(e){ if(estaEmAlmoco()) return; if(travado1) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
 function responderInteracao(interagiu){ document.getElementById('modalPergunta').classList.add('escondido'); if(interagiu){ travado1 = true; sel1 = true; document.getElementById('msgMenu1').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads1} leads.<br>✅ Atividade 1 concluída e travada.</div>`; document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent = '✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent = '✅ Liberada! Marque quando for começar.'; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">✅ 2ª Atividade liberada!</div>`; } else { document.getElementById('msgMenu1').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads1} leads.</div>`; } renderMenu1(); renderMenu2(); renderMenu3(); renderMenu4(); salvarEstado(); }
-// 2ª
 function renderMenu2(){ var bloqueada = !travado1; var trav = travado2 ? 'travado' : (bloqueada ? 'bloqueado' : (sel2?'selecionado':'')); document.getElementById('menuTarefa2').innerHTML = `<label class="menu-item ${trav}" onclick="if(${bloqueada}){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return false; }"><input type="checkbox" ${sel2?'checked':''} ${travado2||bloqueada?'disabled':''} onchange="toggle2(this.checked)"><span class="emoji">${bloqueada?'🔒':'🔍'}</span><span style="flex:1;min-width:0"><span class="nome">Fazer o filtro dos 3 ultimos dias</span>${bloqueada?`<div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:700">🔒 Conclua a 1ª Atividade para liberar.</div>`:''}${sel2 && !bloqueada?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label><input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 42" value="${qtdLeads2>0?qtdLeads2:''}" ${travado2?'disabled':''} oninput="if(!travado2){qtdLeads2=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado2?'disabled':''} onclick="confirmarQtd2(event)">${travado2?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel2 && !travado2 && !bloqueada && !iniciado2) setTimeout(()=>{ var el=document.getElementById('inputLeads2'); if(el) el.focus(); },100); }
 function toggle2(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(travado2) return; if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; } sel2=m; if(!m){ qtdLeads2=0; iniciado2=false; document.getElementById('msgMenu2').innerHTML=''; } renderMenu2(); salvarEstado(); }
 function confirmarQtd2(e){ if(estaEmAlmoco()) return; if(travado2) return; if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; } if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads2){ alert('Informe quantos leads você recebeu!'); return; } document.getElementById('textoModal2').innerHTML = 'Você recebeu <b>'+qtdLeads2+'</b> leads nos 3 ultimos dias.<br><br>👉 <b>Faça contato com os leads dos 3 ultimos dias.</b>'; document.getElementById('modal2').classList.remove('escondido'); }
 function fecharModal2(){ document.getElementById('modal2').classList.add('escondido'); concluirAtividade2(); }
 function concluirAtividade2(){ if(estaEmAlmoco()) return; if(!travado1) return; travado2 = true; sel2 = true; iniciado2=true; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">🔍 Parabéns! Você fez contato com os ${qtdLeads2} leads.<br>✅ Atividade 2 concluída e travada.</div>`; document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent = '✅ Concluída'; renderMenu2(); renderMenu3(); renderMenu4(); mostrarPausa(); salvarEstado(); }
-// CAFÉ
 function mostrarPausa(){ var el=document.getElementById('telaPausa'); el.classList.remove('escondido'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
 function responderPausa(sim){ if(estaEmAlmoco()) return; cafeRespondido = true; document.getElementById('perguntaPausa').classList.add('escondido'); if(sim){ document.getElementById('areaCronometro').classList.remove('escondido'); iniciarCronometroPausa(); } else { document.getElementById('msgPausaNao').classList.remove('escondido'); } liberarAtividade3(); salvarEstado(); setTimeout(()=>{ document.getElementById('card3').scrollIntoView({behavior:'smooth', block:'start'}); }, sim ? 500 : 800); }
 function iniciarCronometroPausa(){ segundosRestantes = 600; atualizarCronometroPausa(); if(timerPausa) clearInterval(timerPausa); timerPausa = setInterval(()=>{ segundosRestantes--; atualizarCronometroPausa(); if(segundosRestantes<=0){ clearInterval(timerPausa); finalizarPausa(); } },1000); }
 function atualizarCronometroPausa(){ var m = Math.floor(segundosRestantes/60); var s = segundosRestantes%60; document.getElementById('textoCronometro').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); document.getElementById('barraPausa').style.width = (segundosRestantes/600*100)+'%'; }
 function pularPausa(){ if(timerPausa) clearInterval(timerPausa); finalizarPausa(); }
 function finalizarPausa(){ document.getElementById('areaCronometro').classList.add('escondido'); document.getElementById('msgPausaFim').classList.remove('escondido'); }
-// 3ª ATIVIDADE CORRETA
 function liberarAtividade3(){ if(cafeRespondido){ document.getElementById('badgeBloqueio3').classList.add('escondido'); document.getElementById('card3').classList.remove('bloqueado'); document.getElementById('sub3').textContent = '✅ Liberada! Escolha uma das 3 opções.'; document.getElementById('msgMenu3').innerHTML = `<div class="mensagem ok">✅ 3ª Atividade liberada!</div>`; renderMenu3(); } }
-function renderMenu3(){
-  var bloqueada = !cafeRespondido;
-  if(bloqueada && !travado3){ document.getElementById('menuTarefa3').innerHTML = `<div class="mensagem aviso">🔒 Conclua a 2ª + café para liberar a 3ª.</div>`; return; }
-  if(travado3){
-    document.getElementById('menuTarefa3').innerHTML = `<div class="opcao-pausa travado"><input type="checkbox" checked disabled><span>✅ ${escolha3}</span></div>`;
-    return;
-  }
-  var html = `<p style="font-weight:800;text-align:center;margin:0 0 10px">O que você vai fazer agora?</p>`;
-  html += `<label class="opcao-pausa ${opcao3Sel===0?'selecionado':''}" id="label3_0"><input type="checkbox" ${opcao3Sel===0?'checked':''} onchange="selecionarOpcao3(this,0)"><span>1º Zerar C2s!</span></label>`;
-  html += `<label class="opcao-pausa ${opcao3Sel===1?'selecionado':''}" id="label3_1"><input type="checkbox" ${opcao3Sel===1?'checked':''} onchange="selecionarOpcao3(this,1)"><span>2º Fazer uma lista</span></label>`;
-  html += `<label class="opcao-pausa ${opcao3Sel===2?'selecionado':''}" id="label3_2"><input type="checkbox" ${opcao3Sel===2?'checked':''} onchange="selecionarOpcao3(this,2)"><span>3º Discador</span></label>`;
-  html += `<div id="areaOpcao3"></div>`;
-  html += `<button class="btn btn-verde" style="margin-top:6px" onclick="confirmarOpcao3()">✅ Confirmar escolha</button>`;
-  document.getElementById('menuTarefa3').innerHTML = html;
-  if(opcao3Sel===0){ document.getElementById('areaOpcao3').innerHTML = `<div class="campo-c2s"><label>📋 Quantas atividades tem no C2s?</label><input type="number" id="inputC2s" inputmode="numeric" placeholder="Ex: 55" value="${qtdC2s>0?qtdC2s:''}" oninput="qtdC2s=parseInt(this.value)||0; salvarEstado();"></div>`; }
-  else if(opcao3Sel===1){ document.getElementById('areaOpcao3').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; }
-  else if(opcao3Sel===2){ document.getElementById('areaOpcao3').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads, são novas oportunidades que chegam</div>`; }
-}
-function selecionarOpcao3(cb, idx){
-  if(estaEmAlmoco()){ cb.checked=false; return; }
-  if(travado3){ cb.checked=true; return; }
-  if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); cb.checked=false; return; }
-  document.querySelectorAll('#menuTarefa3 .opcao-pausa').forEach(function(l,i){ if(i!==idx){ l.classList.remove('selecionado'); l.querySelector('input').checked=false; } });
-  if(cb.checked){ opcao3Sel = idx; cb.closest('label').classList.add('selecionado'); } else { opcao3Sel = -1; }
-  document.getElementById('msgMenu3').innerHTML='';
-  renderMenu3(); salvarEstado();
-}
-function confirmarOpcao3(){
-  if(estaEmAlmoco()) return;
-  if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); return; }
-  if(opcao3Sel===-1){ alert('Escolha uma das 3 opções primeiro!'); return; }
-  var textos = ['Zerar C2s!', 'Fazer uma lista', 'Discador'];
-  var atual = opcao3Sel;
-  escolha3 = textos[atual];
-  if(atual===0){ if(!qtdC2s){ alert('Informe quantas atividades tem no C2s!'); return; } document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">📋 Você tem <b>${qtdC2s}</b> atividades no C2s.<br>⚠️ Antes de ligar, leia a frase abaixo do relógio!!</div>`; }
-  else if(atual===1){ document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; }
-  else if(atual===2){ document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads</div>`; }
-  travado3 = true;
-  document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${escolha3}</b><br>✅ 3ª Atividade concluída!</div>`;
-  document.getElementById('badge3').classList.remove('escondido');
-  document.getElementById('card3').classList.add('travado');
-  document.getElementById('sub3').textContent = '✅ Concluída';
-  renderMenu3(); liberarAtividade4(); salvarEstado();
-}
-// 4ª ATIVIDADE CORRETA - NEGOCIAÇÕES
+function renderMenu3(){ var bloqueada = !cafeRespondido; if(bloqueada && !travado3){ document.getElementById('menuTarefa3').innerHTML = `<div class="mensagem aviso">🔒 Conclua a 2ª + café para liberar a 3ª.</div>`; return; } if(travado3){ document.getElementById('menuTarefa3').innerHTML = `<div class="opcao-pausa travado"><input type="checkbox" checked disabled><span>✅ ${escolha3}</span></div>`; return; } var html = `<p style="font-weight:800;text-align:center;margin:0 0 10px">O que você vai fazer agora?</p>`; html += `<label class="opcao-pausa ${opcao3Sel===0?'selecionado':''}"><input type="checkbox" ${opcao3Sel===0?'checked':''} onchange="selecionarOpcao3(this,0)"><span>1º Zerar C2s!</span></label>`; html += `<label class="opcao-pausa ${opcao3Sel===1?'selecionado':''}"><input type="checkbox" ${opcao3Sel===1?'checked':''} onchange="selecionarOpcao3(this,1)"><span>2º Fazer uma lista</span></label>`; html += `<label class="opcao-pausa ${opcao3Sel===2?'selecionado':''}"><input type="checkbox" ${opcao3Sel===2?'checked':''} onchange="selecionarOpcao3(this,2)"><span>3º Discador</span></label>`; html += `<div id="areaOpcao3"></div>`; html += `<button class="btn btn-verde" style="margin-top:6px" onclick="confirmarOpcao3()">✅ Confirmar escolha</button>`; document.getElementById('menuTarefa3').innerHTML = html; if(opcao3Sel===0){ document.getElementById('areaOpcao3').innerHTML = `<div class="campo-c2s"><label>📋 Quantas atividades tem no C2s?</label><input type="number" id="inputC2s" inputmode="numeric" placeholder="Ex: 55" value="${qtdC2s>0?qtdC2s:''}" oninput="qtdC2s=parseInt(this.value)||0; salvarEstado();"></div>`; } else if(opcao3Sel===1){ document.getElementById('areaOpcao3').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!<br>Não esqueça de anotar as ligações</div>`; } else if(opcao3Sel===2){ document.getElementById('areaOpcao3').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s para novos leads</div>`; } }
+function selecionarOpcao3(cb, idx){ if(estaEmAlmoco()){ cb.checked=false; return; } if(travado3){ cb.checked=true; return; } if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); cb.checked=false; return; } document.querySelectorAll('#menuTarefa3 .opcao-pausa').forEach(function(l,i){ if(i!==idx){ l.classList.remove('selecionado'); l.querySelector('input').checked=false; } }); if(cb.checked){ opcao3Sel = idx; cb.closest('label').classList.add('selecionado'); } else { opcao3Sel = -1; } document.getElementById('msgMenu3').innerHTML=''; renderMenu3(); salvarEstado(); }
+function confirmarOpcao3(){ if(estaEmAlmoco()) return; if(!cafeRespondido){ alert('🔒 Conclua a 2ª + café primeiro!'); return; } if(opcao3Sel===-1){ alert('Escolha uma das 3 opções primeiro!'); return; } var textos = ['Zerar C2s!', 'Fazer uma lista', 'Discador']; var atual = opcao3Sel; escolha3 = textos[atual]; if(atual===0){ if(!qtdC2s){ alert('Informe quantas atividades tem no C2s!'); return; } document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">📋 Você tem <b>${qtdC2s}</b> atividades no C2s.</div>`; } else if(atual===1){ document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">💪 Vai pra cima! Quem procura sempre encontra!</div>`; } else if(atual===2){ document.getElementById('msgMenu3').innerHTML = `<div class="mensagem destaque">📞 Enquanto aguarda uma ligação cair, fique de olho no C2s</div>`; } travado3 = true; document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${escolha3}</b><br>✅ 3ª Atividade concluída!</div>`; document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent = '✅ Concluída'; renderMenu3(); liberarAtividade4(); salvarEstado(); }
 function liberarAtividade4(){ document.getElementById('badgeBloqueio4').classList.add('escondido'); document.getElementById('card4').classList.remove('bloqueado'); document.getElementById('sub4').textContent = '✅ Liberada! Marque quando for começar.'; document.getElementById('msgMenu4').innerHTML = `<div class="mensagem ok">✅ 4ª Atividade liberada!</div>`; renderMenu4(); document.getElementById('card4').scrollIntoView({behavior:'smooth', block:'start'}); }
 function renderMenu4(){ var bloqueada = !travado3; var trav = travado4 ? 'travado' : (bloqueada ? 'bloqueado' : (sel4?'selecionado':'')); var valorInput = (qtdNeg4!==null && qtdNeg4!==undefined) ? qtdNeg4 : ''; if(bloqueada && !travado4){ document.getElementById('menuTarefa4').innerHTML = `<div class="mensagem aviso">🔒 Conclua a 3ª Atividade para liberar.</div>`; return; } document.getElementById('menuTarefa4').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel4?'checked':''} ${travado4?'disabled':''} onchange="toggle4(this.checked)"><span class="emoji">💬</span><span style="flex:1;min-width:0"><span class="nome">Voltar nas negociações do dia anterior</span>${sel4?`<div class="campo-leads" onclick="event.stopPropagation()"><label>💬 Quantas negociações você tinha do dia anterior?</label><input type="number" id="inputNeg4" inputmode="numeric" placeholder="Ex: 0, 1, 5..." value="${valorInput}" ${travado4?'disabled':''} oninput="qtdNeg4=this.value==='' ? null : parseInt(this.value)||0; salvarEstado();"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado4?'disabled':''} onclick="confirmarQtd4(event)">${travado4?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel4 && !travado4 && !bloqueada && !iniciado4) setTimeout(()=>{ var el=document.getElementById('inputNeg4'); if(el) el.focus(); },100); }
 function toggle4(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço!'); return; } if(travado4) return; if(!travado3){ alert('🔒 Conclua a 3ª Atividade primeiro!'); return; } sel4=m; if(!m){ qtdNeg4=null; iniciado4=false; document.getElementById('msgMenu4').innerHTML=''; } renderMenu4(); salvarEstado(); }
 function confirmarQtd4(e){ if(estaEmAlmoco()) return; if(travado4) return; if(!travado3){ alert('🔒 Conclua a 3ª Atividade primeiro!'); return; } if(e){e.preventDefault(); e.stopPropagation();} if(qtdNeg4===null || qtdNeg4===undefined || qtdNeg4===''){ alert('Informe quantas negociações! Pode ser 0.'); return; } if(qtdNeg4===0){ document.getElementById('tituloModal4').textContent = 'Que vergonha...'; document.getElementById('textoModal4').innerHTML = 'Você informou <b>0</b> negociações.<br><br>😔 <b>Que vergonha... mas amanhã será diferente.</b>'; } else { document.getElementById('tituloModal4').textContent = 'Bora voltar nas negociações!'; document.getElementById('textoModal4').innerHTML = 'Você tem <b>'+qtdNeg4+'</b> negociação(ões).<br><br>💡 <b>Ao vender peça indicações.</b>'; } document.getElementById('modal4').classList.remove('escondido'); }
 function fecharModal4(){ document.getElementById('modal4').classList.add('escondido'); concluirAtividade4(); }
 function concluirAtividade4(){ if(estaEmAlmoco()) return; if(!travado3) return; travado4 = true; sel4 = true; iniciado4=true; var textoFinal = qtdNeg4===0 ? `😔 Você tinha <b>0</b> negociações.<br><b>Que vergonha... mas amanhã será diferente.</b>` : `💬 Parabéns! Você voltou nas <b>${qtdNeg4}</b> negociação(ões).<br>💡 <b>Ao vender peça indicações.</b>`; document.getElementById('msgMenu4').innerHTML = `<div class="mensagem ok">${textoFinal}<br>✅ Atividade 4 concluída e travada.</div>`; document.getElementById('badge4').classList.remove('escondido'); document.getElementById('card4').classList.add('travado'); document.getElementById('sub4').textContent = '✅ Concluída'; renderMenu4(); mostrarFeedback(); salvarEstado(); }
-// FEEDBACK
-function mostrarFeedback(){ var el=document.getElementById('cardFeedback'); el.classList.remove('escondido'); document.getElementById('feedbackDia').value=avaliacaoComentario; document.getElementById('numeroWhats').value=numeroWhats; atualizarEstrelas(); atualizarResumo(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+// WHATS COUNTER + RELATÓRIO NOVO
+function alterarWhats(delta){ qtdWhats = Math.max(0, (qtdWhats||0)+delta); sincronizarWhats(); salvarEstado(); atualizarResumo(); }
+function sincronizarWhats(){ var a=document.getElementById('inputWhats'); if(a) a.value=qtdWhats; var b=document.getElementById('inputWhatsTopo'); if(b) b.value=qtdWhats; }
+function mostrarFeedback(){ var el=document.getElementById('cardFeedback'); el.classList.remove('escondido'); document.getElementById('feedbackDia').value=avaliacaoComentario; document.getElementById('numeroWhats').value=numeroWhats; sincronizarWhats(); atualizarEstrelas(); atualizarResumo(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
 function avaliarDia(n){ avaliacaoEstrelas=n; atualizarEstrelas(); atualizarResumo(); salvarEstado(); }
 function atualizarEstrelas(){ var estrelas=document.querySelectorAll('#estrelas .estrela'); estrelas.forEach(function(e,i){ e.classList.toggle('ativa', i<avaliacaoEstrelas); }); var textos=['','😞 Péssimo','😐 Mais ou menos','🙂 Bom','😃 Muito bom','🏆 Excelente!']; document.getElementById('textoEstrelas').textContent = avaliacaoEstrelas>0 ? textos[avaliacaoEstrelas]+' - '+avaliacaoEstrelas+'/5' : 'Toque nas estrelas para avaliar'; }
-function gerarTextoRelatorio(){ var data = new Date().toLocaleDateString('pt-BR',{day:'2-digit', month:'2-digit', year:'numeric'}); var linhas = []; linhas.push('🏁 RELATÓRIO DO DIA - Lucas Fortes'); linhas.push('📅 '+data+' • Consórcio Porto Seguro'); linhas.push(''); linhas.push('✅ 1ª Atividade: '+(travado1 ? qtdLeads1+' leads atendidos' : 'Não concluída')); linhas.push('✅ 2ª Atividade: '+(travado2 ? qtdLeads2+' leads contatados (3 últimos dias)' : 'Não concluída')); linhas.push('✅ 3ª Atividade: '+(travado3 ? escolha3 + (escolha3==='Zerar C2s!' ? ' ('+qtdC2s+' atividades)' : '') : 'Não concluída')); linhas.push('✅ 4ª Atividade: '+(travado4 ? qtdNeg4+' negociação(ões) retomadas' : 'Não concluída')); linhas.push(''); linhas.push('📞 Ligações realizadas: '+ligacoes.size); linhas.push('⭐ Leads potenciais: '+leadsPotenciais.length); leadsPotenciais.forEach(function(l){ linhas.push(' - '+l.nome+' • '+l.telefone+' • '+l.valor); }); linhas.push(''); linhas.push('⭐ Avaliação do dia: '+(avaliacaoEstrelas>0 ? avaliacaoEstrelas+'/5' : 'Não avaliado')); if(avaliacaoComentario.trim()){ linhas.push('📝 Como foi o dia: '+avaliacaoComentario.trim()); } linhas.push(''); linhas.push('🚀 Bora pra cima, amanhã tem mais!'); return linhas.join('\n'); }
+// NOVO FORMATO DO RELATÓRIO
+function gerarTextoRelatorio(){
+  var data = new Date().toLocaleDateString('pt-BR',{day:'2-digit', month:'2-digit', year:'numeric'});
+  var linhas = [];
+  linhas.push('🏁 RELATÓRIO DO DIA - Lucas Fortes');
+  linhas.push('📅 '+data+' • Consórcio Porto Seguro');
+  linhas.push('');
+  linhas.push('N de ligações: ' + ligacoes.size);
+  linhas.push('N de mensagens enviadas no Whats: ' + (qtdWhats||0));
+  linhas.push('N de Negociações: ' + leadsPotenciais.length + ' (Quantidade de leads potenciais cadastrados)');
+  linhas.push('');
+  if(leadsPotenciais.length>0){
+    leadsPotenciais.forEach(function(l){ linhas.push(' - '+l.nome+' • '+l.telefone+' • '+l.valor); });
+    linhas.push('');
+  }
+  linhas.push('⭐ Avaliação do dia: '+(avaliacaoEstrelas>0 ? avaliacaoEstrelas+'/5' : 'Não avaliado'));
+  if(avaliacaoComentario.trim()){ linhas.push('📝 Como foi o dia: '+avaliacaoComentario.trim()); }
+  linhas.push('');
+  linhas.push('🚀 Bora pra cima, amanhã tem mais!');
+  return linhas.join('\n');
+}
 function atualizarResumo(){ document.getElementById('resumoDia').textContent = gerarTextoRelatorio(); }
 function enviarWhatsApp(){ atualizarResumo(); var texto = gerarTextoRelatorio(); var num = (document.getElementById('numeroWhats').value||'').replace(/\D/g,''); numeroWhats = document.getElementById('numeroWhats').value; salvarEstado(); var url; if(num){ url = 'https://wa.me/'+num+'?text='+encodeURIComponent(texto); } else { url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); } window.open(url,'_blank'); document.getElementById('msgFeedback').innerHTML = `<div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ WhatsApp aberto com o relatório pronto!</div>`; }
 function copiarRelatorio(){ atualizarResumo(); var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ document.getElementById('msgFeedback').innerHTML = `<div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ Relatório copiado!</div>`; }); } else { alert(texto); } }
@@ -387,7 +379,7 @@ function toggleLigacao(i){ if(estaEmAlmoco()){ alert('🍽️ Você está em Alm
 function adicionarQuadradinhos(q){ if(estaEmAlmoco()) return; totalQuadrados+=q; renderLigacoes(); salvarEstado(); }
 function zerarLigacoes(){ if(estaEmAlmoco()) return; if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); salvarEstado(); }
 carregarEstado();
-renderMenu1(); renderMenu2(); renderMenu3(); renderMenu4(); renderLigacoes(); renderLeads(); atualizarEstrelas(); atualizarResumo();
+renderMenu1(); renderMenu2(); renderMenu3(); renderMenu4(); renderLigacoes(); renderLeads(); atualizarEstrelas(); atualizarResumo(); sincronizarWhats();
 setInterval(salvarEstado, 5000);
 </script>
 </body>
