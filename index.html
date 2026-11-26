@@ -6,7 +6,7 @@
 <title>Organização Diária - Lucas Fortes</title>
 <style>
 *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
-body{margin:0;background:#0B2A5B;color:#fff;padding:12px;padding-bottom:40px}
+body{margin:0;background:#0B2A5B;color:#fff;padding:12px;padding-bottom:20px}
 body.em-almoco{pointer-events:none}
 body.em-almoco #barraTopo, body.em-almoco #avisoAlmoco{pointer-events:auto}
 header{text-align:center}
@@ -20,7 +20,6 @@ header p{opacity:.85;font-size:12px;margin:4px 0 12px}
 .toggle-modo button.ativo-almoco{background:#F59E0B;color:#fff}
 #avisoAlmoco{position:fixed;top:0;left:0;right:0;z-index:9999;background:#F59E0B;color:#000;text-align:center;padding:12px;font-weight:800;font-size:14px;line-height:1.4;box-shadow:0 4px 20px rgba(0,0,0,.3)}
 #avisoAlmoco small{display:block;font-weight:800;font-size:15px;margin-top:4px}
-.btn-concluir-dia{width:100%;border:0;background:#EF4444;color:#fff;border-radius:12px;padding:12px;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:12px}
 .layout{display:flex;gap:12px;align-items:flex-start}
 .col-esq{flex:1;min-width:0}
 .col-dir{flex:1;min-width:0;position:sticky;top:12px}
@@ -71,7 +70,7 @@ h2{font-size:15px;margin:0 0 4px}
 .total-ligacoes{text-align:center;margin-top:10px;font-weight:800;font-size:14px}
 .total-ligacoes b{font-size:22px}
 .modal-fundo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:99}
-.modal{background:#fff;color:#000;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}
+.modal{background:#fff;color:#000;border-radius:20px;padding:20px;width:100%;max-width:400px;text-align:center;max-height:90vh;overflow-y:auto}
 .modal h3{font-size:18px;margin:0}
 .modal p{font-size:14px;color:#444;line-height:1.4}
 .modal .botoes-modal{display:flex;gap:10px;margin-top:16px}
@@ -128,11 +127,16 @@ h2{font-size:15px;margin:0 0 4px}
 .contador-whats{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
 .contador-whats button{width:44px;height:44px;border:0;border-radius:50%;background:#25D366;color:#fff;font-size:22px;font-weight:900;cursor:pointer}
 .contador-whats input{width:80px;text-align:center;padding:10px;border:2px solid #E5E7EB;border-radius:10px;font-size:18px;font-weight:900;outline:none}
-/* AMPULHETA - MAIS PARA BAIXO, NÃO COBRE O TÍTULO */
-#miniTimer{position:fixed;top:118px;left:12px;z-index:1000;background:#111827;color:#fff;border:2px solid #F59E0B;border-radius:20px;padding:7px 13px;font-size:13px;font-weight:900;box-shadow:0 4px 15px rgba(0,0,0,.4);display:flex;gap:6px;align-items:center}
+/* AMPULHETA - NO QUADRADO VERMELHO: LADO DIREITO, ABAIXO DO TOGGLE */
+#miniTimer{position:fixed;top:68px;right:12px;z-index:1000;background:#111827;color:#fff;border:2px solid #F59E0B;border-radius:20px;padding:7px 13px;font-size:13px;font-weight:900;box-shadow:0 4px 15px rgba(0,0,0,.4);display:flex;gap:6px;align-items:center}
 #miniTimer.pausa{background:#F59E0B;color:#000;border-color:#000}
 #miniTimer .ponto{width:8px;height:8px;border-radius:50%;background:#22C55E;animation:piscar 1s infinite}
 @keyframes piscar{0%,100%{opacity:1}50%{opacity:.3}}
+/* RODAPÉ - CONCLUIR DIA MAIS HARMÔNICO */
+footer{margin-top:18px;padding:18px 12px 8px;text-align:center;border-top:1px solid rgba(255,255,255,.15)}
+footer p{font-size:12px;opacity:.7;margin:0 0 10px}
+.btn-rodape{width:100%;max-width:420px;border:1px solid rgba(255,255,255,.25);background:#1F2937;color:#fff;border-radius:14px;padding:13px;font-weight:800;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn-rodape:active{transform:scale(.98)}
 </style>
 </head>
 <body>
@@ -154,7 +158,6 @@ h2{font-size:15px;margin:0 0 4px}
 </div>
 
 <header><h1>🚀 Organização Diária</h1><p>Lucas Fortes • Consórcio Porto Seguro</p></header>
-<button class="btn-concluir-dia" onclick="concluirDia()">🏁 Concluir meu dia e zerar tudo</button>
 
 <div class="layout">
   <div class="col-esq">
@@ -231,7 +234,6 @@ h2{font-size:15px;margin:0 0 4px}
       <div class="resumo-dia" id="resumoDia">Carregando resumo...</div>
       <button class="btn btn-whats" style="margin-top:12px" onclick="enviarWhatsApp()">📲 Enviar relatório via WhatsApp</button>
       <button class="btn" style="margin-top:8px;background:#374151;color:#fff" onclick="copiarRelatorio()">📋 Copiar relatório</button>
-      <button class="btn" style="margin-top:8px;background:#EF4444;color:#fff" onclick="concluirDia()">🏁 Concluir meu dia e zerar tudo</button>
       <div id="msgFeedback"></div>
     </div>
   </div>
@@ -281,6 +283,12 @@ h2{font-size:15px;margin:0 0 4px}
   </div>
 </div>
 
+<!-- RODAPÉ - CONCLUIR DIA -->
+<footer>
+  <p>Lucas Fortes • Consórcio Porto Seguro</p>
+  <button class="btn-rodape" onclick="abrirConcluirDia()">🏁 Concluir meu dia e zerar tudo</button>
+</footer>
+
 <div id="modalPergunta" class="modal-fundo escondido"><div class="modal"><div style="font-size:40px">🏆</div><h3>Você interagiu com esses leads?</h3><p id="textoModal"></p><div class="botoes-modal"><button class="btn-nao" onclick="responderInteracao(false)">❌ Não</button><button class="btn-sim" onclick="responderInteracao(true)">✅ Sim, interagi</button></div></div></div>
 <div id="modal2" class="modal-fundo escondido"><div class="modal"><div style="font-size:40px">🔍</div><h3>Faça contato com os leads</h3><p id="textoModal2"></p><div class="botoes-modal"><button class="btn-cinza" onclick="fecharModal2SemConcluir()">OK</button><button class="btn-sim" onclick="fecharModal2()">✅ Realizei contato</button></div></div></div>
 
@@ -309,6 +317,32 @@ h2{font-size:15px;margin:0 0 4px}
   </div>
 </div>
 
+<!-- MODAL CONCLUIR DIA -->
+<div id="modalConcluirDia" class="modal-fundo escondido" style="z-index:300">
+  <div class="modal">
+    <div id="etapaPerguntaConcluir">
+      <div style="font-size:40px">🏁</div>
+      <h3>Concluir meu dia?</h3>
+      <p id="textoConcluirDia">Deseja enviar o relatório?</p>
+      <p style="font-size:12px;color:#64748B">Será exibido o relatório com as atividades realizadas até o momento.<br>Não é obrigatório ter concluído todos os checkboxes da 3ª.</p>
+      <div class="botoes-modal">
+        <button class="btn-cinza" onclick="concluirDiaSemRelatorio()">Não, só zerar</button>
+        <button class="btn-sim" onclick="mostrarRelatorioConcluir()">✅ Sim, enviar relatório</button>
+      </div>
+      <button class="btn btn-cinza" style="margin-top:10px" onclick="fecharModalConcluir()">Voltar</button>
+    </div>
+    <div id="etapaRelatorioConcluir" class="escondido">
+      <div style="font-size:36px">📋</div>
+      <h3>Relatório até o momento</h3>
+      <div class="resumo-dia" id="resumoConcluirDia" style="border:1px solid #E5E7EB">Carregando...</div>
+      <button class="btn btn-whats" style="margin-top:12px" onclick="enviarWhatsAppConcluir()">📲 Enviar relatório via WhatsApp</button>
+      <button class="btn" style="margin-top:8px;background:#374151;color:#fff" onclick="copiarRelatorioConcluir()">📋 Copiar relatório</button>
+      <button class="btn" style="margin-top:8px;background:#EF4444;color:#fff" onclick="confirmarZerarTudo()">🏁 Concluir e zerar tudo</button>
+      <button class="btn btn-cinza" style="margin-top:8px" onclick="fecharModalConcluir()">Voltar e continuar o dia</button>
+    </div>
+  </div>
+</div>
+
 <script>
 var CHAVE = 'lucasFortesDia_v3';
 var qtdLeads1 = 0, sel1 = false, travado1 = false;
@@ -327,7 +361,16 @@ var timer45 = null, timerMini = null, inicioOpcao3 = 0, emPausa45 = false, timer
 function estaEmQualquerPausa(){ return emPausaCafe || emPausa45; }
 function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, opcao3Sel:opcao3Sel, travado3:travado3, escolhas3:escolhas3, qtdC2s:qtdC2s, concluidas3:concluidas3, cafeRespondido:cafeRespondido, emPausaCafe:emPausaCafe, avaliacaoEstrelas:avaliacaoEstrelas, avaliacaoComentario:avaliacaoComentario, numeroWhats:numeroWhats, qtdWhats:qtdWhats, inicioOpcao3:inicioOpcao3, emPausa45:emPausa45, pausa45MostradaPara:pausa45MostradaPara, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1')?document.getElementById('msgMenu1').innerHTML:'', msg2:document.getElementById('msgMenu2')?document.getElementById('msgMenu2').innerHTML:'', msg3:document.getElementById('msgMenu3')?document.getElementById('msgMenu3').innerHTML:'' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
 function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; opcao3Sel=(typeof d.opcao3Sel==='number'?d.opcao3Sel:-1); travado3=!!d.travado3; escolhas3=d.escolhas3||[]; qtdC2s=d.qtdC2s||0; concluidas3=d.concluidas3||[false,false,false]; cafeRespondido=!!d.cafeRespondido; emPausaCafe=!!d.emPausaCafe; avaliacaoEstrelas=d.avaliacaoEstrelas||0; avaliacaoComentario=d.avaliacaoComentario||''; numeroWhats=d.numeroWhats||''; qtdWhats=d.qtdWhats||0; inicioOpcao3=d.inicioOpcao3||0; emPausa45=!!d.emPausa45; pausa45MostradaPara=(d.pausa45MostradaPara!==undefined?d.pausa45MostradaPara:-1); ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); } if(cafeRespondido){ liberarAtividade3(); } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; mostrarFeedback(); } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(cafeRespondido){ document.getElementById('perguntaPausa').classList.add('escondido'); } if(emPausaCafe){ document.getElementById('areaCronometro').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } sincronizarWhats(); if(emPausa45){ document.getElementById('modalPausa45Cronometro').classList.remove('escondido'); } else if(inicioOpcao3 && opcao3Sel!==-1 && pausa45MostradaPara!==opcao3Sel && !emPausaCafe){ reagendarTimer45(); iniciarMiniTimer(); } else { document.getElementById('miniTimer').classList.add('escondido'); } return true; }catch(e){ return false; } }
-function concluirDia(){ if(!confirm('🏁 Concluir seu dia?\n\nLigações: '+ligacoes.size+' | Whats: '+qtdWhats+' | Negociações: '+leadsPotenciais.length+'\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v2'); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
+// CONCLUIR DIA - RODAPÉ + PERGUNTA RELATÓRIO
+function abrirConcluirDia(){ document.getElementById('etapaPerguntaConcluir').classList.remove('escondido'); document.getElementById('etapaRelatorioConcluir').classList.add('escondido'); document.getElementById('textoConcluirDia').innerHTML = 'Deseja enviar o relatório?<br><br><small style="font-size:12px;color:#64748B">Ligações: '+ligacoes.size+' | Whats: '+(qtdWhats||0)+' | Leads potenciais: '+leadsPotenciais.length+'</small>'; document.getElementById('modalConcluirDia').classList.remove('escondido'); }
+function fecharModalConcluir(){ document.getElementById('modalConcluirDia').classList.add('escondido'); }
+function mostrarRelatorioConcluir(){ atualizarResumo(); document.getElementById('resumoConcluirDia').textContent = gerarTextoRelatorio(); document.getElementById('etapaPerguntaConcluir').classList.add('escondido'); document.getElementById('etapaRelatorioConcluir').classList.remove('escondido'); }
+function enviarWhatsAppConcluir(){ var texto = gerarTextoRelatorio(); var num = (document.getElementById('numeroWhats') ? document.getElementById('numeroWhats').value||'' : '').replace(/\D/g,''); var url; if(num){ url = 'https://wa.me/'+num+'?text='+encodeURIComponent(texto); } else { url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); } window.open(url,'_blank'); }
+function copiarRelatorioConcluir(){ var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ alert('✅ Relatório copiado!'); }); } else { alert(texto); } }
+function concluirDiaSemRelatorio(){ if(!confirm('🏁 Concluir seu dia e zerar tudo?\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; zerarTudo(); }
+function confirmarZerarTudo(){ if(!confirm('🏁 Concluir e zerar tudo?\n\nVocê já enviou / copiou o relatório? Isso vai ZERAR tudo.')) return; zerarTudo(); }
+function zerarTudo(){ localStorage.removeItem(CHAVE); localStorage.removeItem('lucasFortesDia_v2'); localStorage.removeItem('lucasFortesDia_v1'); location.reload(); }
+function concluirDia(){ abrirConcluirDia(); }
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
 function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.body.style.paddingTop='70px'; document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.body.style.paddingTop='12px'; document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
 function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''); document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1){qtdLeads1=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel1 && !travado1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100); }
@@ -373,10 +416,7 @@ function renderMenu3(){
   else { html += `<p style="font-size:12px;text-align:center;color:#64748B;margin:0 0 10px">Livre escolha - faça 1 por vez. Conclua uma para escolher outra.</p>`; }
   for(var i=0;i<3;i++){
     var jaFeita = concluidas3[i];
-    if(jaFeita){
-      html += `<div class="opcao-pausa travado"><span>✅ ${i+1}º ${textos[i]} - CONCLUÍDA</span></div>`;
-      continue;
-    }
+    if(jaFeita){ html += `<div class="opcao-pausa travado"><span>✅ ${i+1}º ${textos[i]} - CONCLUÍDA</span></div>`; continue; }
     var selecionada = (opcao3Sel===i);
     var travadaPorOutra = (opcao3Sel!==-1 && opcao3Sel!==i);
     var bloqueadaOpt = emPausa || travadaPorOutra;
@@ -415,7 +455,6 @@ function confirmarOpcao3(){
   concluidas3[idx]=true;
   escolhas3.push(textos[idx]);
   document.getElementById('msgMenu3').innerHTML += `<div class="mensagem ok">✅ Concluída e travada: <b>${textos[idx]}</b></div>`;
-  // ZERA O CRONÔMETRO AO CONCLUIR - SOME DA TELA
   opcao3Sel = -1; qtdC2s = 0;
   zerarTimer45();
   salvarEstado();
@@ -432,7 +471,6 @@ function confirmarOpcao3(){
     renderMenu3();
   }
   salvarEstado();
-  // Garante que ficou zerado mesmo depois de renderizar
   document.getElementById('miniTimer').classList.add('escondido');
 }
 function alterarWhats(delta){ qtdWhats = Math.max(0, (qtdWhats||0)+delta); sincronizarWhats(); salvarEstado(); atualizarResumo(); }
@@ -440,7 +478,30 @@ function sincronizarWhats(){ var a=document.getElementById('inputWhats'); if(a) 
 function mostrarFeedback(){ var el=document.getElementById('cardFeedback'); el.classList.remove('escondido'); document.getElementById('feedbackDia').value=avaliacaoComentario; document.getElementById('numeroWhats').value=numeroWhats; sincronizarWhats(); atualizarEstrelas(); atualizarResumo(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
 function avaliarDia(n){ avaliacaoEstrelas=n; atualizarEstrelas(); atualizarResumo(); salvarEstado(); }
 function atualizarEstrelas(){ var estrelas=document.querySelectorAll('#estrelas .estrela'); estrelas.forEach(function(e,i){ e.classList.toggle('ativa', i<avaliacaoEstrelas); }); var textos=['','😞 Péssimo','😐 Mais ou menos','🙂 Bom','😃 Muito bom','🏆 Excelente!']; document.getElementById('textoEstrelas').textContent = avaliacaoEstrelas>0 ? textos[avaliacaoEstrelas]+' - '+avaliacaoEstrelas+'/5' : 'Toque nas estrelas para avaliar'; }
-function gerarTextoRelatorio(){ var data = new Date().toLocaleDateString('pt-BR',{day:'2-digit', month:'2-digit', year:'numeric'}); var linhas = []; linhas.push('🏁 RELATÓRIO DO DIA - Lucas Fortes'); linhas.push('📅 '+data+' • Consórcio Porto Seguro'); linhas.push(''); linhas.push('N de ligações: ' + ligacoes.size); linhas.push('N de mensagens enviadas no Whats: ' + (qtdWhats||0)); linhas.push('N de Negociações: ' + leadsPotenciais.length + ' (Quantidade de leads potenciais cadastrados)'); linhas.push(''); if(leadsPotenciais.length>0){ leadsPotenciais.forEach(function(l){ linhas.push(' - '+l.nome+' • '+l.telefone+' • '+l.valor); }); linhas.push(''); } linhas.push('⭐ Avaliação do dia: '+(avaliacaoEstrelas>0 ? avaliacaoEstrelas+'/5' : 'Não avaliado')); if(avaliacaoComentario.trim()){ linhas.push('📝 Como foi o dia: '+avaliacaoComentario.trim()); } linhas.push(''); linhas.push('🚀 Bora pra cima, amanhã tem mais!'); return linhas.join('\n'); }
+function gerarTextoRelatorio(){
+  var data = new Date().toLocaleDateString('pt-BR',{day:'2-digit', month:'2-digit', year:'numeric'});
+  var linhas = [];
+  linhas.push('🏁 RELATÓRIO DO DIA - Lucas Fortes');
+  linhas.push('📅 '+data+' • Consórcio Porto Seguro');
+  linhas.push('');
+  linhas.push('✅ 1ª Atividade: '+(travado1 ? qtdLeads1+' leads atendidos' : 'Não concluída'));
+  linhas.push('✅ 2ª Atividade: '+(travado2 ? qtdLeads2+' leads contatados (3 últimos dias)' : 'Não concluída'));
+  var txt3 = 'Não iniciada';
+  if(escolhas3.length>0){ txt3 = escolhas3.join(', ') + (concluidas3.filter(function(v){return v}).length<3 ? ' ('+concluidas3.filter(function(v){return v}).length+'/3 concluídas)' : ' (3/3 concluídas)'); }
+  else if(travado3){ txt3 = 'Concluída'; }
+  linhas.push('✅ 3ª Atividade: '+txt3);
+  linhas.push('');
+  linhas.push('N de ligações: ' + ligacoes.size);
+  linhas.push('N de mensagens enviadas no Whats: ' + (qtdWhats||0));
+  linhas.push('N de Negociações: ' + leadsPotenciais.length + ' (Quantidade de leads potenciais cadastrados)');
+  linhas.push('');
+  if(leadsPotenciais.length>0){ leadsPotenciais.forEach(function(l){ linhas.push(' - '+l.nome+' • '+l.telefone+' • '+l.valor); }); linhas.push(''); }
+  linhas.push('⭐ Avaliação do dia: '+(avaliacaoEstrelas>0 ? avaliacaoEstrelas+'/5' : 'Não avaliado'));
+  if(avaliacaoComentario.trim()){ linhas.push('📝 Como foi o dia: '+avaliacaoComentario.trim()); }
+  linhas.push('');
+  linhas.push('🚀 Bora pra cima, amanhã tem mais!');
+  return linhas.join('\n');
+}
 function atualizarResumo(){ document.getElementById('resumoDia').textContent = gerarTextoRelatorio(); }
 function enviarWhatsApp(){ atualizarResumo(); var texto = gerarTextoRelatorio(); var num = (document.getElementById('numeroWhats').value||'').replace(/\D/g,''); numeroWhats = document.getElementById('numeroWhats').value; salvarEstado(); var url; if(num){ url = 'https://wa.me/'+num+'?text='+encodeURIComponent(texto); } else { url = 'https://api.whatsapp.com/send?text='+encodeURIComponent(texto); } window.open(url,'_blank'); document.getElementById('msgFeedback').innerHTML = `<div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ WhatsApp aberto com o relatório pronto!</div>`; }
 function copiarRelatorio(){ atualizarResumo(); var texto = gerarTextoRelatorio(); if(navigator.clipboard){ navigator.clipboard.writeText(texto).then(function(){ document.getElementById('msgFeedback').innerHTML = `<div class="mensagem ok" style="background:#DCFCE7;color:#166534">✅ Relatório copiado!</div>`; }); } else { alert(texto); } }
