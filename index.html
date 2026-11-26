@@ -16,11 +16,13 @@ header p{opacity:.85;font-size:12px;margin:4px 0 12px}
 @media(max-width:700px){ .layout{flex-direction:column} .col-dir{position:static;width:100%} }
 .card{background:#fff;color:#000;border-radius:16px;padding:14px;margin-bottom:12px}
 .card.travado{border:3px solid #22C55E;background:#F0FDF4}
+.card.bloqueado{border:2px dashed #CBD5E1;opacity:.75}
 h2{font-size:15px;margin:0 0 4px}
 .sub{font-size:12px;color:#666;margin-bottom:10px}
 .menu-item{display:flex;gap:10px;align-items:flex-start;background:#fff;border:2px solid #E5E7EB;border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer}
 .menu-item.selecionado{border-color:#22C55E;background:#F0FDF4}
 .menu-item.travado{border-color:#22C55E;background:#F0FDF4;opacity:.9;cursor:not-allowed}
+.menu-item.bloqueado{border-color:#CBD5E1;background:#F1F5F9;cursor:not-allowed;opacity:.7}
 .menu-item input[type=checkbox]{width:24px;height:24px;accent-color:#22C55E;margin-top:2px}
 .menu-item input:disabled{cursor:not-allowed}
 .emoji{font-size:28px}
@@ -62,10 +64,8 @@ h2{font-size:15px;margin:0 0 4px}
 .mensagem.erro{background:#FEE2E2;color:#991B1B}
 .mensagem.aviso{background:#FFFBEB;color:#92400E;border:2px dashed #F59E0B}
 .badge-travado{display:inline-block;background:#22C55E;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;margin-left:6px}
+.badge-bloqueado{display:inline-block;background:#94A3B8;color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;margin-left:6px}
 .escondido{display:none}
-/* CHAT CLOUDHUMANS */
-#chatwoot_live_chat_widget{position:fixed !important;bottom:0 !important;right:0 !important;z-index:9999 !important;border:0 !important;width:400px !important;max-width:100vw !important;height:600px !important;max-height:90vh !important;}
-@media(max-width:500px){ #chatwoot_live_chat_widget{width:100vw !important;height:85vh !important;} }
 </style>
 </head>
 <body>
@@ -80,13 +80,15 @@ h2{font-size:15px;margin:0 0 4px}
       <div id="menuTarefa1"></div>
       <div id="msgMenu1"></div>
     </div>
+
     <div class="card" id="card2">
-      <h2>☑️ 2ª Atividade <span id="badge2" class="escondido"><span class="badge-travado">✅ CONCLUÍDA - TRAVADA</span></span></h2>
-      <div class="sub" id="sub2">Marque quando for começar.</div>
+      <h2>☑️ 2ª Atividade <span id="badgeBloqueio2"><span class="badge-bloqueado">🔒 BLOQUEADA</span></span><span id="badge2" class="escondido"><span class="badge-travado">✅ CONCLUÍDA - TRAVADA</span></span></h2>
+      <div class="sub" id="sub2">🔒 Conclua a 1ª Atividade para liberar.</div>
       <div id="menuTarefa2"></div>
       <div id="msgMenu2"></div>
     </div>
   </div>
+
   <div class="col-dir">
     <div class="painel-relogio">
       <div class="dia-semana" id="diaSemana">--</div>
@@ -131,30 +133,111 @@ h2{font-size:15px;margin:0 0 4px}
 <script>
 var qtdLeads1 = 0, sel1 = false, travado1 = false;
 var qtdLeads2 = 0, sel2 = false, travado2 = false, iniciado2 = false;
+
 function renderMenu1(){
   var trav = travado1 ? 'travado' : (sel1?'selecionado':'');
-  document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1) qtdLeads1=parseInt(this.value)||0"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`;
+  document.getElementById('menuTarefa1').innerHTML = `
+  <label class="menu-item ${trav}">
+    <input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)">
+    <span class="emoji">🏆</span>
+    <span style="flex:1;min-width:0">
+      <span class="nome">Atender Leads do dia</span>
+      ${sel1?`<div class="campo-leads" onclick="event.stopPropagation()">
+        <label>🏆 Quantos leads você tinha sem interação?</label>
+        <input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1) qtdLeads1=parseInt(this.value)||0">
+        <button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button>
+      </div>`:''}
+    </span>
+  </label>`;
   if(sel1 && !travado1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100);
 }
 function toggle1(m){ if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); }
 function confirmarQtd1(e){ if(travado1) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
 function responderInteracao(interagiu){
   document.getElementById('modalPergunta').classList.add('escondido');
-  if(interagiu){ travado1 = true; sel1 = true; document.getElementById('msgMenu1').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads1} leads.<br>✅ Atividade 1 concluída e travada.<br><small>Não é mais possível alterar.</small></div>`; document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent = '✅ Concluída - não pode ser alterada'; } else { document.getElementById('msgMenu1').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads1} leads.<br>Você deve concluir a primeira tarefa antes de seguir para a Atividade 2.</div>`; }
-  renderMenu1();
+  if(interagiu){
+    travado1 = true; sel1 = true;
+    document.getElementById('msgMenu1').innerHTML = `<div class="mensagem ok">🏆 Parabéns! Você interagiu com os ${qtdLeads1} leads.<br>✅ Atividade 1 concluída e travada.<br><small>Não é mais possível alterar.</small></div>`;
+    document.getElementById('badge1').classList.remove('escondido');
+    document.getElementById('card1').classList.add('travado');
+    document.getElementById('sub1').textContent = '✅ Concluída - não pode ser alterada';
+    // LIBERA A 2ª
+    document.getElementById('badgeBloqueio2').classList.add('escondido');
+    document.getElementById('card2').classList.remove('bloqueado');
+    document.getElementById('sub2').textContent = '✅ Liberada! Marque quando for começar.';
+    document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">✅ 2ª Atividade liberada! Agora você pode começar.</div>`;
+  } else {
+    document.getElementById('msgMenu1').innerHTML = `<div class="mensagem erro">⚠️ Você ainda não interagiu com os ${qtdLeads1} leads.<br>Você deve concluir a primeira tarefa antes de seguir para a Atividade 2.</div>`;
+  }
+  renderMenu1(); renderMenu2();
 }
+
+// ===== 2ª ATIVIDADE - BLOQUEADA ATÉ CONCLUIR A 1ª =====
 function renderMenu2(){
-  var trav = travado2 ? 'travado' : (sel2?'selecionado':'');
-  var botaoConcluir = (iniciado2 && !travado2) ? `<button class="btn btn-verde" style="margin-top:10px" onclick="concluirAtividade2()">✅ Concluir Atividade 2</button>` : '';
-  document.getElementById('menuTarefa2').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel2?'checked':''} ${travado2?'disabled':''} onchange="toggle2(this.checked)"><span class="emoji">🔍</span><span style="flex:1;min-width:0"><span class="nome">Fazer o filtro dos 3 ultimos dias</span>${sel2?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label><input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 25" value="${qtdLeads2>0?qtdLeads2:''}" ${travado2?'disabled':''} oninput="if(!travado2) qtdLeads2=parseInt(this.value)||0"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado2?'disabled':''} onclick="confirmarQtd2(event)">${travado2?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>${botaoConcluir}`;
-  if(sel2 && !travado2 && !iniciado2) setTimeout(()=>{ var el=document.getElementById('inputLeads2'); if(el) el.focus(); },100);
+  var bloqueada = !travado1;
+  var trav = travado2 ? 'travado' : (bloqueada ? 'bloqueado' : (sel2?'selecionado':''));
+  var botaoConcluir = (iniciado2 && !travado2 && !bloqueada) ? `<button class="btn btn-verde" style="margin-top:10px" onclick="concluirAtividade2()">✅ Concluir Atividade 2</button>` : '';
+  document.getElementById('menuTarefa2').innerHTML = `
+  <label class="menu-item ${trav}" onclick="if(${bloqueada}){ alert('🔒 Conclua a 1ª Atividade primeiro para liberar a 2ª!'); return false; }">
+    <input type="checkbox" ${sel2?'checked':''} ${travado2||bloqueada?'disabled':''} onchange="toggle2(this.checked)">
+    <span class="emoji">${bloqueada?'🔒':'🔍'}</span>
+    <span style="flex:1;min-width:0">
+      <span class="nome">Fazer o filtro dos 3 ultimos dias</span>
+      ${bloqueada?`<div style="font-size:12px;color:#64748B;margin-top:6px;font-weight:700">🔒 Conclua a 1ª Atividade para liberar esta tarefa.</div>`:''}
+      ${sel2 && !bloqueada?`<div class="campo-leads" onclick="event.stopPropagation()">
+        <label>🔍 Quantos leads você recebeu nos 3 ultimos dias?</label>
+        <input type="number" id="inputLeads2" inputmode="numeric" placeholder="Ex: 25" value="${qtdLeads2>0?qtdLeads2:''}" ${travado2?'disabled':''} oninput="if(!travado2) qtdLeads2=parseInt(this.value)||0">
+        <button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado2?'disabled':''} onclick="confirmarQtd2(event)">${travado2?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button>
+      </div>`:''}
+    </span>
+  </label>${botaoConcluir}`;
+  if(sel2 && !travado2 && !bloqueada && !iniciado2) setTimeout(()=>{ var el=document.getElementById('inputLeads2'); if(el) el.focus(); },100);
 }
-function toggle2(m){ if(travado2) return; sel2=m; if(!m){ qtdLeads2=0; iniciado2=false; document.getElementById('msgMenu2').innerHTML=''; } renderMenu2(); }
-function confirmarQtd2(e){ if(travado2) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads2){ alert('Informe quantos leads você recebeu nos 3 ultimos dias!'); return; } document.getElementById('textoModal2').innerHTML = 'Você recebeu <b>'+qtdLeads2+'</b> leads nos 3 ultimos dias.<br><br>👉 <b>Faça contato com os leads dos 3 ultimos dias</b> e depois conclua esta tarefa.'; document.getElementById('modal2').classList.remove('escondido'); }
-function fecharModal2(){ document.getElementById('modal2').classList.add('escondido'); iniciado2 = true; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem aviso">📞 Você recebeu <b>${qtdLeads2}</b> leads nos 3 ultimos dias.<br><br>👉 Faça contato com os leads e depois conclua esta tarefa.</div>`; renderMenu2(); }
-function concluirAtividade2(){ if(!confirm('Você já fez contato com todos os '+qtdLeads2+' leads dos 3 ultimos dias e deseja concluir?')) return; travado2 = true; sel2 = true; document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">🔍 Parabéns! Você fez contato com os ${qtdLeads2} leads dos 3 ultimos dias.<br>✅ Atividade 2 concluída e travada.<br><small>Não é mais possível alterar.</small></div>`; document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent = '✅ Concluída - não pode ser alterada'; renderMenu2(); }
+function toggle2(m){
+  if(travado2) return;
+  if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro para liberar a 2ª!'); return; }
+  sel2=m;
+  if(!m){ qtdLeads2=0; iniciado2=false; document.getElementById('msgMenu2').innerHTML=''; }
+  renderMenu2();
+}
+function confirmarQtd2(e){
+  if(travado2) return;
+  if(!travado1){ alert('🔒 Conclua a 1ª Atividade primeiro!'); return; }
+  if(e){e.preventDefault(); e.stopPropagation();}
+  if(!qtdLeads2){ alert('Informe quantos leads você recebeu nos 3 ultimos dias!'); return; }
+  document.getElementById('textoModal2').innerHTML = 'Você recebeu <b>'+qtdLeads2+'</b> leads nos 3 ultimos dias.<br><br>👉 <b>Faça contato com os leads dos 3 ultimos dias</b> e depois conclua esta tarefa.';
+  document.getElementById('modal2').classList.remove('escondido');
+}
+function fecharModal2(){
+  document.getElementById('modal2').classList.add('escondido');
+  iniciado2 = true;
+  document.getElementById('msgMenu2').innerHTML = `<div class="mensagem aviso">📞 Você recebeu <b>${qtdLeads2}</b> leads nos 3 ultimos dias.<br><br>👉 Faça contato com os leads e depois conclua esta tarefa.</div>`;
+  renderMenu2();
+}
+function concluirAtividade2(){
+  if(!travado1) return;
+  if(!confirm('Você já fez contato com todos os '+qtdLeads2+' leads dos 3 ultimos dias e deseja concluir?')) return;
+  travado2 = true; sel2 = true;
+  document.getElementById('msgMenu2').innerHTML = `<div class="mensagem ok">🔍 Parabéns! Você fez contato com os ${qtdLeads2} leads dos 3 ultimos dias.<br>✅ Atividade 2 concluída e travada.<br><small>Não é mais possível alterar.</small></div>`;
+  document.getElementById('badge2').classList.remove('escondido');
+  document.getElementById('card2').classList.add('travado');
+  document.getElementById('sub2').textContent = '✅ Concluída - não pode ser alterada';
+  renderMenu2();
+}
+
 var frases = ["🏆 O primeiro lead do dia pode ser a sua maior venda do mês. Vai com tudo!","🔥 Disciplina vence motivação. 30 minutos focados mudam o seu dia.","📞 Cada ligação é uma porta. Quem não liga, não abre.","💪 Você não precisa ser o melhor, precisa ser o mais constante.","🎯 Não atenda leads. Encante leads. É assim que se fecha consórcio.","🚀 Se você fez ontem, hoje você faz melhor. Bora, Lucas!","⏰ O tempo não espera. Quem age primeiro, vende primeiro.","👑 Porto Seguro não vende consórcio. Vende sonho. Entregue isso.","📈 Um lead ignorado hoje é uma venda do concorrente amanhã.","✨ Comece agora. O lead perfeito não existe, o atendido sim.","💼 Profissional não espera ter vontade. Ele faz mesmo sem vontade.","🏁 Não pare no meio. Termine o que você começou."];
-function atualizarRelogio(){ var agora = new Date(); var dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado']; document.getElementById('diaSemana').textContent = dias[agora.getDay()]; document.getElementById('dataHoje').textContent = agora.toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'}); document.getElementById('horaAtual').textContent = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0'); document.getElementById('segundosAtual').textContent = String(agora.getSeconds()).padStart(2,'0')+' segundos • São José dos Campos'; var bloco = agora.getHours()*2 + (agora.getMinutes()>=30?1:0); document.getElementById('fraseMotivacional').textContent = frases[bloco % frases.length]; var falta = agora.getMinutes()>=30 ? 60-agora.getMinutes() : 30-agora.getMinutes(); document.getElementById('contadorFrase').textContent = 'Próxima frase em '+falta+' min • Troca a cada 30 minutos'; }
+function atualizarRelogio(){
+  var agora = new Date();
+  var dias = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+  document.getElementById('diaSemana').textContent = dias[agora.getDay()];
+  document.getElementById('dataHoje').textContent = agora.toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'});
+  document.getElementById('horaAtual').textContent = String(agora.getHours()).padStart(2,'0')+':'+String(agora.getMinutes()).padStart(2,'0');
+  document.getElementById('segundosAtual').textContent = String(agora.getSeconds()).padStart(2,'0')+' segundos • São José dos Campos';
+  var bloco = agora.getHours()*2 + (agora.getMinutes()>=30?1:0);
+  document.getElementById('fraseMotivacional').textContent = frases[bloco % frases.length];
+  var falta = agora.getMinutes()>=30 ? 60-agora.getMinutes() : 30-agora.getMinutes();
+  document.getElementById('contadorFrase').textContent = 'Próxima frase em '+falta+' min • Troca a cada 30 minutos';
+}
 setInterval(atualizarRelogio, 1000); atualizarRelogio();
 var totalQuadrados = 30; var ligacoes = new Set();
 function renderLigacoes(){ var html=''; for(var i=0;i<totalQuadrados;i++){ var on = ligacoes.has(i); html += `<div class="quadrado ${on?'preenchido':''}" onclick="toggleLigacao(${i})">${on?'✓':''}</div>`; } document.getElementById('gridLigacoes').innerHTML = html; document.getElementById('totalLigacoes').textContent = ligacoes.size; }
@@ -163,9 +246,5 @@ function adicionarQuadradinhos(q){ totalQuadrados+=q; renderLigacoes(); }
 function zerarLigacoes(){ if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); }
 renderMenu1(); renderMenu2(); renderLigacoes();
 </script>
-
-<!-- IFRAME CLOUDHUMANS / CHATWOOT -->
-<iframe src="https://cloudchat.cloudhumans.com/widget?website_token=ez2tKm3gy9iacnuRZZiorVgX&amp;lazy_session=1&amp;cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiJjMjZmOGQwMi0yMTA2LTQ4M2EtOWY3Ny1lMzdhZTg1NjViMjQiLCJpbmJveF9pZCI6MTM2fQ.fuq34LcZaCagjbZhw0gTeXMNP6hESjMxAn6-u-MQQTE" allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;" id="chatwoot_live_chat_widget" style=""></iframe>
-
 </body>
 </html>
