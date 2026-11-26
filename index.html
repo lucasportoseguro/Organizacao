@@ -54,12 +54,13 @@ h2{font-size:15px;margin:0 0 4px}
 .segundos{font-size:13px;opacity:.7}
 .frase{margin-top:12px;background:rgba(255,255,255,.12);border-radius:12px;padding:12px;font-size:14px;line-height:1.4;font-style:italic}
 .frase small{display:none !important}
+/* CARDS MENORES - MESMO TAMANHO DA FRASE MOTIVACIONAL (14px) */
 .info-mercado{display:flex;gap:8px;margin-top:12px}
-.info-item{flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:10px 6px;text-align:center}
-.info-item .icone{font-size:20px}
+.info-item{flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 4px;text-align:center}
+.info-item .icone{font-size:16px}
 .info-item .rotulo{font-size:10px;opacity:.8;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.info-item .valor{font-size:16px;font-weight:900;margin-top:2px}
-.info-item .atualizacao{font-size:9px;opacity:.6;margin-top:2px}
+.info-item .valor{font-size:14px;font-weight:900;margin-top:2px}
+.info-item .atualizacao{font-size:10px;opacity:.6;margin-top:2px}
 .painel-ligacoes{background:#fff;color:#000;border-radius:16px;padding:14px}
 .painel-ligacoes h3{margin:0;text-align:center;font-size:15px}
 .painel-ligacoes p{margin:4px 0 10px;text-align:center;font-size:12px;color:#666}
@@ -238,7 +239,6 @@ h2{font-size:15px;margin:0 0 4px}
 <div id="modal3" class="modal-fundo escondido"><div class="modal"><div style="font-size:40px">💬</div><h3 id="tituloModal3">Negociações do dia anterior</h3><p id="textoModal3"></p><button class="btn btn-verde" onclick="fecharModal3()">✅ Entendi, concluir atividade</button></div></div>
 
 <script>
-// ===== SALVAR NO NAVEGADOR - GITHUB PAGES =====
 var CHAVE = 'lucasFortesDia_v1';
 var qtdLeads1 = 0, sel1 = false, travado1 = false;
 var qtdLeads2 = 0, sel2 = false, travado2 = false, iniciado2 = false;
@@ -250,80 +250,11 @@ var ligacoes = new Set();
 var leadsPotenciais = [];
 var abaLeadAberta = false;
 var totalQuadrados = 30;
-
-function salvarEstado(){
-  try{
-    var dados = {
-      qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1,
-      qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2,
-      qtdNeg3:qtdNeg3, sel3:sel3, travado3:travado3, iniciado3:iniciado3,
-      pausaConcluidas:pausaConcluidas, qtdC2s:qtdC2s,
-      ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais,
-      totalQuadrados:totalQuadrados, modoAtual:modoAtual,
-      msg1:document.getElementById('msgMenu1') ? document.getElementById('msgMenu1').innerHTML : '',
-      msg2:document.getElementById('msgMenu2') ? document.getElementById('msgMenu2').innerHTML : '',
-      msg3:document.getElementById('msgMenu3') ? document.getElementById('msgMenu3').innerHTML : '',
-      msgPausa:document.getElementById('msgOpcaoPausa') ? document.getElementById('msgOpcaoPausa').innerHTML : ''
-    };
-    localStorage.setItem(CHAVE, JSON.stringify(dados));
-  }catch(e){}
-}
-function carregarEstado(){
-  try{
-    var raw = localStorage.getItem(CHAVE);
-    if(!raw) return false;
-    var d = JSON.parse(raw);
-    qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1;
-    qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2;
-    qtdNeg3=(d.qtdNeg3!==undefined?d.qtdNeg3:null); sel3=!!d.sel3; travado3=!!d.travado3; iniciado3=!!d.iniciado3;
-    pausaConcluidas=d.pausaConcluidas||[false,false,false]; qtdC2s=d.qtdC2s||0;
-    ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[];
-    totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho';
-    // Restaura textos e travas visuais
-    if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; }
-    if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('badgeBloqueio3').classList.add('escondido'); document.getElementById('card3').classList.remove('bloqueado'); document.getElementById('sub3').textContent='✅ Liberada! Marque quando for começar.'; }
-    if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); liberarAtividade4(); }
-    if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1;
-    if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2;
-    if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3;
-    if(d.msgPausa) document.getElementById('msgOpcaoPausa').innerHTML=d.msgPausa;
-    if(travado3){ document.getElementById('opcoesPausa').classList.remove('escondido'); document.getElementById('perguntaPausa').classList.add('escondido'); document.getElementById('msgPausaFim').classList.remove('escondido'); }
-    if(modoAtual==='almoco'){
-      // Volta em Trabalho ao recarregar por segurança, mas mantém os dados
-      modoAtual='trabalho';
-    }
-    return true;
-  }catch(e){ return false; }
-}
-function concluirDia(){
-  var resumo = 'Ligações: '+ligacoes.size+' | Leads potenciais: '+leadsPotenciais.length;
-  if(!confirm('🏁 Concluir seu dia?\n\n'+resumo+'\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return;
-  localStorage.removeItem(CHAVE);
-  location.reload();
-}
+function salvarEstado(){ try{ var dados = { qtdLeads1:qtdLeads1, sel1:sel1, travado1:travado1, qtdLeads2:qtdLeads2, sel2:sel2, travado2:travado2, iniciado2:iniciado2, qtdNeg3:qtdNeg3, sel3:sel3, travado3:travado3, iniciado3:iniciado3, pausaConcluidas:pausaConcluidas, qtdC2s:qtdC2s, ligacoes:Array.from(ligacoes), leadsPotenciais:leadsPotenciais, totalQuadrados:totalQuadrados, modoAtual:modoAtual, msg1:document.getElementById('msgMenu1') ? document.getElementById('msgMenu1').innerHTML : '', msg2:document.getElementById('msgMenu2') ? document.getElementById('msgMenu2').innerHTML : '', msg3:document.getElementById('msgMenu3') ? document.getElementById('msgMenu3').innerHTML : '', msgPausa:document.getElementById('msgOpcaoPausa') ? document.getElementById('msgOpcaoPausa').innerHTML : '' }; localStorage.setItem(CHAVE, JSON.stringify(dados)); }catch(e){} }
+function carregarEstado(){ try{ var raw = localStorage.getItem(CHAVE); if(!raw) return false; var d = JSON.parse(raw); qtdLeads1=d.qtdLeads1||0; sel1=!!d.sel1; travado1=!!d.travado1; qtdLeads2=d.qtdLeads2||0; sel2=!!d.sel2; travado2=!!d.travado2; iniciado2=!!d.iniciado2; qtdNeg3=(d.qtdNeg3!==undefined?d.qtdNeg3:null); sel3=!!d.sel3; travado3=!!d.travado3; iniciado3=!!d.iniciado3; pausaConcluidas=d.pausaConcluidas||[false,false,false]; qtdC2s=d.qtdC2s||0; ligacoes=new Set(d.ligacoes||[]); leadsPotenciais=d.leadsPotenciais||[]; totalQuadrados=d.totalQuadrados||30; modoAtual=d.modoAtual||'trabalho'; if(travado1){ document.getElementById('badge1').classList.remove('escondido'); document.getElementById('card1').classList.add('travado'); document.getElementById('sub1').textContent='✅ Concluída - não pode ser alterada'; document.getElementById('badgeBloqueio2').classList.add('escondido'); document.getElementById('card2').classList.remove('bloqueado'); document.getElementById('sub2').textContent='✅ Liberada! Marque quando for começar.'; } if(travado2){ document.getElementById('badge2').classList.remove('escondido'); document.getElementById('card2').classList.add('travado'); document.getElementById('sub2').textContent='✅ Concluída'; document.getElementById('badgeBloqueio3').classList.add('escondido'); document.getElementById('card3').classList.remove('bloqueado'); document.getElementById('sub3').textContent='✅ Liberada! Marque quando for começar.'; } if(travado3){ document.getElementById('badge3').classList.remove('escondido'); document.getElementById('card3').classList.add('travado'); document.getElementById('sub3').textContent='✅ Concluída'; document.getElementById('telaPausa').classList.remove('escondido'); liberarAtividade4(); } if(d.msg1) document.getElementById('msgMenu1').innerHTML=d.msg1; if(d.msg2) document.getElementById('msgMenu2').innerHTML=d.msg2; if(d.msg3) document.getElementById('msgMenu3').innerHTML=d.msg3; if(d.msgPausa) document.getElementById('msgOpcaoPausa').innerHTML=d.msgPausa; if(travado3){ document.getElementById('opcoesPausa').classList.remove('escondido'); document.getElementById('perguntaPausa').classList.add('escondido'); document.getElementById('msgPausaFim').classList.remove('escondido'); } if(modoAtual==='almoco'){ modoAtual='trabalho'; } return true; }catch(e){ return false; } }
+function concluirDia(){ var resumo = 'Ligações: '+ligacoes.size+' | Leads potenciais: '+leadsPotenciais.length; if(!confirm('🏁 Concluir seu dia?\n\n'+resumo+'\n\nIsso vai ZERAR tudo para começar um novo dia. Tem certeza?')) return; localStorage.removeItem(CHAVE); location.reload(); }
 function estaEmAlmoco(){ return modoAtual==='almoco'; }
-function alterarModo(novo){
-  if(novo==='almoco'){
-    if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return;
-    modoAtual='almoco';
-    document.body.classList.add('em-almoco');
-    document.body.style.paddingTop='70px';
-    document.getElementById('avisoAlmoco').classList.remove('escondido');
-    document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size;
-    document.getElementById('btnTrabalho').classList.remove('ativo-trabalho');
-    document.getElementById('btnAlmoco').classList.add('ativo-almoco');
-    if(timerPausa) clearInterval(timerPausa);
-  } else {
-    modoAtual='trabalho';
-    document.body.classList.remove('em-almoco');
-    document.body.style.paddingTop='12px';
-    document.getElementById('avisoAlmoco').classList.add('escondido');
-    document.getElementById('btnTrabalho').classList.add('ativo-trabalho');
-    document.getElementById('btnAlmoco').classList.remove('ativo-almoco');
-    alert('✅ De volta ao Trabalho! Você continua de onde parou.');
-  }
-  salvarEstado();
-}
+function alterarModo(novo){ if(novo==='almoco'){ if(!confirm('Deseja ir para ALMOÇO? Tudo será pausado e não será possível alterar informações nem iniciar novas atividades.')) return; modoAtual='almoco'; document.body.classList.add('em-almoco'); document.body.style.paddingTop='70px'; document.getElementById('avisoAlmoco').classList.remove('escondido'); document.getElementById('textoAvisoAlmoco').textContent = 'Ligações até o momento: '+ligacoes.size; document.getElementById('btnTrabalho').classList.remove('ativo-trabalho'); document.getElementById('btnAlmoco').classList.add('ativo-almoco'); if(timerPausa) clearInterval(timerPausa); } else { modoAtual='trabalho'; document.body.classList.remove('em-almoco'); document.body.style.paddingTop='12px'; document.getElementById('avisoAlmoco').classList.add('escondido'); document.getElementById('btnTrabalho').classList.add('ativo-trabalho'); document.getElementById('btnAlmoco').classList.remove('ativo-almoco'); alert('✅ De volta ao Trabalho! Você continua de onde parou.'); } salvarEstado(); }
 function renderMenu1(){ var trav = travado1 ? 'travado' : (sel1?'selecionado':''); document.getElementById('menuTarefa1').innerHTML = `<label class="menu-item ${trav}"><input type="checkbox" ${sel1?'checked':''} ${travado1?'disabled':''} onchange="toggle1(this.checked)"><span class="emoji">🏆</span><span style="flex:1;min-width:0"><span class="nome">Atender Leads do dia</span>${sel1?`<div class="campo-leads" onclick="event.stopPropagation()"><label>🏆 Quantos leads você tinha sem interação?</label><input type="number" id="inputLeads1" inputmode="numeric" placeholder="Ex: 12" value="${qtdLeads1>0?qtdLeads1:''}" ${travado1?'disabled':''} oninput="if(!travado1){qtdLeads1=parseInt(this.value)||0; salvarEstado();}"><button class="btn btn-verde" style="margin-top:8px;padding:12px" ${travado1?'disabled':''} onclick="confirmarQtd1(event)">${travado1?'🔒 Concluída - Travada':'✅ Confirmar quantidade'}</button></div>`:''}</span></label>`; if(sel1 && !travado1) setTimeout(()=>{ var el=document.getElementById('inputLeads1'); if(el) el.focus(); },100); }
 function toggle1(m){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço! Volte para Trabalho para continuar.'); return; } if(travado1) return; sel1=m; if(!m){qtdLeads1=0; document.getElementById('msgMenu1').innerHTML='';} renderMenu1(); salvarEstado(); }
 function confirmarQtd1(e){ if(estaEmAlmoco()) return; if(travado1) return; if(e){e.preventDefault(); e.stopPropagation();} if(!qtdLeads1){ alert('Informe quantos leads você tinha!'); return; } document.getElementById('textoModal').innerHTML = 'Você informou <b>'+qtdLeads1+'</b> leads sem interação.<br>Você já interagiu com todos eles?'; document.getElementById('modalPergunta').classList.remove('escondido'); }
@@ -363,7 +294,6 @@ function renderLigacoes(){ var html=''; for(var i=0;i<totalQuadrados;i++){ var o
 function toggleLigacao(i){ if(estaEmAlmoco()){ alert('🍽️ Você está em Almoço! Volte para Trabalho para continuar.'); return; } if(ligacoes.has(i)) ligacoes.delete(i); else ligacoes.add(i); if(navigator.vibrate) navigator.vibrate(30); renderLigacoes(); salvarEstado(); }
 function adicionarQuadradinhos(q){ if(estaEmAlmoco()) return; totalQuadrados+=q; renderLigacoes(); salvarEstado(); }
 function zerarLigacoes(){ if(estaEmAlmoco()) return; if(!confirm('Zerar as ligações?')) return; ligacoes.clear(); renderLigacoes(); salvarEstado(); }
-// INICIALIZAÇÃO COM PERSISTÊNCIA
 carregarEstado();
 renderMenu1(); renderMenu2(); renderMenu3(); renderLigacoes(); renderLeads(); atualizarEstadoPausa();
 setInterval(salvarEstado, 5000);
